@@ -9,8 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ServiceErrorHandler implements ResponseErrorHandler {
 
-	private ObjectMapper objectMapper = null;
-	
+	private ObjectMapper objectMapper;
 	
 	public ServiceErrorHandler(ObjectMapper objectMapper) {
 		super();

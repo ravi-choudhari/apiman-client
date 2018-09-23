@@ -1,12 +1,19 @@
 package org.apiman.client.resources.organization.clients;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientsApiRegistryClient extends ApiClient {
+public class ClientsApiRegistryClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_CLIENTS_API_REGISTRY_PATH = ORGANIZATIONS_PATH + "/{organizationId}/clients/{clientId}/versions/{version}/apiregistry";
+	private static final String ORGANIZATION_CLIENTS_API_REGISTRY_PATH = ORGANIZATION_CLIENTS_PATH + "/{clientId}/versions/{version}/apiregistry";
 	
 	/* Use this endpoint to get registry style information about all APIs that this Client consumes. This is a useful endpoint to 
 	 * invoke in order to retrieve a summary of every API consumed by the client. The information returned by this endpoint 
@@ -16,9 +23,17 @@ public class ClientsApiRegistryClient extends ApiClient {
 	 * then be a JSON object with information about the temporary download link. The ID of the download can then be used when making 
 	 * a call to the /downloads/{downloadId} endpoint to fetch the actual content.
 	 */
-	public String getJsonApiRegistry() {
+	public String getJsonApiRegistry(String organizationId, String clientId, String version, String download) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_API_REGISTRY_PATH, "/json", DOWNLOAD);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		map.put("download", download);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), String.class);
 	}
 	
 	/* Use this endpoint to get registry style information about all APIs that this Client consumes. This is a useful endpoint to 
@@ -29,8 +44,16 @@ public class ClientsApiRegistryClient extends ApiClient {
 	 * then be a JSON object with information about the temporary download link. The ID of the download can then be used when making 
 	 * a call to the /downloads/{downloadId} endpoint to fetch the actual content.
 	 */
-	public String getXmlApiRegistry() {
+	public String getXmlApiRegistry(String organizationId, String clientId, String version, String download) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_API_REGISTRY_PATH, "/xml", DOWNLOAD);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		map.put("download", download);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), String.class);
 	}
 }

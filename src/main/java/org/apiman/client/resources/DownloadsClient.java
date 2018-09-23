@@ -1,10 +1,17 @@
 package org.apiman.client.resources;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DownloadsClient extends ApiClient {
+public class DownloadsClient extends AbstractApimanClient {
 	
 	private static final String DOWNLOADS_PATH = "/downloads";
 	
@@ -12,8 +19,13 @@ public class DownloadsClient extends ApiClient {
 	 * when exporting data via the /system/export endpoint, a temporary download link may be created. This represents that 
 	 * temporary download link. In this example, the download will result in the exported data.
 	 */
-	public String downloadFile() {
+	public String downloadFile(String downloadId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, DOWNLOADS_PATH, "/{downloadId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("downloadId", downloadId);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), String.class);
 	}
 }

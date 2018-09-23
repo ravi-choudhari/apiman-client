@@ -1,10 +1,23 @@
 package org.apiman.client.resources;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.Api;
+import org.apiman.client.domain.Client;
+import org.apiman.client.domain.Organization;
+import org.apiman.client.domain.User;
+import org.apiman.client.domain.UserInformation;
+import org.springframework.http.HttpEntity;
+import static org.springframework.http.HttpMethod.PUT;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CurrentUserClient extends ApiClient {
+public class CurrentUserClient extends AbstractApimanClient {
 	
 	private static final String CURRENT_USER_PATH = "/currentuser";
 	
@@ -12,58 +25,75 @@ public class CurrentUserClient extends ApiClient {
 	 * For example, when creating a new API, the user interface must ask the user to choose within which Organization to 
 	 * create it. This endpoint lists the valid choices for the current user.
 	 */
-	public String getApiOrganizations() {
+	public List<Organization> getApiOrganizations() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/apiorgs");
+		
+		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 	
 	/* Use this endpoint to list all of the APIs the current user has permission to edit. This includes all APIs from all 
 	 * Organizations the user has API edit privileges for.
 	 */
-	public String getCurrentUserApis() {
+	public List<Api> getCurrentUserApis() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/apis");
+		Api[] apis = restTemplate.getForObject(encode(url), Api[].class);
+		
+		return apis != null ? Arrays.asList(apis) : null;
 	}
 	
 	/* This endpoint returns a list of all the organizations for which the current user has permission to edit clients. 
 	 * For example, when creating a new Client, the user interface must ask the user to choose within which Organization to create it. 
 	 * This endpoint lists the valid choices for the current user.
 	 */
-	public String getClientOrganizations() {
+	public List<Organization> getClientOrganizations() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/clientorgs");
+		
+		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 	
 	/* Use this endpoint to list all of the Clients the current user has permission to edit. This includes all Clients from all 
 	 * Organizations the user has client edit privileges for.
 	 */
-	public String getCurrentUserClients() {
+	public List<Client> getCurrentUserClients() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, CLIENTS_PATH);
+		
+		Client[] clients = restTemplate.getForObject(encode(url), Client[].class);
+		return clients != null ? Arrays.asList(clients) : null;
 	}
 	
 	/* Use this endpoint to get information about the currently authenticated user.
 	 * 
 	 */
-	public String getCurrentUserInformation() {
+	public User getCurrentUserInformation() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/info");
+		return restTemplate.getForObject(encode(url), User.class);
 	}
 	
 	/* This endpoint allows updating information about the authenticated user.
 	 * 
 	 */
-	public String updateCurrentUserInformation() {
+	public void updateCurrentUserInformation(UserInformation userInformation) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/info");
+		restTemplate.exchange(encode(url), PUT, new HttpEntity<UserInformation>(userInformation, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint returns a list of all the organizations for which the current user has permission to edit plans. 
 	 * For example, when creating a new Plan, the user interface must ask the user to choose within which Organization 
 	 * to create it. This endpoint lists the valid choices for the current user.
 	 */
-	public String getPlanOrganizations() {
+	public List<Organization> getPlanOrganizations() {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/planorgs");
+		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		
+		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 }

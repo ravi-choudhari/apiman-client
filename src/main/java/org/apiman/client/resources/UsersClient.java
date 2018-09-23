@@ -1,66 +1,120 @@
 package org.apiman.client.resources;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+import static org.springframework.http.HttpMethod.PUT;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.ActivityList;
+import org.apiman.client.domain.Api;
+import org.apiman.client.domain.Client;
+import org.apiman.client.domain.Organization;
+import org.apiman.client.domain.User;
+import org.apiman.client.domain.search.SearchQuery;
+import org.apiman.client.domain.search.SearchResult;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsersClient extends ApiClient {
+public class UsersClient extends AbstractApimanClient {
 	
 	private static final String USERS_PATH = "/users";
 	
 	/* Use this endpoint to search for users. The search criteria is provided in the body of the request, 
 	 * including filters, order-by, and paging information.
 	 */
-	public String searchForUsers() {
+	public SearchResult searchForUsers(SearchQuery userSearchQuery) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, SEARCH_PATH);
+		return restTemplate.postForObject(encode(url), userSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to get information about a specific user by the User ID.
 	 */
-	public String getUserById() {
+	public User getUserById(String userId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), User.class);
 	}
 	
 	/* Use this endpoint to update the information about a user. This will fail unless the authenticated user 
 	 * is an admin or identical to the user being updated.
 	 */
-	public String updateUserById() {
+	public void updateUserById(String userId, User user) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		restTemplate.exchange(encode(url), PUT, new HttpEntity<User>(user, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to get information about the user's audit history. This returns audit entries 
 	 * corresponding to each of the actions taken by the user. For example, when a user creates a new Organization, 
 	 * an audit entry is recorded and would be included in the result of this endpoint.
 	 */
-	public String getUserActivity() {
+	public ActivityList getUserActivity(String userId, int page, int count) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("pageNumber", String.valueOf(page));
+		map.put("countPerPage", String.valueOf(count));
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ActivityList.class);
 	}
 	
 	/* This endpoint returns all APIs that the user has permission to edit.
 	 * 
 	 */
-	public String listUserApis() {
+	public List<Api> listUserApis(String userId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", APIS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		Api[] apis = restTemplate.getForObject(encode(url), Api[].class);
+		return apis != null ? Arrays.asList(apis) : null;
 	}
 	
 	/* This endpoint returns all clients that the user has permission to edit.
 	 * 
 	 */
-	public String listUserClients() {
+	public List<Client> listUserClients(String userId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", CLIENTS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		Client[] clients = restTemplate.getForObject(encode(url), Client[].class);
+		return clients != null ? Arrays.asList(clients) : null;
 	}
 	
 	/* This endpoint returns the list of organizations that the user is a member of. 
 	 * The user is a member of an organization if she has at least one role for the org.
 	 */
-	public String listUserOrganizations() {
+	public List<Organization> listUserOrganizations(String userId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", ORGANIZATIONS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 }

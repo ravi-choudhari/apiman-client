@@ -1,16 +1,50 @@
 package org.apiman.client.resources.organization;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+import static org.springframework.http.HttpMethod.PUT;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.ActivityList;
+import org.apiman.client.domain.ApiKey;
+import org.apiman.client.domain.Client;
+import org.apiman.client.domain.ClientVersion;
+import org.apiman.client.domain.ReOrderPolicies;
 import org.apiman.client.resources.organization.clients.ClientsApiRegistryClient;
 import org.apiman.client.resources.organization.clients.ClientsContractsClient;
 import org.apiman.client.resources.organization.clients.ClientsPoliciesClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-@Component
-public class OrganizationClientsClient extends ApiClient {
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-	private static final String ORGANIZATION_CLIENTS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/clients";
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode(callSuper=false)
+@Component
+@Getter(value = AccessLevel.PUBLIC)
+@Setter(value = AccessLevel.PRIVATE)
+public class OrganizationClientsClient extends AbstractApimanClient {
+	
+	private static final String ORGANIZATION_CLIENTS_VERION_PATH = ORGANIZATION_CLIENTS_PATH + "/{clientId}/versions";
+	private static final String API_KEY_PATH = "/apikey";
 	
 	@Autowired
 	private ClientsApiRegistryClient clientsApiRegistryClient;
@@ -19,112 +53,181 @@ public class OrganizationClientsClient extends ApiClient {
 	@Autowired
 	private ClientsPoliciesClient clientsPoliciesClient;
 	
-	public ClientsApiRegistryClient getClientsApiRegistryClient() {
-		return clientsApiRegistryClient;
-	}
-	public ClientsContractsClient getClientsContractsClient() {
-		return clientsContractsClient;
-	}
-	public ClientsPoliciesClient getClientsPoliciesClient() {
-		return clientsPoliciesClient;
-	}
-	
 	/* Use this endpoint to get a list of all Clients in the Organization.
 	 * 
 	 */
-	public String listClients() {
+	public List<Client> listClients(String organizationId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		url = substitute(url, map);
+		
+		Client[] organizationClients = restTemplate.getForObject(encode(url), Client[].class);
+		return organizationClients != null ? Arrays.asList(organizationClients) : null;
 	}
 	
 	/* Use this endpoint to create a new Client. Note that it is important to also create an initial version of the Client (e.g. 1.0). 
 	 * This can either be done by including the 'initialVersion' property in the request, or by immediately following up with a call 
 	 * to "Create Client Version". If the former is done, then a first Client version will be created automatically by this endpoint.
 	 */
-	public String createClient() {
+	public Client createClient(String organizationId, Client client) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		url = substitute(url, map);
+		
+		return restTemplate.postForObject(encode(url), client, Client.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Client by ID. Note that this only returns information about the Client, 
 	 * not about any particular *version* of the Client.
 	 */
-	public String getClientById() {
+	public Client getClientById(String organizationId, String clientId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/{clientId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), Client.class);
 	}
 	
 	/* Use this endpoint to update information about an Client.
 	 * 
 	 */
-	public String updateClient() {
+	public void updateClient(String organizationId, String clientId, Client client) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/{clientId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		url = substitute(url, map);
+		
+		restTemplate.exchange(encode(url), PUT, new HttpEntity<Client>(client, getHeaders()), Void.class);
 	}
 	
 	/* Delete a ClientApp
 	 * 
 	 */
-	public String deleteClient() {
+	public void deleteClient(String organizationId, String clientId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/{clientId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		url = substitute(url, map);
+		
+		restTemplate.delete(encode(url));
 	}
 	
 	/* This endpoint returns audit activity information about the Client.
 	 * 
 	 */
-	public String getClientActivity() {
+	public ActivityList getClientActivity(String organizationId, String clientId, int page, int count) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/{clientId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("pageNumber", String.valueOf(page));
+		map.put("countPerPage", String.valueOf(count));
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ActivityList.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of an Client.
 	 * 
 	 */
-	public String listClientVersions() {
+	public List<ClientVersion> listClientVersions(String organizationId, String clientId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		url = substitute(url, map);
+		
+		ClientVersion[] clientVersions = restTemplate.getForObject(encode(url), ClientVersion[].class);
+		return clientVersions != null ? Arrays.asList(clientVersions) : null;
 	}
 	
 	/* Use this endpoint to create a new version of the Client.
 	 * 
 	 */
-	public String createClientVersion() {
+	public ClientVersion createClientVersion(String organizationId, String clientId, ClientVersion clientVersion) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		url = substitute(url, map);
+		
+		return restTemplate.postForObject(encode(url), clientVersion, ClientVersion.class);
 	}
 	
 	/* Use this endpoint to get detailed information about a single version of an Client.
 	 * 
 	 */
-	public String getClientVersion() {
+	public ClientVersion getClientVersion(String organizationId, String clientId, String version) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/{version}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ClientVersion.class);
 	}
 	
 	/* Use this endpoint to get audit activity information for a single version of the Client.
 	 * 
 	 */
-	public String getClientVersionActivity() {
+	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/{version}", ACTIVITY_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ActivityList.class);
 	}
 	
 	/* Use this endpoint to get the client's current API Key. This call will fail if you do not have the proper permission to see the information.
 	 * 
 	 */
-	public String getApiKey() {
+	public ApiKey getApiKey(String organizationId, String clientId, String version) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/{version}", API_KEY_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ApiKey.class);
 	}
 	
 	/* Use this endpoint to update the API Key for the given client. You can either provide your own custom (must be unique) API Key, 
 	 * or you can send an empty request and apiman will generate a new API key for you. Note that if the client is already registered 
 	 * with one or more Gateways, this call will fail (the API Key can only be modified if the client is not currently registered).
 	 */
-	public String updateApiKey() {
+	public ApiKey updateApiKey(String organizationId, String clientId, String version, ApiKey apiKey) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/{version}", API_KEY_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		ResponseEntity<ApiKey> response = restTemplate.exchange(encode(url), PUT, new HttpEntity<ApiKey>(apiKey, getHeaders()), ApiKey.class);
+		return response != null ? response.getBody() : null;
 	}
 	
 	/* Retrieves metrics/analytics information for a specific client. This will return request count data broken down by API. 
@@ -140,8 +243,15 @@ public class OrganizationClientsClient extends ApiClient {
 	 * the Policies by invoking this endpoint. The body of the request should include all of the Policies for the Client, in the 
 	 * new desired order. Note that only the IDs of each of the Policies is actually required in the request, at a minimum.
 	 */
-	public String reorderClientPolicies() {
+	public void reorderClientPolicies(String organizationId, String clientId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/{version}", REORDER_POLICIES_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("clientId", clientId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		restTemplate.postForObject(encode(url), reOrderPolicies, Void.class);
 	}
 }

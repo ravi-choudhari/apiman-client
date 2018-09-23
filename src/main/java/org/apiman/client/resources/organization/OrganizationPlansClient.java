@@ -1,101 +1,194 @@
 package org.apiman.client.resources.organization;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+import static org.springframework.http.HttpMethod.PUT;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.ActivityList;
+import org.apiman.client.domain.OrganizationPlan;
+import org.apiman.client.domain.PlanVersion;
+import org.apiman.client.domain.ReOrderPolicies;
 import org.apiman.client.resources.organization.planpolicy.OrganizationPlansPoliciesClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 
-@Component
-public class OrganizationPlansClient extends ApiClient {
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-	private static final String ORGANIZATION_PLANS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/plans";
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode(callSuper=false)
+@Component
+@Getter(value = AccessLevel.PUBLIC)
+@Setter(value = AccessLevel.PRIVATE)
+public class OrganizationPlansClient extends AbstractApimanClient {
+	
+	private static final String ORGANIZATION_PLANS_VERSION_PATH = ORGANIZATION_PLANS_PATH + "/{planId}/versions";
 	
 	@Autowired
 	private OrganizationPlansPoliciesClient plansPoliciesClient;
-		
-	public OrganizationPlansPoliciesClient getPlansPoliciesClient() {
-		return plansPoliciesClient;
-	}
-
+	
 	/* Use this endpoint to get a list of all Plans in the Organization.
 	 * 
 	 */
-	public String listPlans() {
+	public List<OrganizationPlan> listPlans(String organizationId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		url = substitute(url, map);
+		
+		OrganizationPlan[] organizationPlans = restTemplate.getForObject(encode(url), OrganizationPlan[].class);
+		return organizationPlans != null ? Arrays.asList(organizationPlans) : null;
 	}
 	
 	/* Use this endpoint to create a new Plan. Note that it is important to also create an initial version of the Plan (e.g. 1.0). 
 	 * This can either be done by including the 'initialVersion' property in the request, or by immediately following up with a call 
 	 * to "Create Plan Version". If the former is done, then a first Plan version will be created automatically by this endpoint.
 	 */
-	public String createPlan() {
+	public OrganizationPlan createPlan(String organizationId, OrganizationPlan organizationPlan) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		url = substitute(url, map);
+		
+		return restTemplate.postForObject(encode(url), organizationPlan, OrganizationPlan.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Plan by ID. Note that this only returns information about the Plan, 
 	 * not about any particular *version* of the Plan.
 	 */
-	public String getPlanById() {
+	public OrganizationPlan getPlanById(String organizationId, String planId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), OrganizationPlan.class);
 	}
 	
 	/* Use this endpoint to update information about a Plan.
 	 * 
 	 */
-	public String updatePlan() {
+	public void updatePlan(String organizationId, String planId, OrganizationPlan organizationPlan) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		url = substitute(url, map);
+		
+		restTemplate.exchange(encode(url), PUT, new HttpEntity<OrganizationPlan>(organizationPlan, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to delete a plan. Only an unlocked plan may be deleted.
 	 * 
 	 */
-	public String deletePlan() {
+	public void deletePlan(String organizationId, String planId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		url = substitute(url, map);
+		
+		restTemplate.delete(encode(url));
 	}
 	
 	/* This endpoint returns audit activity information about the Plan.
 	 * 
 	 */
-	public String getPlanActivity() {
+	public ActivityList getPlanActivity(String organizationId, String planId, int page, int count) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		map.put("pageNumber", String.valueOf(page));
+		map.put("countPerPage", String.valueOf(count));
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ActivityList.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of a Plan.
 	 * 
 	 */
-	public String listPlanVersions() {
+	public List<PlanVersion> listPlanVersions(String organizationId, String planId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		url = substitute(url, map);
+		
+		PlanVersion[] planVersions = restTemplate.getForObject(encode(url), PlanVersion[].class);
+		return planVersions != null ? Arrays.asList(planVersions) : null;
 	}
 	
 	/* Use this endpoint to create a new version of the Plan.
 	 * 
 	 */
-	public String createPlanVersion() {
+	public PlanVersion createPlanVersion(String organizationId, String planId, PlanVersion planVersion) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		url = substitute(url, map);
+		
+		return restTemplate.postForObject(encode(url), planVersion, PlanVersion.class);
 	}
 	
 	/* Use this endpoint to get detailed information about a single version of a Plan.
 	 * 
 	 */
-	public String getPlanVersion() {
+	public PlanVersion getPlanVersion(String organizationId, String planId, String version) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), PlanVersion.class);
 	}
 	
 	/* Use this endpoint to get audit activity information for a single version of the Plan.
 	 * 
 	 */
-	public String getPlanVersionActivity() {
+	public ActivityList getPlanVersionActivity(String organizationId, String planId, String version, int page, int count) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		map.put("version", version);
+		map.put("pageNumber", String.valueOf(page));
+		map.put("countPerPage", String.valueOf(count));
+		url = substitute(url, map);
+		
+		return restTemplate.getForObject(encode(url), ActivityList.class);
 	}
 	
 	/* Use this endpoint to change the order of Policies for a Plan. When a Policy is added to the Plan, it is added as the last 
@@ -103,8 +196,15 @@ public class OrganizationPlansClient extends ApiClient {
 	 * Policies by invoking this endpoint. The body of the request should include all of the Policies for the Plan, in the new 
 	 * desired order. Note that only the IDs of each of the Policies is actually required in the request, at a minimum.
 	 */
-	public String reorderPlanPolicies() {
+	public void reorderPlanPolicies(String organizationId, String planId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}", REORDER_POLICIES_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("planId", planId);
+		map.put("version", version);
+		url = substitute(url, map);
+		
+		restTemplate.postForObject(encode(url), reOrderPolicies, Void.class);
 	}
 }

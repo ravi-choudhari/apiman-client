@@ -1,26 +1,48 @@
 package org.apiman.client.resources.organization;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+import static org.apiman.client.GenericUtils.substitute;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.OrganizationMember;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrganizationMembersClient extends ApiClient {
+public class OrganizationMembersClient extends AbstractApimanClient {
 
 	private static final String ORGANIZATION_MEMBERS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/members";
 	
 	/* Lists all members of the organization.
 	 * 
 	 */
-	public String listOrganizationMembers() {
+	public List<OrganizationMember> listOrganizationMembers(String organizationId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH);
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		url = substitute(url, map);
+		
+		OrganizationMember[] organizationMembers = restTemplate.getForObject(encode(url), OrganizationMember[].class);
+		return organizationMembers != null ? Arrays.asList(organizationMembers) : null;
 	}
 	
 	/* Revoke all of a user's role memberships from the org.
 	 * 
 	 */
-	public String revokeAllMemberships() {
+	public void revokeAllMemberships(String organizationId, String userId) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH, "/{userId}");
+		Map<String, String> map = new HashMap<>();
+		map.put("organizationId", organizationId);
+		map.put("userId", userId);
+		url = substitute(url, map);
+		
+		restTemplate.delete(encode(url));
 	}
 }

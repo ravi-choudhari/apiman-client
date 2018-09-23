@@ -1,43 +1,61 @@
 package org.apiman.client.resources;
 
-import org.apiman.client.ApiClient;
+import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.GenericUtils.encode;
+
+import org.apiman.client.AbstractApimanClient;
+import org.apiman.client.domain.search.SearchQuery;
+import org.apiman.client.domain.search.SearchResult;
 import org.apiman.client.resources.search.ApiCatalogueSearchClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode(callSuper=false)
 @Component
-public class SearchClient extends ApiClient {
-	
-	private static final String SEARCH_PATH = "/search";
+@Getter(value = AccessLevel.PUBLIC)
+@Setter(value = AccessLevel.PRIVATE)
+public class SearchClient extends AbstractApimanClient {
 	
 	@Autowired
 	private ApiCatalogueSearchClient apiCatalogueSearchClient;
 	
-	public ApiCatalogueSearchClient getApiCatalogueSearchClient() {
-		return apiCatalogueSearchClient;
-	}
-	
 	/* Use this endpoint to search for APIs. The search criteria is provided in the body of the request, 
 	 * including filters, order-by, and paging information.
 	 */
-	public String searchForApis() {
+	public SearchResult searchForApis(SearchQuery apisSearchQuery) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, SEARCH_PATH, APIS_PATH);
+		return restTemplate.postForObject(encode(url), apisSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to search for clients. The search criteria is provided in the body of the request, 
 	 * including filters, order-by, and paging information.
 	 */
-	public String searchForClients() {
+	public SearchResult searchForClients(SearchQuery clientsSearchQuery) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, SEARCH_PATH, CLIENTS_PATH);
+		return restTemplate.postForObject(encode(url), clientsSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to search for organizations. The search criteria is provided in the body of the request, 
 	 * including filters, order-by, and paging information.
 	 */
-	public String searchForOrganizations() {
+	public SearchResult searchForOrganizations(SearchQuery organizationsSearchQuery) {
 		
-		return apimanUrl;
+		String url = buildURL(apimanUrl, SEARCH_PATH, ORGANIZATIONS_PATH);
+		return restTemplate.postForObject(encode(url), organizationsSearchQuery, SearchResult.class);
 	}
 }
