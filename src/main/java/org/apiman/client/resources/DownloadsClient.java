@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 
 import java.util.HashMap;
@@ -21,11 +20,11 @@ public class DownloadsClient extends AbstractApimanClient {
 	 */
 	public String downloadFile(String downloadId) {
 		
-		String url = buildURL(apimanUrl, DOWNLOADS_PATH, "/{downloadId}");
+		String url = buildURL(apimanUrl, DOWNLOADS_PATH, "/${downloadId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("downloadId", downloadId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), String.class);
+		return restTemplate.getForObject(url, String.class);
 	}
 }

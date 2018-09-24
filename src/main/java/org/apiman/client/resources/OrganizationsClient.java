@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -56,7 +55,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 	public Organization createOrganization(Organization organization) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH);
-		return restTemplate.postForObject(encode(url), organization, Organization.class);
+		return restTemplate.postForObject(url, organization, Organization.class);
 	}
 	
 	/* Use this endpoint to get information about a single Organization by its ID.
@@ -64,12 +63,12 @@ public class OrganizationsClient extends AbstractApimanClient {
 	 */
 	public Organization getOrganizationById(String organizationId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/{organizationId}");
+		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), Organization.class);
+		return restTemplate.getForObject(url, Organization.class);
 	}
 	
 	/* Updates meta-information about a single Organization.
@@ -77,12 +76,12 @@ public class OrganizationsClient extends AbstractApimanClient {
 	 */
 	public void updateOrganization(String organizationId, Organization organization) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/{organizationId}");
+		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<Organization>(organization, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<Organization>(organization, getHeaders()), Void.class);
 	}
 	
 	/* Delete an org
@@ -90,12 +89,12 @@ public class OrganizationsClient extends AbstractApimanClient {
 	 */
 	public void deleteOrganization(String organizationId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/{organizationId}");
+		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 	
 	/* Returns audit activity information for a single Organization. The audit information that is returned represents 
@@ -103,13 +102,13 @@ public class OrganizationsClient extends AbstractApimanClient {
 	 */
 	public ActivityList getOrganizationActivity(String organizationId, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/{organizationId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("pageNumber", String.valueOf(page));
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}	
 }

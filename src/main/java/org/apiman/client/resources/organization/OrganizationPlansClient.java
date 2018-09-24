@@ -1,7 +1,6 @@
 package org.apiman.client.resources.organization;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -39,7 +38,7 @@ import lombok.ToString;
 @Setter(value = AccessLevel.PRIVATE)
 public class OrganizationPlansClient extends AbstractApimanClient {
 	
-	private static final String ORGANIZATION_PLANS_VERSION_PATH = ORGANIZATION_PLANS_PATH + "/{planId}/versions";
+	private static final String ORGANIZATION_PLANS_VERSION_PATH = ORGANIZATION_PLANS_PATH + "/${planId}/versions";
 	
 	@Autowired
 	private OrganizationPlansPoliciesClient plansPoliciesClient;
@@ -54,7 +53,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		OrganizationPlan[] organizationPlans = restTemplate.getForObject(encode(url), OrganizationPlan[].class);
+		OrganizationPlan[] organizationPlans = restTemplate.getForObject(url, OrganizationPlan[].class);
 		return organizationPlans != null ? Arrays.asList(organizationPlans) : null;
 	}
 	
@@ -69,7 +68,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		return restTemplate.postForObject(encode(url), organizationPlan, OrganizationPlan.class);
+		return restTemplate.postForObject(url, organizationPlan, OrganizationPlan.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Plan by ID. Note that this only returns information about the Plan, 
@@ -77,13 +76,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public OrganizationPlan getPlanById(String organizationId, String planId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), OrganizationPlan.class);
+		return restTemplate.getForObject(url, OrganizationPlan.class);
 	}
 	
 	/* Use this endpoint to update information about a Plan.
@@ -91,13 +90,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public void updatePlan(String organizationId, String planId, OrganizationPlan organizationPlan) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<OrganizationPlan>(organizationPlan, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<OrganizationPlan>(organizationPlan, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to delete a plan. Only an unlocked plan may be deleted.
@@ -105,13 +104,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public void deletePlan(String organizationId, String planId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 	
 	/* This endpoint returns audit activity information about the Plan.
@@ -119,7 +118,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public ActivityList getPlanActivity(String organizationId, String planId, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/{planId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
@@ -127,7 +126,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of a Plan.
@@ -141,7 +140,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		PlanVersion[] planVersions = restTemplate.getForObject(encode(url), PlanVersion[].class);
+		PlanVersion[] planVersions = restTemplate.getForObject(url, PlanVersion[].class);
 		return planVersions != null ? Arrays.asList(planVersions) : null;
 	}
 	
@@ -156,7 +155,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		return restTemplate.postForObject(encode(url), planVersion, PlanVersion.class);
+		return restTemplate.postForObject(url, planVersion, PlanVersion.class);
 	}
 	
 	/* Use this endpoint to get detailed information about a single version of a Plan.
@@ -164,14 +163,14 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public PlanVersion getPlanVersion(String organizationId, String planId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}");
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/${version}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), PlanVersion.class);
+		return restTemplate.getForObject(url, PlanVersion.class);
 	}
 	
 	/* Use this endpoint to get audit activity information for a single version of the Plan.
@@ -179,7 +178,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public ActivityList getPlanVersionActivity(String organizationId, String planId, String version, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
@@ -188,7 +187,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}
 	
 	/* Use this endpoint to change the order of Policies for a Plan. When a Policy is added to the Plan, it is added as the last 
@@ -198,13 +197,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 */
 	public void reorderPlanPolicies(String organizationId, String planId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/{version}", REORDER_POLICIES_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/${version}", REORDER_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		restTemplate.postForObject(encode(url), reOrderPolicies, Void.class);
+		restTemplate.postForObject(url, reOrderPolicies, Void.class);
 	}
 }

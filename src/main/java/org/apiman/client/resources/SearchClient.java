@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.search.SearchQuery;
@@ -38,7 +37,7 @@ public class SearchClient extends AbstractApimanClient {
 	public SearchResult searchForApis(SearchQuery apisSearchQuery) {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, APIS_PATH);
-		return restTemplate.postForObject(encode(url), apisSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, apisSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to search for clients. The search criteria is provided in the body of the request, 
@@ -47,7 +46,7 @@ public class SearchClient extends AbstractApimanClient {
 	public SearchResult searchForClients(SearchQuery clientsSearchQuery) {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, CLIENTS_PATH);
-		return restTemplate.postForObject(encode(url), clientsSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, clientsSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to search for organizations. The search criteria is provided in the body of the request, 
@@ -56,6 +55,6 @@ public class SearchClient extends AbstractApimanClient {
 	public SearchResult searchForOrganizations(SearchQuery organizationsSearchQuery) {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, ORGANIZATIONS_PATH);
-		return restTemplate.postForObject(encode(url), organizationsSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, organizationsSearchQuery, SearchResult.class);
 	}
 }

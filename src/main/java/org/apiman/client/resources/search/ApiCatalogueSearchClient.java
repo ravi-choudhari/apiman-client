@@ -1,7 +1,6 @@
 package org.apiman.client.resources.search;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +23,7 @@ public class ApiCatalogueSearchClient extends AbstractApimanClient {
 	public SearchResult searchForApisInApiCatalogue() {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, API_CATALOGUE_PATH, ENTRIES_PATH);
-		return restTemplate.getForObject(encode(url), SearchResult.class);
+		return restTemplate.getForObject(url, SearchResult.class);
 	}
 	
 	/* Use this endpoint to get a list of all namespaces available to be searched within. Not all platforms support 
@@ -34,7 +33,7 @@ public class ApiCatalogueSearchClient extends AbstractApimanClient {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, API_CATALOGUE_PATH, NAMESPACES_PATH);
 		
-		Namespace[] namespaces = restTemplate.getForObject(encode(url), Namespace[].class);
+		Namespace[] namespaces = restTemplate.getForObject(url, Namespace[].class);
 		return namespaces != null ? Arrays.asList(namespaces) : null;
 	}
 }

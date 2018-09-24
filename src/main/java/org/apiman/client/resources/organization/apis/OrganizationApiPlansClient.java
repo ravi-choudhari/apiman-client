@@ -1,7 +1,6 @@
 package org.apiman.client.resources.organization.apis;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationApiPlansClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_APIS_PLANS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/apis/{apiId}/versions/{version}/plans";
+	private static final String ORGANIZATION_APIS_PLANS_PATH = ORGANIZATIONS_PATH + "/${organizationId}/apis/${apiId}/versions/${version}/plans";
 	
 	/* Use this endpoint to list the Plans configured for the given API version.
 	 * 
@@ -31,7 +30,7 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		Plan[] plans = restTemplate.getForObject(encode(url), Plan[].class);
+		Plan[] plans = restTemplate.getForObject(url, Plan[].class);
 		return plans != null ? Arrays.asList(plans) : null;
 	}
 	
@@ -41,7 +40,7 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 	 */
 	public ApiPolicyList getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_APIS_PLANS_PATH + "/{planId}", POLICY_CHAIN_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_APIS_PLANS_PATH + "/${planId}", POLICY_CHAIN_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -49,6 +48,6 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ApiPolicyList.class);
+		return restTemplate.getForObject(url, ApiPolicyList.class);
 	}
 }

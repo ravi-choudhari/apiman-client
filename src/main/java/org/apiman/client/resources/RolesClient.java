@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -28,7 +27,7 @@ public class RolesClient extends AbstractApimanClient {
 	public List<Role> listAllRoles() {
 		
 		String url = buildURL(apimanUrl, ROLES_PATH);
-		Role[] roles = restTemplate.getForObject(encode(url), Role[].class);
+		Role[] roles = restTemplate.getForObject(url, Role[].class);
 		
 		return roles != null ? Arrays.asList(roles) : null;
 	}
@@ -39,7 +38,7 @@ public class RolesClient extends AbstractApimanClient {
 	public Role createRole(Role role) {
 		
 		String url = buildURL(apimanUrl, ROLES_PATH);
-		return restTemplate.postForObject(encode(url), role, Role.class);
+		return restTemplate.postForObject(url, role, Role.class);
 	}
 	
 	/* This endpoint provides a way to search for roles. The search criteria is provided in the body of the request, 
@@ -48,7 +47,7 @@ public class RolesClient extends AbstractApimanClient {
 	public SearchResult searchForRoles(SearchQuery rolesSearchQuery) {
 		
 		String url = buildURL(apimanUrl, ROLES_PATH, SEARCH_PATH);
-		return restTemplate.postForObject(encode(url), rolesSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, rolesSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Role by its ID.
@@ -56,12 +55,12 @@ public class RolesClient extends AbstractApimanClient {
 	 */
 	public Role getRoleById(String roleId) {
 		
-		String url = buildURL(apimanUrl, ROLES_PATH, "/{roleId}");
+		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), Role.class);
+		return restTemplate.getForObject(url, Role.class);
 	}
 
 	/* Use this endpoint to update the information about an existing role. The role is identified by its ID.
@@ -69,11 +68,11 @@ public class RolesClient extends AbstractApimanClient {
 	 */
 	public void updateRoleById(String roleId, Role role) {
 		
-		String url = buildURL(apimanUrl, ROLES_PATH, "/{roleId}");
+		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
 		url = substitute(url, map);
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<Role>(role, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<Role>(role, getHeaders()), Void.class);
 	}
 
 	/* Use this endpoint to delete a role by its ID.
@@ -81,11 +80,11 @@ public class RolesClient extends AbstractApimanClient {
 	 */
 	public void deleteRoleById(String roleId) {
 		
-		String url = buildURL(apimanUrl, ROLES_PATH, "/{roleId}");
+		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 }

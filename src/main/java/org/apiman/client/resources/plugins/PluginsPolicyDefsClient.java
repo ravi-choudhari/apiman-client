@@ -1,7 +1,6 @@
 package org.apiman.client.resources.plugins;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 
 import java.util.Arrays;
@@ -16,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PluginsPolicyDefsClient extends AbstractApimanClient {
 
-	private static final String PLUGIN_POLICY_DEFS_PATH = PLUGINS_PATH + "/{pluginId}/policyDefs";
-	private static final String PLUGIN_POLICY_DEFS_FORM_PATH = PLUGIN_POLICY_DEFS_PATH + "/{policyDefId}/form";
+	private static final String PLUGIN_POLICY_DEFS_PATH = PLUGINS_PATH + "/${pluginId}/policyDefs";
+	private static final String PLUGIN_POLICY_DEFS_FORM_PATH = PLUGIN_POLICY_DEFS_PATH + "/${policyDefId}/form";
 	
 	/* Use this endpoint to get a list of all policy definitions contributed by the plugin.
 	 * 
@@ -29,7 +28,7 @@ public class PluginsPolicyDefsClient extends AbstractApimanClient {
 		map.put("pluginId", pluginId);
 		url = substitute(url, map);
 		
-		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(encode(url), PolicyDefinition[].class);
+		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinition[].class);
 		return policyDefinitions != null ? Arrays.asList(policyDefinitions) : null;
 	}
 	
@@ -45,6 +44,6 @@ public class PluginsPolicyDefsClient extends AbstractApimanClient {
 		map.put("policyDefId", policyDefId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), String.class);
+		return restTemplate.getForObject(url, String.class);
 	}
 }

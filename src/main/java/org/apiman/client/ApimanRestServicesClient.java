@@ -423,9 +423,9 @@ public class ApimanRestServicesClient {
 		return organizationsClient.getClientsClient().updateApiKey(organizationId, clientId, version, apiKey);
 	}
 	
-	public String getClientUsageMetricsPerApi() {
+	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, String fromDate, String toDate) {
 		
-		return organizationsClient.getClientsClient().getClientUsageMetricsPerApi();
+		return organizationsClient.getClientsClient().getClientUsageMetricsPerApi(organizationId, clientId, version, fromDate, toDate);
 	}
 	
 	public void reorderClientPolicies(String organizationId, String clientId, String version, ReOrderPolicies reOrderPolicies) {

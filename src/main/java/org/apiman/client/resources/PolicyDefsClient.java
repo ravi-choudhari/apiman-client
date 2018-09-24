@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -26,7 +25,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	public List<PolicyDefinition> listPolicyDefinitions() {
 		
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH);
-		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(encode(url), PolicyDefinition[].class);
+		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinition[].class);
 		
 		return policyDefinitions != null ? Arrays.asList(policyDefinitions) : null;
 	}
@@ -37,7 +36,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	public PolicyDefinition addPolicyDefinition(PolicyDefinition policyDefinition) {
 		
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH);
-		return restTemplate.postForObject(encode(url), policyDefinition, PolicyDefinition.class);
+		return restTemplate.postForObject(url, policyDefinition, PolicyDefinition.class);
 	}
 	
 	/* Use this endpoint to get a single policy definition by its ID.
@@ -45,12 +44,12 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	 */
 	public PolicyDefinition getPolicyDefinitionById(String policyDefinitionId) {
 		
-		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/{policyDefinitionId}");
+		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), PolicyDefinition.class);
+		return restTemplate.getForObject(url, PolicyDefinition.class);
 	}
 
 	/* Update the meta information about a policy definition.
@@ -58,12 +57,12 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	 */
 	public void updatePolicyDefinition(String policyDefinitionId, PolicyDefinition policyDefinition) {
 		
-		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/{policyDefinitionId}");
+		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<PolicyDefinition>(policyDefinition, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<PolicyDefinition>(policyDefinition, getHeaders()), Void.class);
 	}
 
 	/* Use this endpoint to delete a policy definition by its ID. If the policy definition was added automatically from 
@@ -71,12 +70,12 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	 */
 	public void deletePolicyDefinition(String policyDefinitionId) {
 		
-		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/{policyDefinitionId}");
+		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 
 }
