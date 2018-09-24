@@ -1,7 +1,7 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
+import static org.springframework.http.HttpMethod.PUT;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.apiman.client.domain.Organization;
 import org.apiman.client.domain.User;
 import org.apiman.client.domain.UserInformation;
 import org.springframework.http.HttpEntity;
-import static org.springframework.http.HttpMethod.PUT;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +28,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/apiorgs");
 		
-		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		Organization[] organizations = restTemplate.getForObject(url, Organization[].class);
 		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 	
@@ -39,7 +38,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 	public List<Api> getCurrentUserApis() {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/apis");
-		Api[] apis = restTemplate.getForObject(encode(url), Api[].class);
+		Api[] apis = restTemplate.getForObject(url, Api[].class);
 		
 		return apis != null ? Arrays.asList(apis) : null;
 	}
@@ -52,7 +51,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/clientorgs");
 		
-		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		Organization[] organizations = restTemplate.getForObject(url, Organization[].class);
 		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 	
@@ -63,7 +62,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, CLIENTS_PATH);
 		
-		Client[] clients = restTemplate.getForObject(encode(url), Client[].class);
+		Client[] clients = restTemplate.getForObject(url, Client[].class);
 		return clients != null ? Arrays.asList(clients) : null;
 	}
 	
@@ -73,7 +72,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 	public User getCurrentUserInformation() {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/info");
-		return restTemplate.getForObject(encode(url), User.class);
+		return restTemplate.getForObject(url, User.class);
 	}
 	
 	/* This endpoint allows updating information about the authenticated user.
@@ -82,7 +81,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 	public void updateCurrentUserInformation(UserInformation userInformation) {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/info");
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<UserInformation>(userInformation, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UserInformation>(userInformation, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint returns a list of all the organizations for which the current user has permission to edit plans. 
@@ -92,7 +91,7 @@ public class CurrentUserClient extends AbstractApimanClient {
 	public List<Organization> getPlanOrganizations() {
 		
 		String url = buildURL(apimanUrl, CURRENT_USER_PATH, "/planorgs");
-		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		Organization[] organizations = restTemplate.getForObject(url, Organization[].class);
 		
 		return organizations != null ? Arrays.asList(organizations) : null;
 	}

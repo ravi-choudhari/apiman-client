@@ -24,7 +24,8 @@ public class ApiMetrics {
 		PLAN_USAGE("planUsage"),
 		RESPONSE_STATS("responseStats"),
 		SUMMARY_RESPONSE_STATS("summaryResponseStats"),
-		USAGE("usage");
+		USAGE("usage"),
+		API_USAGE("apiUsage");
 
 		private String name;
 	}

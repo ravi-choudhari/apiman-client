@@ -12,7 +12,7 @@ public abstract class AbstractApimanClient {
 	@Qualifier("redhatApimanRestClient")
 	protected RestTemplate restTemplate;
 	
-	@Value(value = "${apiman.url}")
+	@Value(value = "${apiman.url:http://localhost:8080/apiman}")
 	protected String apimanUrl;
 
 	protected static final String ORGANIZATIONS_PATH = "/organizations";
@@ -31,9 +31,9 @@ public abstract class AbstractApimanClient {
 	
 	protected static final String DOWNLOAD = "?download={download}";
 	
-	protected static final String ORGANIZATION_PLANS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/plans";
-	protected static final String ORGANIZATION_CLIENTS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/clients";
-	protected static final String ORGANIZATION_APIS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/apis";
+	protected static final String ORGANIZATION_PLANS_PATH = ORGANIZATIONS_PATH + "/${organizationId}/plans";
+	protected static final String ORGANIZATION_CLIENTS_PATH = ORGANIZATIONS_PATH + "/${organizationId}/clients";
+	protected static final String ORGANIZATION_APIS_PATH = ORGANIZATIONS_PATH + "/${organizationId}/apis";
 	
 	protected static final String PAGE_NUMBER_AND_COUNT = "?page={pageNumber}&count={countPerPage}";
 	protected static final String FROM_AND_TO_DATES = "?from={fromDate}&to={toDate}";

@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class SystemClient extends AbstractApimanClient {
 		map.put("download", download);
 		url = substitute(url, map);
 		
-		restTemplate.getForObject(encode(url), Void.class);
+		restTemplate.getForObject(url, Void.class);
 	}
 	
 	/*
@@ -39,7 +38,7 @@ public class SystemClient extends AbstractApimanClient {
 	public void importData() {
 		
 		String url = buildURL(apimanUrl, SYSTEM_PATH, IMPORT_PATH);
-		restTemplate.postForObject(encode(url), null, Void.class);
+		restTemplate.postForObject(url, null, Void.class);
 	}
 	
 	/* This endpoint simply returns the status of the apiman system. This is a useful endpoint to use when testing 
@@ -48,6 +47,6 @@ public class SystemClient extends AbstractApimanClient {
 	public SystemStatus getSystemStatus() {
 		
 		String url = buildURL(apimanUrl, SYSTEM_PATH, STATUS_PATH);
-		return restTemplate.getForObject(encode(url), SystemStatus.class);
+		return restTemplate.getForObject(url, SystemStatus.class);
 	}
 }

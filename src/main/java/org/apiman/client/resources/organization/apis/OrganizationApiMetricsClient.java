@@ -1,22 +1,21 @@
 package org.apiman.client.resources.organization.apis;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
-import static org.apiman.client.domain.ApiMetrics.METRICS_TYPE;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.ApiMetrics;
+import org.apiman.client.domain.ApiMetrics.METRICS_TYPE;
 import org.apiman.client.domain.ApiMetricsList;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrganizationApiMetricsClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_API_METRICS_PATH = ORGANIZATION_APIS_PATH + "/{apiId}/versions/{version}/metrics";
+	private static final String ORGANIZATION_API_METRICS_PATH = ORGANIZATION_APIS_PATH + "/${apiId}/versions/${version}/metrics";
 	
 	/* Retrieves metrics/analytics information for a specific API. This will return response type statistics broken down by client.
 	 * 
@@ -77,7 +76,7 @@ public class OrganizationApiMetricsClient extends AbstractApimanClient {
 	
 	private ApiMetrics getOrganizationApiMetrics(String organizationId, String apiId, String version, String fromDate, String toDate, METRICS_TYPE metricsType) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_METRICS_PATH, "/{metricsType}", FROM_AND_TO_DATES);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_METRICS_PATH, "/${metricsType}", FROM_AND_TO_DATES);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -87,12 +86,12 @@ public class OrganizationApiMetricsClient extends AbstractApimanClient {
 		map.put("toDate", toDate);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ApiMetrics.class);
+		return restTemplate.getForObject(url, ApiMetrics.class);
 	}
 	
 	private ApiMetricsList getOrganizationApiMetrics(String organizationId, String apiId, String version, String fromDate, String toDate, String interval, METRICS_TYPE metricsType) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_METRICS_PATH, "/{metricsType}", FROM_AND_TO_DATES, INTERVAL);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_METRICS_PATH, "/${metricsType}", FROM_AND_TO_DATES, INTERVAL);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -103,6 +102,6 @@ public class OrganizationApiMetricsClient extends AbstractApimanClient {
 		map.put("toDate", toDate);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ApiMetricsList.class);
+		return restTemplate.getForObject(url, ApiMetricsList.class);
 	}
 }

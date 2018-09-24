@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -26,7 +25,7 @@ public class GatewaysClient extends AbstractApimanClient {
 	public List<Gateway> listAllGateways() {
 		
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		Gateway[] gateways = restTemplate.getForObject(encode(url), Gateway[].class);
+		Gateway[] gateways = restTemplate.getForObject(url, Gateway[].class);
 		
 		return gateways != null ? Arrays.asList(gateways) : null;
 	}
@@ -38,7 +37,7 @@ public class GatewaysClient extends AbstractApimanClient {
 	public void testGateway(Gateway gateway) {
 		
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint is called to create a new Gateway.
@@ -47,7 +46,7 @@ public class GatewaysClient extends AbstractApimanClient {
 	public Gateway createGateway(Gateway gateway) {
 		
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		return restTemplate.postForObject(encode(url), gateway, Gateway.class);
+		return restTemplate.postForObject(url, gateway, Gateway.class);
 	}
 	
 	/* Call this endpoint to get the details of a single configured Gateway.
@@ -55,12 +54,12 @@ public class GatewaysClient extends AbstractApimanClient {
 	 */
 	public Gateway getGatewayById(String gatewayId) {
 		
-		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/{gatewayId}");
+		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), Gateway.class);
+		return restTemplate.getForObject(url, Gateway.class);
 	}
 	
 	/* Use this endpoint to update an existing Gateway. Note that the name of the Gateway cannot be changed, as the name 
@@ -68,12 +67,12 @@ public class GatewaysClient extends AbstractApimanClient {
 	 */
 	public void updateGateway(String gatewayId, Gateway gateway) {
 		
-		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/{gatewayId}");
+		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint deletes a Gateway by its unique ID.
@@ -81,11 +80,11 @@ public class GatewaysClient extends AbstractApimanClient {
 	 */
 	public void deleteGateway(String gatewayId) {
 		
-		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/{gatewayId}");
+		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 }

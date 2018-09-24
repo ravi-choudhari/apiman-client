@@ -1,7 +1,6 @@
 package org.apiman.client.resources.organization;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationMembersClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_MEMBERS_PATH = ORGANIZATIONS_PATH + "/{organizationId}/members";
+	private static final String ORGANIZATION_MEMBERS_PATH = ORGANIZATIONS_PATH + "/${organizationId}/members";
 	
 	/* Lists all members of the organization.
 	 * 
@@ -28,7 +27,7 @@ public class OrganizationMembersClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		OrganizationMember[] organizationMembers = restTemplate.getForObject(encode(url), OrganizationMember[].class);
+		OrganizationMember[] organizationMembers = restTemplate.getForObject(url, OrganizationMember[].class);
 		return organizationMembers != null ? Arrays.asList(organizationMembers) : null;
 	}
 	
@@ -37,12 +36,12 @@ public class OrganizationMembersClient extends AbstractApimanClient {
 	 */
 	public void revokeAllMemberships(String organizationId, String userId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH, "/{userId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 }

@@ -1,7 +1,6 @@
 package org.apiman.client.resources;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -32,19 +31,19 @@ public class UsersClient extends AbstractApimanClient {
 	public SearchResult searchForUsers(SearchQuery userSearchQuery) {
 		
 		String url = buildURL(apimanUrl, USERS_PATH, SEARCH_PATH);
-		return restTemplate.postForObject(encode(url), userSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, userSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to get information about a specific user by the User ID.
 	 */
 	public User getUserById(String userId) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}");
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), User.class);
+		return restTemplate.getForObject(url, User.class);
 	}
 	
 	/* Use this endpoint to update the information about a user. This will fail unless the authenticated user 
@@ -52,12 +51,12 @@ public class UsersClient extends AbstractApimanClient {
 	 */
 	public void updateUserById(String userId, User user) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}");
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<User>(user, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<User>(user, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to get information about the user's audit history. This returns audit entries 
@@ -66,14 +65,14 @@ public class UsersClient extends AbstractApimanClient {
 	 */
 	public ActivityList getUserActivity(String userId, int page, int count) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("pageNumber", String.valueOf(page));
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}
 	
 	/* This endpoint returns all APIs that the user has permission to edit.
@@ -81,12 +80,12 @@ public class UsersClient extends AbstractApimanClient {
 	 */
 	public List<Api> listUserApis(String userId) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", APIS_PATH);
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", APIS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		Api[] apis = restTemplate.getForObject(encode(url), Api[].class);
+		Api[] apis = restTemplate.getForObject(url, Api[].class);
 		return apis != null ? Arrays.asList(apis) : null;
 	}
 	
@@ -95,12 +94,12 @@ public class UsersClient extends AbstractApimanClient {
 	 */
 	public List<Client> listUserClients(String userId) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", CLIENTS_PATH);
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		Client[] clients = restTemplate.getForObject(encode(url), Client[].class);
+		Client[] clients = restTemplate.getForObject(url, Client[].class);
 		return clients != null ? Arrays.asList(clients) : null;
 	}
 	
@@ -109,12 +108,12 @@ public class UsersClient extends AbstractApimanClient {
 	 */
 	public List<Organization> listUserOrganizations(String userId) {
 		
-		String url = buildURL(apimanUrl, USERS_PATH, "/{userId}", ORGANIZATIONS_PATH);
+		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", ORGANIZATIONS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map);
 		
-		Organization[] organizations = restTemplate.getForObject(encode(url), Organization[].class);
+		Organization[] organizations = restTemplate.getForObject(url, Organization[].class);
 		return organizations != null ? Arrays.asList(organizations) : null;
 	}
 }

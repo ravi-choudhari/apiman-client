@@ -1,7 +1,6 @@
 package org.apiman.client.resources.organization;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -48,7 +47,7 @@ import lombok.ToString;
 @Setter(value = AccessLevel.PRIVATE)
 public class OrganizationApisClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_API_PATH = ORGANIZATIONS_PATH + "/{organizationId}/apis";
+	private static final String ORGANIZATION_API_PATH = ORGANIZATIONS_PATH + "/${organizationId}/apis";
 	
 	@Autowired
 	private OrganizationApiMetricsClient organizationApiMetricsClient;
@@ -67,7 +66,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		Api[] apis = restTemplate.getForObject(encode(url), Api[].class);
+		Api[] apis = restTemplate.getForObject(url, Api[].class);
 		return apis != null ? Arrays.asList(apis) : null;
 	}
 	
@@ -82,7 +81,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		url = substitute(url, map);
 		
-		return restTemplate.postForObject(encode(url), createApi, Api.class);
+		return restTemplate.postForObject(url, createApi, Api.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single API by ID. Note that this only returns information about the API, 
@@ -90,13 +89,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public Api getApiById(String organizationId, String apiId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), Api.class);
+		return restTemplate.getForObject(url, Api.class);
 	}
 	
 	/* Use this endpoint to update information about an API.
@@ -104,13 +103,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void updateApi(String organizationId, String apiId, Api api) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<Api>(api, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<Api>(api, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to delete an API. There are multiple restrictions on this capability. Specifically, the API must not 
@@ -119,13 +118,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void deleteApi(String organizationId, String apiId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 	
 	/* This endpoint returns audit activity information about the API.
@@ -133,7 +132,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public ActivityList getApiActivity(String organizationId, String apiId, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -141,7 +140,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of an API.
@@ -149,13 +148,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public List<ApiVersion> listApiVersions(String organizationId, String apiId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}/versions");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}/versions");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		url = substitute(url, map);
 		
-		ApiVersion[] apiVersions = restTemplate.getForObject(encode(url), ApiVersion[].class);
+		ApiVersion[] apiVersions = restTemplate.getForObject(url, ApiVersion[].class);
 		return apiVersions != null ? Arrays.asList(apiVersions) : null;
 	}
 	
@@ -164,13 +163,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public CreateApiVersion createApiVersion(String organizationId, String apiId, CreateApiVersion createApiVersion) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}/versions");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}/versions");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		url = substitute(url, map);
 		
-		return restTemplate.postForObject(encode(url), createApiVersion, CreateApiVersion.class);
+		return restTemplate.postForObject(url, createApiVersion, CreateApiVersion.class);
 	}
 	
 	/* Use this endpoint to get detailed information about a single version of an API.
@@ -178,14 +177,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public CreateApiVersion getApiVersion(String organizationId, String apiId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), CreateApiVersion.class);
+		return restTemplate.getForObject(url, CreateApiVersion.class);
 	}
 	
 	/* Use this endpoint to update information about a single version of an API.
@@ -193,14 +192,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public CreateApiVersion updateApiVersion(String organizationId, String apiId, String version, CreateApiVersion createApiVersion) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}");
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		ResponseEntity<CreateApiVersion> response = restTemplate.exchange(encode(url), PUT, new HttpEntity<CreateApiVersion>(createApiVersion, getHeaders()), CreateApiVersion.class);
+		ResponseEntity<CreateApiVersion> response = restTemplate.exchange(url, PUT, new HttpEntity<CreateApiVersion>(createApiVersion, getHeaders()), CreateApiVersion.class);
 		return response != null ? response.getBody() : null;
 	}
 	
@@ -209,7 +208,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public ActivityList getApiVersionActivity(String organizationId, String apiId, String version, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -218,7 +217,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ActivityList.class);
+		return restTemplate.getForObject(url, ActivityList.class);
 	}
 	
 	/* Use this endpoint to get a list of all Contracts created with this API. This will return Contracts created by 
@@ -226,7 +225,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public List<ApiContract> listApiContracts(String organizationId, String apiId, String version, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", CONTRACTS_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", CONTRACTS_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
@@ -235,7 +234,7 @@ public class OrganizationApisClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count));
 		url = substitute(url, map);
 		
-		ApiContract[] apiContracts = restTemplate.getForObject(encode(url), ApiContract[].class);
+		ApiContract[] apiContracts = restTemplate.getForObject(url, ApiContract[].class);
 		return apiContracts != null ? Arrays.asList(apiContracts) : null;
 	}
 	
@@ -245,14 +244,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public String getApiDefinition(String organizationId, String apiId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", DEFINITION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", DEFINITION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), String.class);
+		return restTemplate.getForObject(url, String.class);
 	}
 	
 	/* Use this endpoint to update the API's definition document. An API definition will vary depending on the type of API, 
@@ -269,14 +268,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void updateApiDefinition(String organizationId, String apiId, String version, String apiDefinition) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", DEFINITION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", DEFINITION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<String>(apiDefinition, getHeaders()), CreateApiVersion.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<String>(apiDefinition, getHeaders()), CreateApiVersion.class);
 	}
 	
 	/* Use this endpoint to update the API's definition document by providing a URL (reference) to the definition. 
@@ -287,14 +286,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void updateApiDefinitionFromUrl(String organizationId, String apiId, String version, ApiDefinitionUrl apiDefinitionUrl) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", DEFINITION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", DEFINITION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		restTemplate.postForObject(encode(url), apiDefinitionUrl, Void.class);
+		restTemplate.postForObject(url, apiDefinitionUrl, Void.class);
 	}
 	
 	/* Use this endpoint to delete an API's definition document. When this is done, the "definitionType" field on the API will be set to None.
@@ -302,14 +301,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void removeApiDefinition(String organizationId, String apiId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", DEFINITION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", DEFINITION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 	
 	/* Use this endpoint to get information about the Managed API's gateway endpoint. In other words, this returns the actual 
@@ -317,14 +316,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public Endpoint getApiEndpoint(String organizationId, String apiId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", ENDPOINT_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", ENDPOINT_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), Endpoint.class);
+		return restTemplate.getForObject(url, Endpoint.class);
 	}
 	
 	/* Use this endpoint to change the order of Policies for an API. When a Policy is added to the API, it is added as the last 
@@ -334,14 +333,14 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public void reOrderApiPolicies(String organizationId, String apiId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", REORDER_POLICIES_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", REORDER_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		restTemplate.postForObject(encode(url), reOrderPolicies, Void.class);
+		restTemplate.postForObject(url, reOrderPolicies, Void.class);
 	}
 
 	/* Use this endpoint to get detailed status information for a single version of an API. This is useful to figure out why 
@@ -349,13 +348,13 @@ public class OrganizationApisClient extends AbstractApimanClient {
 	 */
 	public ApiStatusList getApiVersionStatus(String organizationId, String apiId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/{apiId}", VERSION_PATH, "/{version}", STATUS_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH, "/${apiId}", VERSION_PATH, "/${version}", STATUS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ApiStatusList.class);
+		return restTemplate.getForObject(url, ApiStatusList.class);
 	}		
 }

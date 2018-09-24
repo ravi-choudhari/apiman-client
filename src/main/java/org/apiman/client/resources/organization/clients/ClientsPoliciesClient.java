@@ -1,7 +1,6 @@
 package org.apiman.client.resources.organization.clients;
 
 import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.encode;
 import static org.apiman.client.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientsPoliciesClient extends AbstractApimanClient {
 
-	private static final String ORGANIZATION_CLIENTS_POLICIES_PATH = ORGANIZATION_CLIENTS_PATH + "/{clientId}/versions/{version}/policies";
+	private static final String ORGANIZATION_CLIENTS_POLICIES_PATH = ORGANIZATION_CLIENTS_PATH + "/${clientId}/versions/${version}/policies";
 	
 	/* Use this endpoint to list all of the Policies configured for the Client.
 	 * 
@@ -32,7 +31,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		ClientPolicy[] clientPolicies = restTemplate.getForObject(encode(url), ClientPolicy[].class);
+		ClientPolicy[] clientPolicies = restTemplate.getForObject(url, ClientPolicy[].class);
 		return clientPolicies != null ? Arrays.asList(clientPolicies) : null;
 	}
 	
@@ -48,7 +47,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map);
 		
-		return restTemplate.postForObject(encode(url), clientPolicy, ClientPolicy.class);
+		return restTemplate.postForObject(url, clientPolicy, ClientPolicy.class);
 	}
 	
 	/* Use this endpoint to get information about a single Policy in the Client version.
@@ -56,7 +55,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 	 */
 	public ClientPolicy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/{policyId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -64,7 +63,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map);
 		
-		return restTemplate.getForObject(encode(url), ClientPolicy.class);
+		return restTemplate.getForObject(url, ClientPolicy.class);
 	}
 	
 	/* Use this endpoint to update the meta-data or configuration of a single Client Policy.
@@ -72,7 +71,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 	 */
 	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId, ClientPolicy clientPolicy) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/{policyId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -80,7 +79,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map);
 		
-		restTemplate.exchange(encode(url), PUT, new HttpEntity<ClientPolicy>(clientPolicy, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<ClientPolicy>(clientPolicy, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to remove a Policy from the Client.
@@ -88,7 +87,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 	 */
 	public void removeClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/{policyId}");
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -96,6 +95,6 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map);
 		
-		restTemplate.delete(encode(url));
+		restTemplate.delete(url);
 	}
 }
