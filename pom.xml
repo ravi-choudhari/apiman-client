@@ -21,6 +21,19 @@
 		<version.resources.plugin>3.0.1</version.resources.plugin>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>spring-repository</id>
+			<url>http://repo.spring.io/plugins-release/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -128,7 +141,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test-mvc</artifactId>
-			<version>1.0.0.m2</version>
+			<version>1.0.0.M2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
