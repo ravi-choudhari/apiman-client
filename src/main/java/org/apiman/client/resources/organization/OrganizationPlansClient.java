@@ -122,8 +122,8 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		map.put("pageNumber", String.valueOf(page));
-		map.put("countPerPage", String.valueOf(count));
+		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
+		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
@@ -183,8 +183,8 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		map.put("version", version);
-		map.put("pageNumber", String.valueOf(page));
-		map.put("countPerPage", String.valueOf(count));
+		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
+		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map);
 		
 		return restTemplate.getForObject(url, ActivityList.class);

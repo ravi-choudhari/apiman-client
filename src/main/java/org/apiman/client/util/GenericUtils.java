@@ -2,6 +2,8 @@ package org.apiman.client.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.codec.net.URLCodec;
@@ -13,7 +15,19 @@ import lombok.NoArgsConstructor;
 public class GenericUtils {
 
 	private static final boolean FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP = true;
+	public static final String DEFAULT_DATE_FORMAT = "";
 	
+	public static enum INTERVAL {
+		MONTH,
+		WEEK,
+		DAY,
+		HOUR;
+		
+		public static String getDefault() {
+			return DAY.toString();
+		}
+	};
+
 	public static final synchronized String substitute(String templateString, Map<String, String> valuesMap) {
 		
 		valuesMap = encode(valuesMap);
@@ -53,5 +67,10 @@ public class GenericUtils {
 
 		for(String key : valuesMap.keySet()) valuesMap.put(key, encode(valuesMap.get(key)));
 		return valuesMap;
+	}
+	
+	public static final String formatDate(Date date, String... format) {
+		
+		return new SimpleDateFormat(format.length > 0 ? format[0] : DEFAULT_DATE_FORMAT).format(date);
 	}
 }

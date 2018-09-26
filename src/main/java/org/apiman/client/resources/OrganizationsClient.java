@@ -105,8 +105,8 @@ public class OrganizationsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		map.put("pageNumber", String.valueOf(page));
-		map.put("countPerPage", String.valueOf(count));
+		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
+		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map);
 		
 		return restTemplate.getForObject(url, ActivityList.class);

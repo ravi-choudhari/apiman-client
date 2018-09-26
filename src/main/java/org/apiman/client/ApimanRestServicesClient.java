@@ -1,5 +1,6 @@
 package org.apiman.client;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apiman.client.domain.Action;
@@ -293,37 +294,37 @@ public class ApimanRestServicesClient {
 		return organizationsClient.getApisClient().getApiVersionStatus(organizationId, apiId, version);
 	}
 	
-	public ApiMetrics getApiResponseStatisticsPerClient(String organizationId, String apiId, String version, String fromDate, String toDate) {
+	public ApiMetrics getApiResponseStatisticsPerClient(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 	
-	public ApiMetrics getApiUsageMetricsPerClient(String organizationId, String apiId, String version, String fromDate, String toDate) {
+	public ApiMetrics getApiUsageMetricsPerClient(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 	
-	public ApiMetrics getApiResponseStatisticsPerPlan(String organizationId, String apiId, String version, String fromDate, String toDate) {
+	public ApiMetrics getApiResponseStatisticsPerPlan(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 	
-	public ApiMetrics getApiUsageMetricsPerPlan(String organizationId, String apiId, String version, String fromDate, String toDate) {
+	public ApiMetrics getApiUsageMetricsPerPlan(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 	
-	public ApiMetrics getApiResponseStatistics(String organizationId, String apiId, String version, String fromDate, String toDate) {
+	public ApiMetrics getApiResponseStatistics(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatistics(organizationId, apiId, version, fromDate, toDate);
 	}
 	
-	public ApiMetricsList getApiResponseStatisticsSummary(String organizationId, String apiId, String version, String fromDate, String toDate, String interval) {
+	public ApiMetricsList getApiResponseStatisticsSummary(String organizationId, String apiId, String version, Date fromDate, Date toDate, String interval) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsSummary(organizationId, apiId, version, fromDate, toDate, interval);
 	}
 	
-	public ApiMetricsList getApiUsageMetrics(String organizationId, String apiId, String version, String fromDate, String toDate, String interval) {
+	public ApiMetricsList getApiUsageMetrics(String organizationId, String apiId, String version, Date fromDate, Date toDate, String interval) {
 		
 		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetrics(organizationId, apiId, version, fromDate, toDate, interval);
 	}
@@ -423,7 +424,7 @@ public class ApimanRestServicesClient {
 		return organizationsClient.getClientsClient().updateApiKey(organizationId, clientId, version, apiKey);
 	}
 	
-	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, String fromDate, String toDate) {
+	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
 		
 		return organizationsClient.getClientsClient().getClientUsageMetricsPerApi(organizationId, clientId, version, fromDate, toDate);
 	}

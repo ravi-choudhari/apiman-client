@@ -5,6 +5,7 @@ import static org.apiman.client.util.GenericUtils.substitute;
 import static org.springframework.http.HttpMethod.PUT;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.apiman.client.domain.ReOrderPolicies;
 import org.apiman.client.resources.organization.clients.ClientsApiRegistryClient;
 import org.apiman.client.resources.organization.clients.ClientsContractsClient;
 import org.apiman.client.resources.organization.clients.ClientsPoliciesClient;
+import org.apiman.client.util.GenericUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -133,8 +135,8 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		map.put("pageNumber", String.valueOf(page));
-		map.put("countPerPage", String.valueOf(count));
+		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
+		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
@@ -234,7 +236,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Retrieves metrics/analytics information for a specific client. This will return request count data broken down by API. 
 	 * It basically answers the question "which APIs is my client really using?".
 	 */
-	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, String fromDate, String toDate) {
+	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${metricsType}", FROM_AND_TO_DATES);
 		Map<String, String> map = new HashMap<>();
@@ -242,8 +244,8 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("apiId", clientId);
 		map.put("version", version);
 		map.put("metricsType", METRICS_TYPE.API_USAGE.getName());
-		map.put("fromDate", fromDate);
-		map.put("toDate", toDate);
+		map.put("fromDate", GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
+		map.put("toDate", GenericUtils.formatDate(toDate != null ? toDate : new Date()));
 		url = substitute(url, map);
 		
 		return restTemplate.getForObject(url, ApiMetrics.class);
