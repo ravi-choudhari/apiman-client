@@ -1,6 +1,6 @@
 package org.apiman.client.resources;
 
-import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.util.GenericUtils.buildURL;
 import static org.springframework.http.HttpMethod.PUT;
 
 import java.util.Arrays;

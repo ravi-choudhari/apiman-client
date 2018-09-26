@@ -1,7 +1,7 @@
 package org.apiman.client.resources;
 
-import static org.apiman.client.GenericUtils.buildURL;
-import static org.apiman.client.GenericUtils.substitute;
+import static org.apiman.client.util.GenericUtils.buildURL;
+import static org.apiman.client.util.GenericUtils.substitute;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package org.apiman.client.resources;
 
-import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.util.GenericUtils.buildURL;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.Action;

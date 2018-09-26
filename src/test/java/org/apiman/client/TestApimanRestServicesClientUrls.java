@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.codec.net.URLCodec;
 import org.apiman.client.domain.Action;
+import org.apiman.client.domain.Gateway;
 import org.apiman.client.domain.UserInformation;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.support.RestGatewaySupport;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration("classpath:apiman-client-applicationContext.xml")
 public class TestApimanRestServicesClientUrls {
 	
 	@Autowired
@@ -199,19 +200,32 @@ public class TestApimanRestServicesClientUrls {
 		mockServer.verify();
 	}
 	
-	/*
 	@Test
-	public void testGateway(Gateway gateway) {
+	public void testGateway() {
 		
-		gatewaysClient.testGateway(gateway);
+		String url = apimanUrl + GATEWAYS;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.testGateway(new Gateway());
+		
+		mockServer.verify();
 	}
 	
 	@Test
-	public Gateway createGateway(Gateway gateway) {
+	public void createGateway() {
 		
-		return gatewaysClient.createGateway(gateway);
+		String url = apimanUrl + GATEWAYS;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.createGateway(new Gateway());
+		
+		mockServer.verify();
 	}
-	*/
+	
 	@Test
 	public void getGatewayById() {
 		
@@ -224,19 +238,33 @@ public class TestApimanRestServicesClientUrls {
 		
 		mockServer.verify();
 	}
+	
+	@Test
+	public void updateGateway() {
+		
+		String url = apimanUrl + GATEWAYS_GATEWAYID;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.updateGateway(gatewayId, new Gateway());
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	public void deleteGateway() {
+		
+		String url = apimanUrl + GATEWAYS_GATEWAYID;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.deleteGateway(gatewayId);
+		
+		mockServer.verify();
+	}
 	/*
-	@Test
-	public void updateGateway(String gatewayId, Gateway gateway) {
-		
-		gatewaysClient.updateGateway(gatewayId, gateway);
-	}
-	
-	@Test
-	public void deleteGateway(String gatewayId) {
-		
-		gatewaysClient.deleteGateway(gatewayId);
-	}
-	
 	@Test
 	public Organization createOrganization(Organization organization) {
 		

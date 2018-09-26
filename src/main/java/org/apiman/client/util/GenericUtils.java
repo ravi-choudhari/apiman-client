@@ -1,12 +1,10 @@
-package org.apiman.client;
+package org.apiman.client.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.net.URLCodec;
-import org.apache.commons.text.StringSubstitutor;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,11 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GenericUtils {
 
+	private static final boolean FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP = true;
+	
 	public static final synchronized String substitute(String templateString, Map<String, String> valuesMap) {
-
-		valuesMap = encode(valuesMap);
-		StringSubstitutor substitutor = new StringSubstitutor(valuesMap);
 		
+		valuesMap = encode(valuesMap);
+		StringSubstitutor substitutor = new StringSubstitutor(valuesMap, FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP);
 		String result = substitutor.replace(templateString);
 		System.out.println("Substitution : " + result);
 		return result;
@@ -54,12 +53,5 @@ public class GenericUtils {
 
 		for(String key : valuesMap.keySet()) valuesMap.put(key, encode(valuesMap.get(key)));
 		return valuesMap;
-	}
-	
-	public static void main(String[] args) {
-		String url = buildURL("/${gatewayId}");
-		Map<String, String> map = new HashMap<>();
-		map.put("gatewayId", "gateway 2");
-		System.out.println(substitute(url, map));
 	}
 }

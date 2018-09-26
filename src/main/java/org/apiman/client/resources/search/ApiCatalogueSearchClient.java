@@ -1,6 +1,6 @@
 package org.apiman.client.resources.search;
 
-import static org.apiman.client.GenericUtils.buildURL;
+import static org.apiman.client.util.GenericUtils.buildURL;
 
 import java.util.Arrays;
 import java.util.List;
