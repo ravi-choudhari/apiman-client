@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.net.URLCodec;
 import org.apiman.client.domain.Action;
 import org.apiman.client.domain.Gateway;
+import org.apiman.client.domain.Organization;
 import org.apiman.client.domain.UserInformation;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,7 +47,8 @@ public class TestApimanRestServicesClientUrls {
 	private static final String apiId = "my best api";
 	private static final String clientId = "best client";
 	private static final String version = "version 1.1";
-	private static final String gatewayId = "gateway 2";
+	private static final String gatewayId = "gateway 1";
+	private static final String organizationId = "organization 1";
 	
 	private static final String ACTIONS = "/actions";
 	
@@ -60,14 +62,19 @@ public class TestApimanRestServicesClientUrls {
 	
 	private static final String DOWNLOADS = "/downloads";
 	private static final String GATEWAYS = "/gateways";
+	private static final String ORGANIZATIONS = "/organizations";
 	
 	private static String DOWNLOADS_DOWNLOADID;
 	private static String GATEWAYS_GATEWAYID;
+	private static String ORGANIZATIONS_ORGANIZATIONID;
+	private static String ORGANIZATION_APIS;
 	
 	@BeforeClass
 	public static void beforeClass() throws UnsupportedEncodingException {
 		DOWNLOADS_DOWNLOADID =  String.format(DOWNLOADS + "/%s", new URLCodec().encode(downloadId, StandardCharsets.UTF_8.name()));
 		GATEWAYS_GATEWAYID = String.format(GATEWAYS + "/%s", new URLCodec().encode(gatewayId, StandardCharsets.UTF_8.name()));
+		ORGANIZATIONS_ORGANIZATIONID = String.format(ORGANIZATIONS + "/%s", new URLCodec().encode(organizationId, StandardCharsets.UTF_8.name()));
+		ORGANIZATION_APIS = String.format(ORGANIZATIONS + "/%s/apis", new URLCodec().encode(organizationId, StandardCharsets.UTF_8.name()));
 	}
 	
 	@Before
@@ -264,43 +271,78 @@ public class TestApimanRestServicesClientUrls {
 		
 		mockServer.verify();
 	}
+	
+	@Test
+	public void createOrganization() {
+		
+		String url = apimanUrl + ORGANIZATIONS;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.createOrganization(new Organization());
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	public void getOrganizationById() {
+		
+		String url = apimanUrl + ORGANIZATIONS_ORGANIZATIONID;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.getOrganizationById(organizationId);
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	public void updateOrganization() {
+		
+		String url = apimanUrl + ORGANIZATIONS_ORGANIZATIONID;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.updateOrganization(organizationId, new Organization());
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	public void deleteOrganization() {
+		
+		String url = apimanUrl + ORGANIZATIONS_ORGANIZATIONID;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.deleteOrganization(organizationId);
+		
+		mockServer.verify();
+	}
 	/*
-	@Test
-	public Organization createOrganization(Organization organization) {
-		
-		return organizationsClient.createOrganization(organization);
-	}
-	
-	@Test
-	public Organization getOrganizationById(String organizationId) {
-		
-		return organizationsClient.getOrganizationById(organizationId);
-	}
-	
-	@Test
-	public void updateOrganization(String organizationId, Organization organization) {
-		
-		organizationsClient.updateOrganization(organizationId, organization);
-	}
-	
-	@Test
-	public void deleteOrganization(String organizationId) {
-		
-		organizationsClient.deleteOrganization(organizationId);
-	}
-	
 	@Test
 	public ActivityList getOrganizationActivity(String organizationId, int page, int count) {
 		
 		return organizationsClient.getOrganizationActivity(organizationId, page, count);
-	}	
-	
-	@Test
-	public List<Api> listApis(String organizationId) {
-		
-		return organizationsClient.getApisClient().listApis(organizationId);
 	}
-	
+	*/
+	@Test
+	public void listApis() {
+		
+		String url = apimanUrl + ORGANIZATION_APIS;
+		System.out.println("\nService      : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		System.out.println("Test Case    : " + url);
+		
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET)).andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.listApis(organizationId);
+		
+		mockServer.verify();
+	}
+	/*
 	@Test
 	public Api createApi(String organizationId, CreateApi createApi) {
 		

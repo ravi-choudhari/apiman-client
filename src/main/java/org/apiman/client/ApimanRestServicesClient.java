@@ -101,671 +101,671 @@ public class ApimanRestServicesClient {
 	
 	public void executeEntityAction(Action action) {
 		
-		actionsClient.executeEntityAction(action);
+		getActionsClient().executeEntityAction(action);
 	}
 	
 	public List<Organization> getApiOrganizations() {
 		
-		return currentUserClient.getApiOrganizations();
+		return getCurrentUserClient().getApiOrganizations();
 	}
 	
 	public List<Api> getCurrentUserApis() {
 		
-		return currentUserClient.getCurrentUserApis();
+		return getCurrentUserClient().getCurrentUserApis();
 	}
 	
 	public List<Organization> getClientOrganizations() {
 		
-		return currentUserClient.getClientOrganizations();
+		return getCurrentUserClient().getClientOrganizations();
 	}
 	
 	public List<Client> getCurrentUserClients() {
 		
-		return currentUserClient.getCurrentUserClients();
+		return getCurrentUserClient().getCurrentUserClients();
 	}
 	
 	public User getCurrentUserInformation() {
 		
-		return currentUserClient.getCurrentUserInformation();
+		return getCurrentUserClient().getCurrentUserInformation();
 	}
 	
 	public void updateCurrentUserInformation(UserInformation userInformation) {
 		
-		currentUserClient.updateCurrentUserInformation(userInformation);
+		getCurrentUserClient().updateCurrentUserInformation(userInformation);
 	}
 	
 	public List<Organization> getPlanOrganizations() {
 		
-		return currentUserClient.getPlanOrganizations();
+		return getCurrentUserClient().getPlanOrganizations();
 	}
 	
 	public String downloadFile(String downloadId) {
 		
-		return downloadsClient.downloadFile(downloadId);
+		return getDownloadsClient().downloadFile(downloadId);
 	}
 	
 	public List<Gateway> listAllGateways() {
 		
-		return gatewaysClient.listAllGateways();
+		return getGatewaysClient().listAllGateways();
 	}
 	
 	public void testGateway(Gateway gateway) {
 		
-		gatewaysClient.testGateway(gateway);
+		getGatewaysClient().testGateway(gateway);
 	}
 	
 	public Gateway createGateway(Gateway gateway) {
 		
-		return gatewaysClient.createGateway(gateway);
+		return getGatewaysClient().createGateway(gateway);
 	}
 
 	public Gateway getGatewayById(String gatewayId) {
 		
-		return gatewaysClient.getGatewayById(gatewayId);
+		return getGatewaysClient().getGatewayById(gatewayId);
 	}
 	
 	public void updateGateway(String gatewayId, Gateway gateway) {
 		
-		gatewaysClient.updateGateway(gatewayId, gateway);
+		getGatewaysClient().updateGateway(gatewayId, gateway);
 	}
 	
 	public void deleteGateway(String gatewayId) {
 		
-		gatewaysClient.deleteGateway(gatewayId);
+		getGatewaysClient().deleteGateway(gatewayId);
 	}
 	
 	public Organization createOrganization(Organization organization) {
 		
-		return organizationsClient.createOrganization(organization);
+		return getOrganizationsClient().createOrganization(organization);
 	}
 	
 	public Organization getOrganizationById(String organizationId) {
 		
-		return organizationsClient.getOrganizationById(organizationId);
+		return getOrganizationsClient().getOrganizationById(organizationId);
 	}
 	
 	public void updateOrganization(String organizationId, Organization organization) {
 		
-		organizationsClient.updateOrganization(organizationId, organization);
+		getOrganizationsClient().updateOrganization(organizationId, organization);
 	}
 	
 	public void deleteOrganization(String organizationId) {
 		
-		organizationsClient.deleteOrganization(organizationId);
+		getOrganizationsClient().deleteOrganization(organizationId);
 	}
 	
 	public ActivityList getOrganizationActivity(String organizationId, int page, int count) {
 		
-		return organizationsClient.getOrganizationActivity(organizationId, page, count);
+		return getOrganizationsClient().getOrganizationActivity(organizationId, page, count);
 	}	
 	
 	public List<Api> listApis(String organizationId) {
 		
-		return organizationsClient.getApisClient().listApis(organizationId);
+		return getOrganizationsClient().getApisClient().listApis(organizationId);
 	}
 	
 	public Api createApi(String organizationId, CreateApi createApi) {
 		
-		return organizationsClient.getApisClient().createApi(organizationId, createApi);
+		return getOrganizationsClient().getApisClient().createApi(organizationId, createApi);
 	}
 	
 	public Api getApiById(String organizationId, String apiId) {
 		
-		return organizationsClient.getApisClient().getApiById(organizationId, apiId);
+		return getOrganizationsClient().getApisClient().getApiById(organizationId, apiId);
 	}
 	
 	public void updateApi(String organizationId, String apiId, Api api) {
 		
-		organizationsClient.getApisClient().updateApi(organizationId, apiId, api);
+		getOrganizationsClient().getApisClient().updateApi(organizationId, apiId, api);
 	}
 	
 	public void deleteApi(String organizationId, String apiId) {
 		
-		organizationsClient.getApisClient().deleteApi(organizationId, apiId);
+		getOrganizationsClient().getApisClient().deleteApi(organizationId, apiId);
 	}
 	
 	public ActivityList getApiActivity(String organizationId, String apiId, int page, int count) {
 		
-		return organizationsClient.getApisClient().getApiActivity(organizationId, apiId, page, count);
+		return getOrganizationsClient().getApisClient().getApiActivity(organizationId, apiId, page, count);
 	}
 	
 	public List<ApiVersion> listApiVersions(String organizationId, String apiId) {
 		
-		return organizationsClient.getApisClient().listApiVersions(organizationId, apiId);
+		return getOrganizationsClient().getApisClient().listApiVersions(organizationId, apiId);
 	}
 	
 	public CreateApiVersion createApiVersion(String organizationId, String apiId, CreateApiVersion createApiVersion) {
 		
-		return organizationsClient.getApisClient().createApiVersion(organizationId, apiId, createApiVersion);
+		return getOrganizationsClient().getApisClient().createApiVersion(organizationId, apiId, createApiVersion);
 	}
 	
 	public CreateApiVersion getApiVersion(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getApiVersion(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getApiVersion(organizationId, apiId, version);
 	}
 	
 	public CreateApiVersion updateApiVersion(String organizationId, String apiId, String version, CreateApiVersion createApiVersion) {
 		
-		return organizationsClient.getApisClient().updateApiVersion(organizationId, apiId, version, createApiVersion);
+		return getOrganizationsClient().getApisClient().updateApiVersion(organizationId, apiId, version, createApiVersion);
 	}
 	
 	public ActivityList getApiVersionActivity(String organizationId, String apiId, String version, int page, int count) {
 		
-		return organizationsClient.getApisClient().getApiVersionActivity(organizationId, apiId, version, page, count);
+		return getOrganizationsClient().getApisClient().getApiVersionActivity(organizationId, apiId, version, page, count);
 	}
 	
 	public List<ApiContract> listApiContracts(String organizationId, String apiId, String version, int page, int count) {
 		
-		return organizationsClient.getApisClient().listApiContracts(organizationId, apiId, version, page, count);
+		return getOrganizationsClient().getApisClient().listApiContracts(organizationId, apiId, version, page, count);
 	}
 	
 	public String getApiDefinition(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getApiDefinition(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getApiDefinition(organizationId, apiId, version);
 	}
 	
 	public void updateApiDefinition(String organizationId, String apiId, String version, String apiDefinition) {
 		
-		organizationsClient.getApisClient().updateApiDefinition(organizationId, apiId, version, apiDefinition);
+		getOrganizationsClient().getApisClient().updateApiDefinition(organizationId, apiId, version, apiDefinition);
 	}
 	
 	public void updateApiDefinitionFromUrl(String organizationId, String apiId, String version, ApiDefinitionUrl apiDefinitionUrl) {
 		
-		organizationsClient.getApisClient().updateApiDefinitionFromUrl(organizationId, apiId, version, apiDefinitionUrl);
+		getOrganizationsClient().getApisClient().updateApiDefinitionFromUrl(organizationId, apiId, version, apiDefinitionUrl);
 	}
 	
 	public void removeApiDefinition(String organizationId, String apiId, String version) {
 		
-		organizationsClient.getApisClient().removeApiDefinition(organizationId, apiId, version);
+		getOrganizationsClient().getApisClient().removeApiDefinition(organizationId, apiId, version);
 	}
 	
 	public Endpoint getApiEndpoint(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getApiEndpoint(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getApiEndpoint(organizationId, apiId, version);
 	}
 	
 	public void reOrderApiPolicies(String organizationId, String apiId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		organizationsClient.getApisClient().reOrderApiPolicies(organizationId, apiId, version, reOrderPolicies);
+		getOrganizationsClient().getApisClient().reOrderApiPolicies(organizationId, apiId, version, reOrderPolicies);
 	}
 
 	public ApiStatusList getApiVersionStatus(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getApiVersionStatus(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getApiVersionStatus(organizationId, apiId, version);
 	}
 	
 	public ApiMetrics getApiResponseStatisticsPerClient(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerClient(organizationId, apiId, version, fromDate, toDate);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 	
 	public ApiMetrics getApiUsageMetricsPerClient(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerClient(organizationId, apiId, version, fromDate, toDate);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 	
 	public ApiMetrics getApiResponseStatisticsPerPlan(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerPlan(organizationId, apiId, version, fromDate, toDate);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 	
 	public ApiMetrics getApiUsageMetricsPerPlan(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerPlan(organizationId, apiId, version, fromDate, toDate);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiUsageMetricsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 	
 	public ApiMetrics getApiResponseStatistics(String organizationId, String apiId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatistics(organizationId, apiId, version, fromDate, toDate);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiResponseStatistics(organizationId, apiId, version, fromDate, toDate);
 	}
 	
 	public ApiMetricsList getApiResponseStatisticsSummary(String organizationId, String apiId, String version, Date fromDate, Date toDate, String interval) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsSummary(organizationId, apiId, version, fromDate, toDate, interval);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiResponseStatisticsSummary(organizationId, apiId, version, fromDate, toDate, interval);
 	}
 	
 	public ApiMetricsList getApiUsageMetrics(String organizationId, String apiId, String version, Date fromDate, Date toDate, String interval) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiMetricsClient().getApiUsageMetrics(organizationId, apiId, version, fromDate, toDate, interval);
+		return getOrganizationsClient().getApisClient().getOrganizationApiMetricsClient().getApiUsageMetrics(organizationId, apiId, version, fromDate, toDate, interval);
 	}
 	
 	public List<Plan> listApiPlans(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiPlansClient().listApiPlans(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getOrganizationApiPlansClient().listApiPlans(organizationId, apiId, version);
 	}
 	
 	public ApiPolicyList getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiPlansClient().getApiPolicyChain(organizationId, apiId, version, planId);
+		return getOrganizationsClient().getApisClient().getOrganizationApiPlansClient().getApiPolicyChain(organizationId, apiId, version, planId);
 	}
 	
 	public List<Policy> listAllApiPolicies(String organizationId, String apiId, String version) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiPoliciesClient().listAllApiPolicies(organizationId, apiId, version);
+		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().listAllApiPolicies(organizationId, apiId, version);
 	}
 	
 	public Policy addApiPolicy(String organizationId, String apiId, String version, Policy apiPolicy) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiPoliciesClient().addApiPolicy(organizationId, apiId, version, apiPolicy);
+		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().addApiPolicy(organizationId, apiId, version, apiPolicy);
 	}
 	
 	public Policy getApiPolicy(String organizationId, String apiId, String version, String policyId) {
 		
-		return organizationsClient.getApisClient().getOrganizationApiPoliciesClient().getApiPolicy(organizationId, apiId, version, policyId);
+		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().getApiPolicy(organizationId, apiId, version, policyId);
 	}
 	
 	public void updateApiPolicy(String organizationId, String apiId, String version, String policyId, Policy apiPolicy) {
 		
-		organizationsClient.getApisClient().getOrganizationApiPoliciesClient().updateApiPolicy(organizationId, apiId, version, policyId, apiPolicy);
+		getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().updateApiPolicy(organizationId, apiId, version, policyId, apiPolicy);
 	}
 	
 	public void removeApiPolicy(String organizationId, String apiId, String version, String policyId) {
 		
-		organizationsClient.getApisClient().getOrganizationApiPoliciesClient().removeApiPolicy(organizationId, apiId, version, policyId);
+		getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().removeApiPolicy(organizationId, apiId, version, policyId);
 	}
 	
 	public List<Client> listClients(String organizationId) {
 		
-		return organizationsClient.getClientsClient().listClients(organizationId);
+		return getOrganizationsClient().getClientsClient().listClients(organizationId);
 	}
 	
 	public Client createClient(String organizationId, Client client) {
 		
-		return organizationsClient.getClientsClient().createClient(organizationId, client);
+		return getOrganizationsClient().getClientsClient().createClient(organizationId, client);
 	}
 	
 	public Client getClientById(String organizationId, String clientId) {
 		
-		return organizationsClient.getClientsClient().getClientById(organizationId, clientId);
+		return getOrganizationsClient().getClientsClient().getClientById(organizationId, clientId);
 	}
 	
 	public void updateClient(String organizationId, String clientId, Client client) {
 		
-		organizationsClient.getClientsClient().updateClient(organizationId, clientId, client);
+		getOrganizationsClient().getClientsClient().updateClient(organizationId, clientId, client);
 	}
 	
 	public void deleteClient(String organizationId, String clientId) {
 		
-		organizationsClient.getClientsClient().deleteClient(organizationId, clientId);
+		getOrganizationsClient().getClientsClient().deleteClient(organizationId, clientId);
 	}
 	
 	public ActivityList getClientActivity(String organizationId, String clientId, int page, int count) {
 		
-		return organizationsClient.getClientsClient().getClientActivity(organizationId, clientId, page, count);
+		return getOrganizationsClient().getClientsClient().getClientActivity(organizationId, clientId, page, count);
 	}
 	
 	public List<ClientVersion> listClientVersions(String organizationId, String clientId) {
 		
-		return organizationsClient.getClientsClient().listClientVersions(organizationId, clientId);
+		return getOrganizationsClient().getClientsClient().listClientVersions(organizationId, clientId);
 	}
 	
 	public ClientVersion createClientVersion(String organizationId, String clientId, ClientVersion clientVersion) {
 		
-		return organizationsClient.getClientsClient().createClientVersion(organizationId, clientId, clientVersion);
+		return getOrganizationsClient().getClientsClient().createClientVersion(organizationId, clientId, clientVersion);
 	}
 	
 	public ClientVersion getClientVersion(String organizationId, String clientId, String version) {
 		
-		return organizationsClient.getClientsClient().getClientVersion(organizationId, clientId, version);
+		return getOrganizationsClient().getClientsClient().getClientVersion(organizationId, clientId, version);
 	}
 	
 	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version) {
 		
-		return organizationsClient.getClientsClient().getClientVersionActivity(organizationId, clientId, version);
+		return getOrganizationsClient().getClientsClient().getClientVersionActivity(organizationId, clientId, version);
 	}
 	
 	public ApiKey getApiKey(String organizationId, String clientId, String version) {
 		
-		return organizationsClient.getClientsClient().getApiKey(organizationId, clientId, version);
+		return getOrganizationsClient().getClientsClient().getApiKey(organizationId, clientId, version);
 	}
 	
 	public ApiKey updateApiKey(String organizationId, String clientId, String version, ApiKey apiKey) {
 		
-		return organizationsClient.getClientsClient().updateApiKey(organizationId, clientId, version, apiKey);
+		return getOrganizationsClient().getClientsClient().updateApiKey(organizationId, clientId, version, apiKey);
 	}
 	
 	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
 		
-		return organizationsClient.getClientsClient().getClientUsageMetricsPerApi(organizationId, clientId, version, fromDate, toDate);
+		return getOrganizationsClient().getClientsClient().getClientUsageMetricsPerApi(organizationId, clientId, version, fromDate, toDate);
 	}
 	
 	public void reorderClientPolicies(String organizationId, String clientId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		organizationsClient.getClientsClient().reorderClientPolicies(organizationId, clientId, version, reOrderPolicies);
+		getOrganizationsClient().getClientsClient().reorderClientPolicies(organizationId, clientId, version, reOrderPolicies);
 	}
 	
 	public String getJsonApiRegistry(String organizationId, String clientId, String version, String download) {
 		
-		return organizationsClient.getClientsClient().getClientsApiRegistryClient().getJsonApiRegistry(organizationId, clientId, version, download);
+		return getOrganizationsClient().getClientsClient().getClientsApiRegistryClient().getJsonApiRegistry(organizationId, clientId, version, download);
 	}
 	
 	public String getXmlApiRegistry(String organizationId, String clientId, String version, String download) {
 		
-		return organizationsClient.getClientsClient().getClientsApiRegistryClient().getXmlApiRegistry(organizationId, clientId, version, download);
+		return getOrganizationsClient().getClientsClient().getClientsApiRegistryClient().getXmlApiRegistry(organizationId, clientId, version, download);
 	}
 	
 	public List<ClientContract> listAllContractsForClient(String organizationId, String clientId, String version) {
 		
-		return organizationsClient.getClientsClient().getClientsContractsClient().listAllContractsForClient(organizationId, clientId, version);
+		return getOrganizationsClient().getClientsClient().getClientsContractsClient().listAllContractsForClient(organizationId, clientId, version);
 	}
 	
 	public ClientContract creareApiContract(String organizationId, String clientId, String version, ClientContract apiContract) {
 		
-		return organizationsClient.getClientsClient().getClientsContractsClient().creareApiContract(organizationId, clientId, version, apiContract);
+		return getOrganizationsClient().getClientsClient().getClientsContractsClient().creareApiContract(organizationId, clientId, version, apiContract);
 	}
 	
 	public void breakAllContracts(String organizationId, String clientId, String version) {
 		
-		organizationsClient.getClientsClient().getClientsContractsClient().breakAllContracts(organizationId, clientId, version);
+		getOrganizationsClient().getClientsClient().getClientsContractsClient().breakAllContracts(organizationId, clientId, version);
 	}
 	
 	public ClientContract getApiContract(String organizationId, String clientId, String version, String contractId) {
 		
-		return organizationsClient.getClientsClient().getClientsContractsClient().getApiContract(organizationId, clientId, version, contractId);
+		return getOrganizationsClient().getClientsClient().getClientsContractsClient().getApiContract(organizationId, clientId, version, contractId);
 	}
 	
 	public void breakContract(String organizationId, String clientId, String version, String contractId) {
 		
-		organizationsClient.getClientsClient().getClientsContractsClient().breakContract(organizationId, clientId, version, contractId);
+		getOrganizationsClient().getClientsClient().getClientsContractsClient().breakContract(organizationId, clientId, version, contractId);
 	}
 	
 	public List<ClientPolicy> listAllClientPolicies(String organizationId, String clientId, String version) {
 		
-		return organizationsClient.getClientsClient().getClientsPoliciesClient().listAllClientPolicies(organizationId, clientId, version);
+		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().listAllClientPolicies(organizationId, clientId, version);
 	}
 	
 	public ClientPolicy addClientPolicy(String organizationId, String clientId, String version, ClientPolicy clientPolicy) {
 		
-		return organizationsClient.getClientsClient().getClientsPoliciesClient().addClientPolicy(organizationId, clientId, version, clientPolicy);
+		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().addClientPolicy(organizationId, clientId, version, clientPolicy);
 	}
 	
 	public ClientPolicy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		
-		return organizationsClient.getClientsClient().getClientsPoliciesClient().getClientPolicy(organizationId, clientId, version, policyId);
+		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().getClientPolicy(organizationId, clientId, version, policyId);
 	}
 	
 	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId, ClientPolicy clientPolicy) {
 		
-		organizationsClient.getClientsClient().getClientsPoliciesClient().updateClientPolicy(organizationId, clientId, version, policyId, clientPolicy);
+		getOrganizationsClient().getClientsClient().getClientsPoliciesClient().updateClientPolicy(organizationId, clientId, version, policyId, clientPolicy);
 	}
 	
 	public void removeClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		
-		organizationsClient.getClientsClient().getClientsPoliciesClient().removeClientPolicy(organizationId, clientId, version, policyId);
+		getOrganizationsClient().getClientsClient().getClientsPoliciesClient().removeClientPolicy(organizationId, clientId, version, policyId);
 	}
 	
 	public List<OrganizationMember> listOrganizationMembers(String organizationId) {
 		
-		return organizationsClient.getMembersClient().listOrganizationMembers(organizationId);
+		return getOrganizationsClient().getMembersClient().listOrganizationMembers(organizationId);
 	}
 	
 	public void revokeAllMemberships(String organizationId, String userId) {
 		
-		organizationsClient.getMembersClient().revokeAllMemberships(organizationId, userId);
+		getOrganizationsClient().getMembersClient().revokeAllMemberships(organizationId, userId);
 	}
 	
 	public List<OrganizationPlan> listPlans(String organizationId) {
 		
-		return organizationsClient.getPlansClient().listPlans(organizationId);
+		return getOrganizationsClient().getPlansClient().listPlans(organizationId);
 	}
 	
 	public OrganizationPlan createPlan(String organizationId, OrganizationPlan organizationPlan) {
 		
-		return organizationsClient.getPlansClient().createPlan(organizationId, organizationPlan);
+		return getOrganizationsClient().getPlansClient().createPlan(organizationId, organizationPlan);
 	}
 	
 	public OrganizationPlan getPlanById(String organizationId, String planId) {
 		
-		return organizationsClient.getPlansClient().getPlanById(organizationId, planId);
+		return getOrganizationsClient().getPlansClient().getPlanById(organizationId, planId);
 	}
 	
 	public void updatePlan(String organizationId, String planId, OrganizationPlan organizationPlan) {
 		
-		organizationsClient.getPlansClient().updatePlan(organizationId, planId, organizationPlan);
+		getOrganizationsClient().getPlansClient().updatePlan(organizationId, planId, organizationPlan);
 	}
 	
 	public void deletePlan(String organizationId, String planId) {
 		
-		organizationsClient.getPlansClient().deletePlan(organizationId, planId);
+		getOrganizationsClient().getPlansClient().deletePlan(organizationId, planId);
 	}
 	
 	public ActivityList getPlanActivity(String organizationId, String planId, int page, int count) {
 		
-		return organizationsClient.getPlansClient().getPlanActivity(organizationId, planId, page, count);
+		return getOrganizationsClient().getPlansClient().getPlanActivity(organizationId, planId, page, count);
 	}
 	
 	public List<PlanVersion> listPlanVersions(String organizationId, String planId) {
 		
-		return organizationsClient.getPlansClient().listPlanVersions(organizationId, planId);
+		return getOrganizationsClient().getPlansClient().listPlanVersions(organizationId, planId);
 	}
 	
 	public PlanVersion createPlanVersion(String organizationId, String planId, PlanVersion planVersion) {
 		
-		return organizationsClient.getPlansClient().createPlanVersion(organizationId, planId, planVersion);
+		return getOrganizationsClient().getPlansClient().createPlanVersion(organizationId, planId, planVersion);
 	}
 	
 	public PlanVersion getPlanVersion(String organizationId, String planId, String version) {
 		
-		return organizationsClient.getPlansClient().getPlanVersion(organizationId, planId, version);
+		return getOrganizationsClient().getPlansClient().getPlanVersion(organizationId, planId, version);
 	}
 	
 	public ActivityList getPlanVersionActivity(String organizationId, String planId, String version, int page, int count) {
 		
-		return organizationsClient.getPlansClient().getPlanVersionActivity(organizationId, planId, version, page, count);
+		return getOrganizationsClient().getPlansClient().getPlanVersionActivity(organizationId, planId, version, page, count);
 	}
 	
 	public void reorderPlanPolicies(String organizationId, String planId, String version, ReOrderPolicies reOrderPolicies) {
 		
-		organizationsClient.getPlansClient().reorderPlanPolicies(organizationId, planId, version, reOrderPolicies);
+		getOrganizationsClient().getPlansClient().reorderPlanPolicies(organizationId, planId, version, reOrderPolicies);
 	}
 	
 	public List<Policy> listAllPlanPolicies(String organizationId, String planId, String version) {
 		
-		return organizationsClient.getPlansClient().getPlansPoliciesClient().listAllPlanPolicies(organizationId, planId, version);
+		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().listAllPlanPolicies(organizationId, planId, version);
 	}
 	
 	public Policy addPlanPolicy(String organizationId, String planId, String version, Policy planPolicy) {
 		
-		return organizationsClient.getPlansClient().getPlansPoliciesClient().addPlanPolicy(organizationId, planId, version, planPolicy);
+		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().addPlanPolicy(organizationId, planId, version, planPolicy);
 	}
 	
 	public Policy getPlanPolicy(String organizationId, String planId, String version, String policyId) {
 		
-		return organizationsClient.getPlansClient().getPlansPoliciesClient().getPlanPolicy(organizationId, planId, version, policyId);
+		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().getPlanPolicy(organizationId, planId, version, policyId);
 	}
 	
 	public void updatePlanPolicy(String organizationId, String planId, String version, String policyId, Policy planPolicy) {
 		
-		organizationsClient.getPlansClient().getPlansPoliciesClient().updatePlanPolicy(organizationId, planId, version, policyId, planPolicy);
+		getOrganizationsClient().getPlansClient().getPlansPoliciesClient().updatePlanPolicy(organizationId, planId, version, policyId, planPolicy);
 	}
 	
 	public void removePlanPolicy(String organizationId, String planId, String version, String policyId) {
 		
-		organizationsClient.getPlansClient().getPlansPoliciesClient().removePlanPolicy(organizationId, planId, version, policyId);
+		getOrganizationsClient().getPlansClient().getPlansPoliciesClient().removePlanPolicy(organizationId, planId, version, policyId);
 	}
 
 	public void grantMembership(String organizationId, GrantMemberships grantMemberships) {
 		
-		organizationsClient.getRolesClient().grantMembership(organizationId, grantMemberships);
+		getOrganizationsClient().getRolesClient().grantMembership(organizationId, grantMemberships);
 	}
 	
 	public void revokeSingleMembership(String organizationId, String roleId, String userId) {
 		
-		organizationsClient.getRolesClient().revokeSingleMembership(organizationId, roleId, userId);
+		getOrganizationsClient().getRolesClient().revokeSingleMembership(organizationId, roleId, userId);
 	}
 	
 	public PermissionsList getCurrentUserPermissions() {
 		
-		return permissionsClient.getCurrentUserPermissions();
+		return getPermissionsClient().getCurrentUserPermissions();
 	}
 	
 	public PermissionsList getUserPermissions(String userId) {
 		
-		return permissionsClient.getUserPermissions(userId);
+		return getPermissionsClient().getUserPermissions(userId);
 	}
 	
 	public List<Plugin> listAllPlugins() {
 		
-		return pluginsClient.listAllPlugins();
+		return getPluginsClient().listAllPlugins();
 	}
 	
 	public Plugin addPlugin(Plugin plugin) {
 		
-		return pluginsClient.addPlugin(plugin);
+		return getPluginsClient().addPlugin(plugin);
 	}
 	
 	public List<Plugin> listAvailablePlugins() {
 		
-		return pluginsClient.listAvailablePlugins();
+		return getPluginsClient().listAvailablePlugins();
 	}
 		
 	public Plugin getPluginById(String pluginId) {
 		
-		return pluginsClient.getPluginById(pluginId);
+		return getPluginsClient().getPluginById(pluginId);
 	}
 	
 	public void deletePluginById(String pluginId) {
 		
-		pluginsClient.deletePluginById(pluginId);
+		getPluginsClient().deletePluginById(pluginId);
 	}
 	
 	public List<PolicyDefinition> getPluginPolicyDefinitions(String pluginId) {
 		
-		return pluginsClient.getPluginsPolicyDefsClient().getPluginPolicyDefinitions(pluginId);
+		return getPluginsClient().getPluginsPolicyDefsClient().getPluginPolicyDefinitions(pluginId);
 	}
 	
 	public String getPluginPolicyForm(String pluginId, String policyDefId) {
 		
-		return pluginsClient.getPluginsPolicyDefsClient().getPluginPolicyForm(pluginId, policyDefId);
+		return getPluginsClient().getPluginsPolicyDefsClient().getPluginPolicyForm(pluginId, policyDefId);
 	}
 	
 	public List<PolicyDefinition> listPolicyDefinitions() {
 		
-		return policyDefsClient.listPolicyDefinitions();
+		return getPolicyDefsClient().listPolicyDefinitions();
 	}
 	
 	public PolicyDefinition addPolicyDefinition(PolicyDefinition policyDefinition) {
 		
-		return policyDefsClient.addPolicyDefinition(policyDefinition);
+		return getPolicyDefsClient().addPolicyDefinition(policyDefinition);
 	}
 	
 	public PolicyDefinition getPolicyDefinitionById(String policyDefinitionId) {
 		
-		return policyDefsClient.getPolicyDefinitionById(policyDefinitionId);
+		return getPolicyDefsClient().getPolicyDefinitionById(policyDefinitionId);
 	}
 
 	public void updatePolicyDefinition(String policyDefinitionId, PolicyDefinition policyDefinition) {
 		
-		policyDefsClient.updatePolicyDefinition(policyDefinitionId, policyDefinition);
+		getPolicyDefsClient().updatePolicyDefinition(policyDefinitionId, policyDefinition);
 	}
 
 	public void deletePolicyDefinition(String policyDefinitionId) {
 		
-		policyDefsClient.deletePolicyDefinition(policyDefinitionId);
+		getPolicyDefsClient().deletePolicyDefinition(policyDefinitionId);
 	}
 
 	public List<Role> listAllRoles() {
 		
-		return rolesClient.listAllRoles();
+		return getRolesClient().listAllRoles();
 	}
 	
 	public Role createRole(Role role) {
 		
-		return rolesClient.createRole(role);
+		return getRolesClient().createRole(role);
 	}
 	
 	public SearchResult searchForRoles(SearchQuery rolesSearchQuery) {
 		
-		return rolesClient.searchForRoles(rolesSearchQuery);
+		return getRolesClient().searchForRoles(rolesSearchQuery);
 	}
 	
 	public Role getRoleById(String roleId) {
 		
-		return rolesClient.getRoleById(roleId);
+		return getRolesClient().getRoleById(roleId);
 	}
 
 	public void updateRoleById(String roleId, Role role) {
 		
-		rolesClient.updateRoleById(roleId, role);
+		getRolesClient().updateRoleById(roleId, role);
 	}
 
 	public void deleteRoleById(String roleId) {
 		
-		rolesClient.deleteRoleById(roleId);
+		getRolesClient().deleteRoleById(roleId);
 	}
 	
 	public SearchResult searchForApis(SearchQuery apisSearchQuery) {
 		
-		return searchClient.searchForApis(apisSearchQuery);
+		return getSearchClient().searchForApis(apisSearchQuery);
 	}
 	
 	public SearchResult searchForClients(SearchQuery clientsSearchQuery) {
 		
-		return searchClient.searchForClients(clientsSearchQuery);
+		return getSearchClient().searchForClients(clientsSearchQuery);
 	}
 	
 	public SearchResult searchForOrganizations(SearchQuery organizationsSearchQuery) {
 		
-		return searchClient.searchForOrganizations(organizationsSearchQuery);
+		return getSearchClient().searchForOrganizations(organizationsSearchQuery);
 	}
 	
 	public SearchResult searchForApisInApiCatalogue() {
 		
-		return searchClient.getApiCatalogueSearchClient().searchForApisInApiCatalogue();
+		return getSearchClient().getApiCatalogueSearchClient().searchForApisInApiCatalogue();
 	}
 	
 	public List<Namespace> listAllNamespacesInApiCatalogue() {
 		
-		return searchClient.getApiCatalogueSearchClient().listAllNamespacesInApiCatalogue();
+		return getSearchClient().getApiCatalogueSearchClient().listAllNamespacesInApiCatalogue();
 	}
 
 	public void exportData(String download) {
 		
-		systemClient.exportData(download);
+		getSystemClient().exportData(download);
 	}
 	
 	public void importData() {
 		
-		systemClient.importData();
+		getSystemClient().importData();
 	}
 	
 	public SystemStatus getSystemStatus() {
 		
-		return systemClient.getSystemStatus();
+		return getSystemClient().getSystemStatus();
 	}
 	
 	public SearchResult searchForUsers(SearchQuery userSearchQuery) {
 		
-		return usersClient.searchForUsers(userSearchQuery);
+		return getUsersClient().searchForUsers(userSearchQuery);
 	}
 	
 	public User getUserById(String userId) {
 		
-		return usersClient.getUserById(userId);
+		return getUsersClient().getUserById(userId);
 	}
 	
 	public void updateUserById(String userId, User user) {
 		
-		usersClient.updateUserById(userId, user);
+		getUsersClient().updateUserById(userId, user);
 	}
 	
 	public ActivityList getUserActivity(String userId, int page, int count) {
 		
-		return usersClient.getUserActivity(userId, page, count);
+		return getUsersClient().getUserActivity(userId, page, count);
 	}
 	
 	public List<Api> listUserApis(String userId) {
 		
-		return usersClient.listUserApis(userId);
+		return getUsersClient().listUserApis(userId);
 	}
 	
 	public List<Client> listUserClients(String userId) {
 		
-		return usersClient.listUserClients(userId);
+		return getUsersClient().listUserClients(userId);
 	}
 	
 	public List<Organization> listUserOrganizations(String userId) {
 		
-		return usersClient.listUserOrganizations(userId);
+		return getUsersClient().listUserOrganizations(userId);
 	}
 }
