@@ -10,8 +10,10 @@ import org.apache.commons.codec.net.URLCodec;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
 public class GenericUtils {
 
 	private static final boolean FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP = true;
@@ -31,7 +33,7 @@ public class GenericUtils {
 		valuesMap = encode ? encode(valuesMap) : valuesMap;
 		StringSubstitutor substitutor = new StringSubstitutor(valuesMap, FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP);
 		String result = substitutor.replace(templateString);
-		System.out.println("Substitution : " + result);
+		log.debug("Substitution : " + result);
 		return result;
 	}
 
@@ -47,7 +49,7 @@ public class GenericUtils {
 		}
 		String url = strBuilder.toString();
 
-		System.out.println("buildURL     : " + url);
+		log.debug("buildURL     : " + url);
 		return url;
 	}
 

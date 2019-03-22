@@ -37,7 +37,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 	 * specify the Organization, ID, and Version of the API. Additionally the caller must specify the ID of the Plan it 
 	 * wished to use for the Contract with the API.
 	 */
-	public ClientContract creareApiContract(String organizationId, String clientId, String version, ClientContract apiContract) {
+	public ClientContract createApiContract(String organizationId, String clientId, String version, ClientContract apiContract) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH);
 		Map<String, String> map = new HashMap<>();

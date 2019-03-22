@@ -240,10 +240,10 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 */
 	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${metricsType}", FROM_AND_TO_DATES);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", "/metrics", "/${metricsType}", FROM_AND_TO_DATES);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		map.put("apiId", clientId);
+		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("metricsType", METRICS_TYPE.API_USAGE.getName());
 		map.put("fromDate", GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
@@ -268,10 +268,5 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		url = substitute(url, map, true);
 		
 		restTemplate.postForObject(url, reOrderPolicies, Void.class);
-	}
-	
-	public static void main(String[] args) {
-		Date fromDate = new Date();
-		System.out.println(GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
 	}
 }

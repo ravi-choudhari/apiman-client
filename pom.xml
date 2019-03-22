@@ -156,6 +156,11 @@
 			<version>${spring.framework}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.26</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -179,7 +184,7 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${version.surefire.plugin}</version>
 						<configuration>
-							<skip>true</skip>
+							<failIfNoTests>true</failIfNoTests>
 						</configuration>
 					</plugin>
 				</plugins>
