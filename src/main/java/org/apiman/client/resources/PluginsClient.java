@@ -78,7 +78,7 @@ public class PluginsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", pluginId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Plugin.class);
 	}
@@ -91,7 +91,7 @@ public class PluginsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", pluginId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

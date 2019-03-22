@@ -1,5 +1,6 @@
 package org.apiman.client.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class OrganizationMember {
+public class OrganizationMember implements Serializable {
 
 	private String userName;
 	private String email;

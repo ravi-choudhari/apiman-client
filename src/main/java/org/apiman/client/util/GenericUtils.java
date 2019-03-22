@@ -15,22 +15,20 @@ import lombok.NoArgsConstructor;
 public class GenericUtils {
 
 	private static final boolean FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP = true;
-	public static final String DEFAULT_DATE_FORMAT = "";
-	
+	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+
 	public static enum INTERVAL {
-		MONTH,
-		WEEK,
-		DAY,
-		HOUR;
-		
+		MONTH, WEEK, DAY, HOUR, MINUTE;
+
 		public static String getDefault() {
 			return DAY.toString();
 		}
 	};
 
-	public static final synchronized String substitute(String templateString, Map<String, String> valuesMap) {
-		
-		valuesMap = encode(valuesMap);
+	public static final synchronized String substitute(String templateString, Map<String, String> valuesMap,
+			boolean encode) {
+
+		valuesMap = encode ? encode(valuesMap) : valuesMap;
 		StringSubstitutor substitutor = new StringSubstitutor(valuesMap, FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP);
 		String result = substitutor.replace(templateString);
 		System.out.println("Substitution : " + result);
@@ -48,7 +46,7 @@ public class GenericUtils {
 			strBuilder.append(pathVariable);
 		}
 		String url = strBuilder.toString();
-		
+
 		System.out.println("buildURL     : " + url);
 		return url;
 	}
@@ -62,15 +60,16 @@ public class GenericUtils {
 		}
 		return null;
 	}
-	
+
 	public static final Map<String, String> encode(Map<String, String> valuesMap) {
 
-		for(String key : valuesMap.keySet()) valuesMap.put(key, encode(valuesMap.get(key)));
+		for (String key : valuesMap.keySet())
+			valuesMap.put(key, encode(valuesMap.get(key)));
 		return valuesMap;
 	}
-	
+
 	public static final String formatDate(Date date, String... format) {
-		
+
 		return new SimpleDateFormat(format.length > 0 ? format[0] : DEFAULT_DATE_FORMAT).format(date);
 	}
 }

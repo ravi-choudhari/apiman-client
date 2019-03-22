@@ -23,7 +23,7 @@ public class DownloadsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, DOWNLOADS_PATH, "/${downloadId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("downloadId", downloadId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, String.class);
 	}

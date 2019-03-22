@@ -47,7 +47,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, PolicyDefinition.class);
 	}
@@ -60,7 +60,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<PolicyDefinition>(policyDefinition, getHeaders()), Void.class);
 	}
@@ -73,7 +73,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

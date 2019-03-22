@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.Namespace;
+import org.apiman.client.domain.search.SearchQuery;
 import org.apiman.client.domain.search.SearchResult;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +21,10 @@ public class ApiCatalogueSearchClient extends AbstractApimanClient {
 	/* Use this endpoint to search for available APIs within any configured API catalogs. If no API catalogs 
 	 * are configured, this will always return zero results.
 	 */
-	public SearchResult searchForApisInApiCatalogue() {
+	public SearchResult searchForApisInApiCatalogue(SearchQuery apisSearchQuery) {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, API_CATALOGUE_PATH, ENTRIES_PATH);
-		return restTemplate.getForObject(url, SearchResult.class);
+		return restTemplate.postForObject(url, apisSearchQuery, SearchResult.class);
 	}
 	
 	/* Use this endpoint to get a list of all namespaces available to be searched within. Not all platforms support 

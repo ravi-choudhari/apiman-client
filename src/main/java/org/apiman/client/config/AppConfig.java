@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ComponentScan("org.apiman.client")
 public class AppConfig {
 	
-	@Value("${apiman.admin.username:}")
+	@Value("${apiman.admin.username:admin}")
 	private String username;
-	@Value("${apiman.admin.password:}")
+	@Value("${apiman.admin.password:admin123!}")
 	private String password;
 	
 	@Bean(name = "redhatApimanRestClient")

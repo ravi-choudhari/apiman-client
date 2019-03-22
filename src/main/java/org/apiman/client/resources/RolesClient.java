@@ -58,7 +58,7 @@ public class RolesClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Role.class);
 	}
@@ -71,7 +71,7 @@ public class RolesClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		restTemplate.exchange(url, PUT, new HttpEntity<Role>(role, getHeaders()), Void.class);
 	}
 
@@ -83,7 +83,7 @@ public class RolesClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

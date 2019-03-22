@@ -23,7 +23,7 @@ public class OrganizationRolesClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_ROLES_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.postForObject(url, grantMemberships, Void.class);
 	}
@@ -38,7 +38,7 @@ public class OrganizationRolesClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("roleId", roleId);
 		map.put("userId", userId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

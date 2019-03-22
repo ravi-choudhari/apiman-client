@@ -26,7 +26,7 @@ public class PluginsPolicyDefsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, PLUGIN_POLICY_DEFS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", pluginId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinition[].class);
 		return policyDefinitions != null ? Arrays.asList(policyDefinitions) : null;
@@ -42,7 +42,7 @@ public class PluginsPolicyDefsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", pluginId);
 		map.put("policyDefId", policyDefId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, String.class);
 	}

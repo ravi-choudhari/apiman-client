@@ -27,7 +27,7 @@ public class SystemClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, SYSTEM_PATH, EXPORT_PATH, DOWNLOAD);
 		Map<String, String> map = new HashMap<>();
 		map.put("download", download);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.getForObject(url, Void.class);
 	}

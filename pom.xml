@@ -16,7 +16,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 
-		<spring.framework>4.3.2.RELEASE</spring.framework>
+		<spring.framework>4.3.18.RELEASE</spring.framework>
 		<spring.web>4.3.2.RELEASE</spring.web>
 		<version.resources.plugin>3.0.1</version.resources.plugin>
 	</properties>
@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.6</version>
+			<version>2.9.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

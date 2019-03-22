@@ -57,7 +57,7 @@ public class GatewaysClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Gateway.class);
 	}
@@ -70,7 +70,7 @@ public class GatewaysClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
 	}
@@ -83,7 +83,7 @@ public class GatewaysClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

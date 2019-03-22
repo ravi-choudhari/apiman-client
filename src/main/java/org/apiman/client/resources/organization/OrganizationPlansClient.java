@@ -51,7 +51,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		OrganizationPlan[] organizationPlans = restTemplate.getForObject(url, OrganizationPlan[].class);
 		return organizationPlans != null ? Arrays.asList(organizationPlans) : null;
@@ -66,7 +66,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.postForObject(url, organizationPlan, OrganizationPlan.class);
 	}
@@ -80,7 +80,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, OrganizationPlan.class);
 	}
@@ -94,7 +94,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<OrganizationPlan>(organizationPlan, getHeaders()), Void.class);
 	}
@@ -108,7 +108,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}
@@ -124,7 +124,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
 	}
@@ -138,7 +138,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		PlanVersion[] planVersions = restTemplate.getForObject(url, PlanVersion[].class);
 		return planVersions != null ? Arrays.asList(planVersions) : null;
@@ -153,7 +153,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.postForObject(url, planVersion, PlanVersion.class);
 	}
@@ -168,7 +168,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, PlanVersion.class);
 	}
@@ -185,7 +185,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("version", version);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
 	}
@@ -202,7 +202,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("planId", planId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.postForObject(url, reOrderPolicies, Void.class);
 	}

@@ -34,7 +34,7 @@ public abstract class AbstractApimanClient {
 	protected static final String ORGANIZATIONS_PATH = "/organizations";
 	protected static final String SEARCH_PATH = "/search";
 	protected static final String ACTIVITY_PATH = "/activity";
-	protected static final String VERSION_PATH = "/version";
+	protected static final String VERSION_PATH = "/versions";
 	protected static final String CONTRACTS_PATH = "/contracts";
 	protected static final String DEFINITION_PATH = "/definition";
 	protected static final String ENDPOINT_PATH = "/endpoint";

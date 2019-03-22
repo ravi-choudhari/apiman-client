@@ -1,5 +1,7 @@
 package org.apiman.client.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,11 +14,11 @@ import lombok.ToString;
 //@AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiMetrics {
+public class ApiMetrics implements Serializable {
 
 	@Getter
 	@AllArgsConstructor
-	public enum METRICS_TYPE {
+	public enum METRICS_TYPE implements Serializable {
 		
 		CLIENT_RESPONSE_STATS("clientResponseStats"),
 		CLIENT_USAGE("clientUsage"),

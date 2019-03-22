@@ -1,5 +1,6 @@
 package org.apiman.client.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class CreateApiVersion {
+public class CreateApiVersion implements Serializable {
 
 	private int id;
 	private String version;

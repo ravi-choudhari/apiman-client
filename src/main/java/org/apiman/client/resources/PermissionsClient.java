@@ -32,7 +32,7 @@ public class PermissionsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, PERMISSIONS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, PermissionsList.class);
 	}

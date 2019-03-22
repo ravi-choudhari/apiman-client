@@ -66,7 +66,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Organization.class);
 	}
@@ -79,7 +79,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<Organization>(organization, getHeaders()), Void.class);
 	}
@@ -92,7 +92,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}
@@ -107,7 +107,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
 	}	

@@ -25,7 +25,7 @@ public class OrganizationMembersClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		OrganizationMember[] organizationMembers = restTemplate.getForObject(url, OrganizationMember[].class);
 		return organizationMembers != null ? Arrays.asList(organizationMembers) : null;
@@ -40,7 +40,7 @@ public class OrganizationMembersClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("userId", userId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

@@ -29,7 +29,7 @@ public class OrganizationApiPoliciesClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		Policy[] apiPolicies = restTemplate.getForObject(url, Policy[].class);
 		return apiPolicies != null ? Arrays.asList(apiPolicies) : null;
@@ -45,7 +45,7 @@ public class OrganizationApiPoliciesClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.postForObject(url, apiPolicy, Policy.class);
 	}
@@ -61,7 +61,7 @@ public class OrganizationApiPoliciesClient extends AbstractApimanClient {
 		map.put("apiId", apiId);
 		map.put("version", version);
 		map.put("policyId", policyId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Policy.class);
 	}
@@ -77,7 +77,7 @@ public class OrganizationApiPoliciesClient extends AbstractApimanClient {
 		map.put("apiId", apiId);
 		map.put("version", version);
 		map.put("policyId", policyId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<Policy>(apiPolicy, getHeaders()), Void.class);
 	}
@@ -93,7 +93,7 @@ public class OrganizationApiPoliciesClient extends AbstractApimanClient {
 		map.put("apiId", apiId);
 		map.put("version", version);
 		map.put("policyId", policyId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}

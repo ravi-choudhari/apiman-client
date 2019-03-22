@@ -64,7 +64,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		Client[] organizationClients = restTemplate.getForObject(url, Client[].class);
 		return organizationClients != null ? Arrays.asList(organizationClients) : null;
@@ -79,7 +79,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.postForObject(url, client, Client.class);
 	}
@@ -93,7 +93,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Client.class);
 	}
@@ -107,7 +107,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<Client>(client, getHeaders()), Void.class);
 	}
@@ -121,7 +121,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);
 	}
@@ -137,7 +137,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("clientId", clientId);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
 	}
@@ -151,7 +151,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		ClientVersion[] clientVersions = restTemplate.getForObject(url, ClientVersion[].class);
 		return clientVersions != null ? Arrays.asList(clientVersions) : null;
@@ -166,7 +166,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.postForObject(url, clientVersion, ClientVersion.class);
 	}
@@ -181,7 +181,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ClientVersion.class);
 	}
@@ -189,14 +189,16 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Use this endpoint to get audit activity information for a single version of the Client.
 	 * 
 	 */
-	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version) {
+	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", ACTIVITY_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map);
+		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
+		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ActivityList.class);
 	}
@@ -211,7 +213,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ApiKey.class);
 	}
@@ -227,7 +229,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		ResponseEntity<ApiKey> response = restTemplate.exchange(url, PUT, new HttpEntity<ApiKey>(apiKey, getHeaders()), ApiKey.class);
 		return response != null ? response.getBody() : null;
@@ -246,7 +248,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("metricsType", METRICS_TYPE.API_USAGE.getName());
 		map.put("fromDate", GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
 		map.put("toDate", GenericUtils.formatDate(toDate != null ? toDate : new Date()));
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, ApiMetrics.class);
 	}
@@ -263,8 +265,13 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map);
+		url = substitute(url, map, true);
 		
 		restTemplate.postForObject(url, reOrderPolicies, Void.class);
+	}
+	
+	public static void main(String[] args) {
+		Date fromDate = new Date();
+		System.out.println(GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
 	}
 }

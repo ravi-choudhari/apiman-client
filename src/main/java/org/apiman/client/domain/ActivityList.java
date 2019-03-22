@@ -1,5 +1,6 @@
 package org.apiman.client.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ActivityList {
+public class ActivityList implements Serializable {
 
 	private List<ActivityResult> beans;
 	private int totalSize;
