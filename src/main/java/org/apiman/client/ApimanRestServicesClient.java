@@ -161,34 +161,10 @@ public class ApimanRestServicesClient {
 		return getGatewaysClient().listAllGateways();
 	}
 
-	public void testGateway(Gateway gateway) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getGatewaysClient().testGateway(gateway);
-	}
-
-	public Gateway createGateway(Gateway gateway) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getGatewaysClient().createGateway(gateway);
-	}
-
 	public Gateway getGatewayById(String gatewayId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getGatewaysClient().getGatewayById(gatewayId);
-	}
-
-	public void updateGateway(String gatewayId, Gateway gateway) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getGatewaysClient().updateGateway(gatewayId, gateway);
-	}
-
-	public void deleteGateway(String gatewayId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getGatewaysClient().deleteGateway(gatewayId);
 	}
 
 	public Organization createOrganization(Organization organization) {
@@ -759,40 +735,16 @@ public class ApimanRestServicesClient {
 		return getPermissionsClient().getCurrentUserPermissions();
 	}
 
-	public PermissionsList getUserPermissions(String userId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getPermissionsClient().getUserPermissions(userId);
-	}
-
 	public List<Plugin> listAllPlugins() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().listAllPlugins();
 	}
 
-	public Plugin addPlugin(Plugin plugin) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getPluginsClient().addPlugin(plugin);
-	}
-
 	public List<Plugin> listAvailablePlugins() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().listAvailablePlugins();
-	}
-
-	public Plugin getPluginById(String pluginId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getPluginsClient().getPluginById(pluginId);
-	}
-
-	public void deletePluginById(String pluginId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getPluginsClient().deletePluginById(pluginId);
 	}
 
 	public List<PolicyDefinition> getPluginPolicyDefinitions(String pluginId) {
@@ -813,40 +765,16 @@ public class ApimanRestServicesClient {
 		return getPolicyDefsClient().listPolicyDefinitions();
 	}
 
-	public PolicyDefinition addPolicyDefinition(PolicyDefinition policyDefinition) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getPolicyDefsClient().addPolicyDefinition(policyDefinition);
-	}
-
 	public PolicyDefinition getPolicyDefinitionById(String policyDefinitionId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPolicyDefsClient().getPolicyDefinitionById(policyDefinitionId);
 	}
 
-	public void updatePolicyDefinition(String policyDefinitionId, PolicyDefinition policyDefinition) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getPolicyDefsClient().updatePolicyDefinition(policyDefinitionId, policyDefinition);
-	}
-
-	public void deletePolicyDefinition(String policyDefinitionId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getPolicyDefsClient().deletePolicyDefinition(policyDefinitionId);
-	}
-
 	public List<Role> listAllRoles() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getRolesClient().listAllRoles();
-	}
-
-	public Role createRole(Role role) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getRolesClient().createRole(role);
 	}
 
 	public SearchResult searchForRoles(SearchQuery rolesSearchQuery) {
@@ -859,18 +787,6 @@ public class ApimanRestServicesClient {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getRolesClient().getRoleById(roleId);
-	}
-
-	public void updateRoleById(String roleId, Role role) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getRolesClient().updateRoleById(roleId, role);
-	}
-
-	public void deleteRoleById(String roleId) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getRolesClient().deleteRoleById(roleId);
 	}
 
 	public SearchResult searchForApis(SearchQuery apisSearchQuery) {
