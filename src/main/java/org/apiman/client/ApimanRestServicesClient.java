@@ -3,6 +3,7 @@ package org.apiman.client;
 import java.util.Date;
 import java.util.List;
 
+import org.apiman.client.conditions.ApimanCondition;
 import org.apiman.client.domain.Action;
 import org.apiman.client.domain.ActivityList;
 import org.apiman.client.domain.Api;
@@ -35,7 +36,6 @@ import org.apiman.client.domain.Policy;
 import org.apiman.client.domain.PolicyDefinition;
 import org.apiman.client.domain.ReOrderPolicies;
 import org.apiman.client.domain.Role;
-import org.apiman.client.domain.SystemStatus;
 import org.apiman.client.domain.User;
 import org.apiman.client.domain.UserInformation;
 import org.apiman.client.domain.search.SearchQuery;
@@ -50,9 +50,9 @@ import org.apiman.client.resources.PluginsClient;
 import org.apiman.client.resources.PolicyDefsClient;
 import org.apiman.client.resources.RolesClient;
 import org.apiman.client.resources.SearchClient;
-import org.apiman.client.resources.SystemClient;
 import org.apiman.client.resources.UsersClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
@@ -71,6 +71,7 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @EqualsAndHashCode
 @Component
+@Conditional(ApimanCondition.class)
 @Getter(value = AccessLevel.PRIVATE)
 @Setter(value = AccessLevel.PRIVATE)
 @Slf4j
@@ -96,8 +97,6 @@ public class ApimanRestServicesClient {
 	private RolesClient rolesClient;
 	@Autowired
 	private SearchClient searchClient;
-	@Autowired
-	private SystemClient systemClient;
 	@Autowired
 	private UsersClient usersClient;
 
@@ -818,25 +817,7 @@ public class ApimanRestServicesClient {
 
 		return getSearchClient().getApiCatalogueSearchClient().listAllNamespacesInApiCatalogue();
 	}
-
-	public void exportData(String download) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getSystemClient().exportData(download);
-	}
-
-	public void importData() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getSystemClient().importData();
-	}
-
-	public SystemStatus getSystemStatus() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getSystemClient().getSystemStatus();
-	}
-
+	
 	public SearchResult searchForUsers(SearchQuery userSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 

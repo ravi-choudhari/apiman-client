@@ -1,23 +1,20 @@
 package org.apiman.client;
 
+import org.apiman.client.conditions.ApimanAdminCondition;
 import org.apiman.client.domain.Gateway;
 import org.apiman.client.domain.PermissionsList;
 import org.apiman.client.domain.Plugin;
 import org.apiman.client.domain.PolicyDefinition;
 import org.apiman.client.domain.Role;
-import org.apiman.client.resources.ActionsClient;
-import org.apiman.client.resources.CurrentUserClient;
-import org.apiman.client.resources.DownloadsClient;
+import org.apiman.client.domain.SystemStatus;
 import org.apiman.client.resources.GatewaysClient;
-import org.apiman.client.resources.OrganizationsClient;
 import org.apiman.client.resources.PermissionsClient;
 import org.apiman.client.resources.PluginsClient;
 import org.apiman.client.resources.PolicyDefsClient;
 import org.apiman.client.resources.RolesClient;
-import org.apiman.client.resources.SearchClient;
 import org.apiman.client.resources.SystemClient;
-import org.apiman.client.resources.UsersClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
@@ -36,21 +33,14 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @EqualsAndHashCode
 @Component
+@Conditional(ApimanAdminCondition.class)
 @Getter(value = AccessLevel.PRIVATE)
 @Setter(value = AccessLevel.PRIVATE)
 @Slf4j
 public class ApimanAdminRestServicesClient {
 
 	@Autowired
-	private ActionsClient actionsClient;
-	@Autowired
-	private CurrentUserClient currentUserClient;
-	@Autowired
-	private DownloadsClient downloadsClient;
-	@Autowired
 	private GatewaysClient gatewaysClient;
-	@Autowired
-	private OrganizationsClient organizationsClient;
 	@Autowired
 	private PermissionsClient permissionsClient;
 	@Autowired
@@ -60,11 +50,7 @@ public class ApimanAdminRestServicesClient {
 	@Autowired
 	private RolesClient rolesClient;
 	@Autowired
-	private SearchClient searchClient;
-	@Autowired
 	private SystemClient systemClient;
-	@Autowired
-	private UsersClient usersClient;
 
 	public void testGateway(Gateway gateway) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -148,5 +134,23 @@ public class ApimanAdminRestServicesClient {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getRolesClient().deleteRoleById(roleId);
+	}
+	
+	public void exportData(String download) {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+		getSystemClient().exportData(download);
+	}
+
+	public void importData() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+		getSystemClient().importData();
+	}
+
+	public SystemStatus getSystemStatus() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+		return getSystemClient().getSystemStatus();
 	}
 }

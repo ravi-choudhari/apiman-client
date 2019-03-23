@@ -239,4 +239,46 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.verify();
 	}
+
+	@Test
+	public void exportData() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.exportData(download);
+
+		mockAdminServer.verify();
+	}
+
+	@Test
+	public void importData() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.importData();
+
+		mockAdminServer.verify();
+	}
+
+	@Test
+	public void getSystemStatus() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.getSystemStatus();
+
+		mockAdminServer.verify();
+	}
 }
