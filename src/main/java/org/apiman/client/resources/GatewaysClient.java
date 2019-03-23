@@ -11,11 +11,18 @@ import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.Gateway;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class GatewaysClient extends AbstractApimanClient {
+	
+	@Autowired
+	@Qualifier("redhatApimanAdminRestClient")
+	protected RestTemplate adminTemplate;
 	
 	private static final String GATEWAYS_PATH = "/gateways";
 	
@@ -37,7 +44,7 @@ public class GatewaysClient extends AbstractApimanClient {
 	public void testGateway(Gateway gateway) {
 		
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		restTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+		adminTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint is called to create a new Gateway.
@@ -46,7 +53,7 @@ public class GatewaysClient extends AbstractApimanClient {
 	public Gateway createGateway(Gateway gateway) {
 		
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		return restTemplate.postForObject(url, gateway, Gateway.class);
+		return adminTemplate.postForObject(url, gateway, Gateway.class);
 	}
 	
 	/* Call this endpoint to get the details of a single configured Gateway.
@@ -72,7 +79,7 @@ public class GatewaysClient extends AbstractApimanClient {
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+		adminTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
 	}
 	
 	/* This endpoint deletes a Gateway by its unique ID.
@@ -85,6 +92,6 @@ public class GatewaysClient extends AbstractApimanClient {
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map, true);
 		
-		restTemplate.delete(url);
+		adminTemplate.delete(url);
 	}
 }

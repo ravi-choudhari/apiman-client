@@ -11,11 +11,18 @@ import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.PolicyDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PolicyDefsClient extends AbstractApimanClient {
+	
+	@Autowired
+	@Qualifier("redhatApimanAdminRestClient")
+	protected RestTemplate adminTemplate;
 	
 	private static final String POLICY_DEFS_PATH = "/policyDefs";
 	
@@ -36,7 +43,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	public PolicyDefinition addPolicyDefinition(PolicyDefinition policyDefinition) {
 		
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH);
-		return restTemplate.postForObject(url, policyDefinition, PolicyDefinition.class);
+		return adminTemplate.postForObject(url, policyDefinition, PolicyDefinition.class);
 	}
 	
 	/* Use this endpoint to get a single policy definition by its ID.
@@ -62,7 +69,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 		map.put("policyDefinitionId", policyDefinitionId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<PolicyDefinition>(policyDefinition, getHeaders()), Void.class);
+		adminTemplate.exchange(url, PUT, new HttpEntity<PolicyDefinition>(policyDefinition, getHeaders()), Void.class);
 	}
 
 	/* Use this endpoint to delete a policy definition by its ID. If the policy definition was added automatically from 
@@ -75,7 +82,7 @@ public class PolicyDefsClient extends AbstractApimanClient {
 		map.put("policyDefinitionId", policyDefinitionId);
 		url = substitute(url, map, true);
 		
-		restTemplate.delete(url);
+		adminTemplate.delete(url);
 	}
 
 }

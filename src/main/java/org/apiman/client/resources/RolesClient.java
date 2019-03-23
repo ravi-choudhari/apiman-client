@@ -13,11 +13,18 @@ import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.Role;
 import org.apiman.client.domain.search.SearchQuery;
 import org.apiman.client.domain.search.SearchResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class RolesClient extends AbstractApimanClient {
+	
+	@Autowired
+	@Qualifier("redhatApimanAdminRestClient")
+	protected RestTemplate adminTemplate;
 	
 	private static final String ROLES_PATH = "/roles";
 	
@@ -38,7 +45,7 @@ public class RolesClient extends AbstractApimanClient {
 	public Role createRole(Role role) {
 		
 		String url = buildURL(apimanUrl, ROLES_PATH);
-		return restTemplate.postForObject(url, role, Role.class);
+		return adminTemplate.postForObject(url, role, Role.class);
 	}
 	
 	/* This endpoint provides a way to search for roles. The search criteria is provided in the body of the request, 
@@ -72,7 +79,8 @@ public class RolesClient extends AbstractApimanClient {
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
 		url = substitute(url, map, true);
-		restTemplate.exchange(url, PUT, new HttpEntity<Role>(role, getHeaders()), Void.class);
+		
+		adminTemplate.exchange(url, PUT, new HttpEntity<Role>(role, getHeaders()), Void.class);
 	}
 
 	/* Use this endpoint to delete a role by its ID.
@@ -85,6 +93,6 @@ public class RolesClient extends AbstractApimanClient {
 		map.put("roleId", roleId);
 		url = substitute(url, map, true);
 		
-		restTemplate.delete(url);
+		adminTemplate.delete(url);
 	}
 }

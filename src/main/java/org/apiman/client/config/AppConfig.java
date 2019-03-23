@@ -22,10 +22,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ComponentScan("org.apiman.client")
 public class AppConfig {
 	
-	@Value("${apiman.admin.username:admin}")
+	@Value("${apiman.username:admin}")
 	private String username;
-	@Value("${apiman.admin.password:admin123!}")
+	@Value("${apiman.password:admin123!}")
 	private String password;
+	
+	@Value("${apiman.admin.username:admin}")
+	private String adminUsername;
+	@Value("${apiman.admin.password:admin123!}")
+	private String adminPassword;
 	
 	@Bean(name = "redhatApimanRestClient")
 	RestTemplate restTemplate() {
@@ -36,7 +41,26 @@ public class AppConfig {
 		restTemplate.setErrorHandler(serviceErrorHandler());
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 		interceptors.add(new JsonMimeInterceptor());
-		interceptors.add(new AdminBasicAuthInterceptor(username, password));
+		interceptors.add(new BasicAuthInterceptor(username, password));
+		restTemplate.setInterceptors(interceptors);
+		ClientHttpRequestFactory requestFactory = restTemplate.getRequestFactory();
+		if(requestFactory instanceof SimpleClientHttpRequestFactory) {
+			((SimpleClientHttpRequestFactory) requestFactory).setConnectTimeout(30000);
+			((SimpleClientHttpRequestFactory) requestFactory).setReadTimeout(60000);
+		}
+		return restTemplate;
+	}
+	
+	@Bean(name = "redhatApimanAdminRestClient")
+	RestTemplate adminTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().clear();
+		restTemplate.getMessageConverters().add(jacksonConverter());
+		restTemplate.getMessageConverters().add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
+		restTemplate.setErrorHandler(serviceErrorHandler());
+		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+		interceptors.add(new JsonMimeInterceptor());
+		interceptors.add(new BasicAuthInterceptor(adminUsername, adminPassword));
 		restTemplate.setInterceptors(interceptors);
 		ClientHttpRequestFactory requestFactory = restTemplate.getRequestFactory();
 		if(requestFactory instanceof SimpleClientHttpRequestFactory) {

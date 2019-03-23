@@ -59,6 +59,10 @@ public class ApimanRestServicesClientTest {
 	@Autowired
 	@Qualifier("redhatApimanRestClient")
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	@Qualifier("redhatApimanAdminRestClient")
+	private RestTemplate adminTemplate;
 
 	@Value(value = "${apiman.url:http://localhost:8080/apiman}")
 	protected String apimanUrl;
@@ -67,6 +71,7 @@ public class ApimanRestServicesClientTest {
 	private ApimanRestServicesClient service;
 
 	private MockRestServiceServer mockServer;
+	private MockRestServiceServer mockAdminServer;
 
 	private static final int PAGE = 10;
 	private static final int COUNT = 20;
@@ -546,6 +551,10 @@ public class ApimanRestServicesClientTest {
 		RestGatewaySupport gateway = new RestGatewaySupport();
 		gateway.setRestTemplate(restTemplate);
 		mockServer = MockRestServiceServer.createServer(restTemplate);
+		
+		RestGatewaySupport adminGateway = new RestGatewaySupport();
+		adminGateway.setRestTemplate(adminTemplate);
+		mockAdminServer = MockRestServiceServer.createServer(adminTemplate);
 	}
 
 	@Test
@@ -695,11 +704,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.testGateway(new Gateway());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -709,11 +718,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.createGateway(new Gateway());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -737,11 +746,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.updateGateway(gatewayId, new Gateway());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -751,11 +760,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.deleteGateway(gatewayId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -1956,11 +1965,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.getUserPermissions(userId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -1984,11 +1993,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.addPlugin(new Plugin());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2012,11 +2021,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.getPluginById(pluginId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2026,11 +2035,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.deletePluginById(pluginId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2082,11 +2091,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.addPolicyDefinition(new PolicyDefinition());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2110,11 +2119,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.updatePolicyDefinition(policyDefId, new PolicyDefinition());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2124,11 +2133,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.deletePolicyDefinition(policyDefId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2152,11 +2161,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.createRole(new Role());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2194,11 +2203,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.updateRoleById(roleId, new Role());
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test
@@ -2208,11 +2217,11 @@ public class ApimanRestServicesClientTest {
 		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		log.debug("Test Case : " + url);
 
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
+		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.deleteRoleById(roleId);
 
-		mockServer.verify();
+		mockAdminServer.verify();
 	}
 
 	@Test

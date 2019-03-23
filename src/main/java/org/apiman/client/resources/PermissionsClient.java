@@ -8,10 +8,17 @@ import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.PermissionsList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PermissionsClient extends AbstractApimanClient {
+	
+	@Autowired
+	@Qualifier("redhatApimanAdminRestClient")
+	protected RestTemplate adminTemplate;
 	
 	private static final String PERMISSIONS_PATH = "/permissions";
 	
@@ -34,6 +41,6 @@ public class PermissionsClient extends AbstractApimanClient {
 		map.put("userId", userId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, PermissionsList.class);
+		return adminTemplate.getForObject(url, PermissionsList.class);
 	}
 }

@@ -12,11 +12,11 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-public class AdminBasicAuthInterceptor implements ClientHttpRequestInterceptor {
+public class BasicAuthInterceptor implements ClientHttpRequestInterceptor {
 
 	private String basicAuthHeader;
 	
-	public AdminBasicAuthInterceptor(String username, String password) {
+	public BasicAuthInterceptor(String username, String password) {
 		
 		if(isNotBlank(username) && isNotBlank(password)) {
 			basicAuthHeader = "Basic " + Base64.getEncoder().encodeToString(
