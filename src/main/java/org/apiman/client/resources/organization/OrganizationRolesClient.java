@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.GrantMemberships;
+import org.apiman.client.domain.role.GrantRoles;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +18,7 @@ public class OrganizationRolesClient extends AbstractApimanClient {
 	/* Grant membership in a role to a user.
 	 * 
 	 */
-	public void grantMembership(String organizationId, GrantMemberships grantMemberships) {
+	public void grantMembership(String organizationId, GrantRoles grantMemberships) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_ROLES_PATH);
 		Map<String, String> map = new HashMap<>();

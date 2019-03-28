@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ApiPolicyList;
-import org.apiman.client.domain.Plan;
+import org.apiman.client.domain.policies.PolicyChain;
+import org.apiman.client.domain.summary.ApiPlanSummary;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +21,7 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 	/* Use this endpoint to list the Plans configured for the given API version.
 	 * 
 	 */
-	public List<Plan> listApiPlans(String organizationId, String apiId, String version) {
+	public List<ApiPlanSummary> listApiPlans(String organizationId, String apiId, String version) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_APIS_PLANS_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -30,7 +30,7 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		Plan[] plans = restTemplate.getForObject(url, Plan[].class);
+		ApiPlanSummary[] plans = restTemplate.getForObject(url, ApiPlanSummary[].class);
 		return plans != null ? Arrays.asList(plans) : null;
 	}
 	
@@ -38,7 +38,7 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 	 * understand which Policies would be executed for a request to this API through a particular Plan offered by the API. 
 	 * Often this information is interesting prior to create a Contract with the API.
 	 */
-	public ApiPolicyList getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
+	public PolicyChain getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_APIS_PLANS_PATH + "/${planId}", POLICY_CHAIN_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -48,6 +48,6 @@ public class OrganizationApiPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ApiPolicyList.class);
+		return restTemplate.getForObject(url, PolicyChain.class);
 	}
 }

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ClientContract;
+import org.apiman.client.domain.contracts.Contract;
+import org.apiman.client.domain.contracts.NewContract;
+import org.apiman.client.domain.summary.ContractSummary;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +22,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 	/* Use this endpoint to get a list of all Contracts for an Client.
 	 * 
 	 */
-	public List<ClientContract> listAllContractsForClient(String organizationId, String clientId, String version) {
+	public List<ContractSummary> listAllContractsForClient(String organizationId, String clientId, String version) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -29,7 +31,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		ClientContract[] clientContracts = restTemplate.getForObject(url, ClientContract[].class);
+		ContractSummary[] clientContracts = restTemplate.getForObject(url, ContractSummary[].class);
 		return clientContracts != null ? Arrays.asList(clientContracts) : null;
 	}
 	
@@ -37,7 +39,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 	 * specify the Organization, ID, and Version of the API. Additionally the caller must specify the ID of the Plan it 
 	 * wished to use for the Contract with the API.
 	 */
-	public ClientContract createApiContract(String organizationId, String clientId, String version, ClientContract apiContract) {
+	public Contract createApiContract(String organizationId, String clientId, String version, NewContract apiContract) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -46,7 +48,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		return restTemplate.postForObject(url, apiContract, ClientContract.class);
+		return restTemplate.postForObject(url, apiContract, Contract.class);
 	}
 	
 	/* Use this endpoint to break all contracts between this client and its APIs.
@@ -67,7 +69,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 	/* Use this endpoint to retrieve detailed information about a single API Contract for an Client.
 	 * 
 	 */
-	public ClientContract getApiContract(String organizationId, String clientId, String version, String contractId) {
+	public Contract getApiContract(String organizationId, String clientId, String version, String contractId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH, "/${contractId}");
 		Map<String, String> map = new HashMap<>();
@@ -77,7 +79,7 @@ public class ClientsContractsClient extends AbstractApimanClient {
 		map.put("contractId", contractId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ClientContract.class);
+		return restTemplate.getForObject(url, Contract.class);
 	}
 	
 	/* Use this endpoint to break a Contract with an API.

@@ -4,25 +4,28 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-import org.apiman.client.domain.Action;
-import org.apiman.client.domain.Api;
-import org.apiman.client.domain.ApiDefinitionUrl;
-import org.apiman.client.domain.ApiKey;
-import org.apiman.client.domain.Client;
-import org.apiman.client.domain.ClientContract;
-import org.apiman.client.domain.ClientPolicy;
-import org.apiman.client.domain.ClientVersion;
-import org.apiman.client.domain.CreateApi;
-import org.apiman.client.domain.CreateApiVersion;
-import org.apiman.client.domain.GrantMemberships;
-import org.apiman.client.domain.Organization;
-import org.apiman.client.domain.OrganizationPlan;
-import org.apiman.client.domain.PlanVersion;
-import org.apiman.client.domain.Policy;
-import org.apiman.client.domain.ReOrderPolicies;
-import org.apiman.client.domain.User;
-import org.apiman.client.domain.UserInformation;
-import org.apiman.client.domain.search.SearchQuery;
+import org.apiman.client.domain.action.Action;
+import org.apiman.client.domain.apis.NewApi;
+import org.apiman.client.domain.apis.NewApiDefinition;
+import org.apiman.client.domain.apis.NewApiVersion;
+import org.apiman.client.domain.apis.UpdateApi;
+import org.apiman.client.domain.apis.UpdateApiVersion;
+import org.apiman.client.domain.clients.ApiKey;
+import org.apiman.client.domain.clients.NewClient;
+import org.apiman.client.domain.clients.NewClientVersion;
+import org.apiman.client.domain.clients.UpdateClient;
+import org.apiman.client.domain.contracts.NewContract;
+import org.apiman.client.domain.organization.NewOrganization;
+import org.apiman.client.domain.organization.UpdateOrganization;
+import org.apiman.client.domain.plan.NewPlan;
+import org.apiman.client.domain.plan.NewPlanVersion;
+import org.apiman.client.domain.plan.UpdatePlan;
+import org.apiman.client.domain.policies.NewPolicy;
+import org.apiman.client.domain.policies.PolicyChain;
+import org.apiman.client.domain.policies.UpdatePolicy;
+import org.apiman.client.domain.role.GrantRoles;
+import org.apiman.client.domain.search.SearchCriteria;
+import org.apiman.client.domain.user.UpdateUser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -153,7 +156,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateCurrentUserInformation(new UserInformation());
+		service.updateCurrentUserInformation(new UpdateUser());
 
 		mockServer.verify();
 	}
@@ -213,7 +216,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.verify();
 	}
-
+	
 	@Test
 	public void createOrganization() {
 
@@ -223,7 +226,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createOrganization(new Organization());
+		service.createOrganization(new NewOrganization());
 
 		mockServer.verify();
 	}
@@ -251,7 +254,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateOrganization(organizationId, new Organization());
+		service.updateOrganization(organizationId, new UpdateOrganization());
 
 		mockServer.verify();
 	}
@@ -306,7 +309,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createApi(organizationId, new CreateApi());
+		service.createApi(organizationId, new NewApi());
 
 		mockServer.verify();
 	}
@@ -334,7 +337,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateApi(organizationId, apiId, new Api());
+		service.updateApi(organizationId, apiId, new UpdateApi());
 
 		mockServer.verify();
 	}
@@ -390,7 +393,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createApiVersion(organizationId, apiId, new CreateApiVersion());
+		service.createApiVersion(organizationId, apiId, new NewApiVersion());
 
 		mockServer.verify();
 	}
@@ -418,7 +421,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateApiVersion(organizationId, apiId, version, new CreateApiVersion());
+		service.updateApiVersion(organizationId, apiId, version, new UpdateApiVersion());
 
 		mockServer.verify();
 	}
@@ -488,7 +491,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateApiDefinitionFromUrl(organizationId, apiId, version, new ApiDefinitionUrl());
+		service.updateApiDefinitionFromUrl(organizationId, apiId, version, new NewApiDefinition());
 
 		mockServer.verify();
 	}
@@ -530,7 +533,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.reOrderApiPolicies(organizationId, apiId, version, new ReOrderPolicies());
+		service.reOrderApiPolicies(organizationId, apiId, version, new PolicyChain());
 
 		mockServer.verify();
 	}
@@ -700,7 +703,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.addApiPolicy(organizationId, apiId, version, new Policy());
+		service.addApiPolicy(organizationId, apiId, version, new NewPolicy());
 
 		mockServer.verify();
 	}
@@ -728,7 +731,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateApiPolicy(organizationId, apiId, version, policyId, new Policy());
+		service.updateApiPolicy(organizationId, apiId, version, policyId, new UpdatePolicy());
 
 		mockServer.verify();
 	}
@@ -770,7 +773,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createClient(organizationId, new Client());
+		service.createClient(organizationId, new NewClient());
 
 		mockServer.verify();
 	}
@@ -798,7 +801,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateClient(organizationId, clientId, new Client());
+		service.updateClient(organizationId, clientId, new UpdateClient());
 
 		mockServer.verify();
 	}
@@ -854,7 +857,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createClientVersion(organizationId, clientId, new ClientVersion());
+		service.createClientVersion(organizationId, clientId, new NewClientVersion());
 
 		mockServer.verify();
 	}
@@ -938,7 +941,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.reorderClientPolicies(organizationId, clientId, version, new ReOrderPolicies());
+		service.reorderClientPolicies(organizationId, clientId, version, new PolicyChain());
 
 		mockServer.verify();
 	}
@@ -994,7 +997,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createApiContract(organizationId, clientId, version, new ClientContract());
+		service.createApiContract(organizationId, clientId, version, new NewContract());
 
 		mockServer.verify();
 	}
@@ -1064,7 +1067,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.addClientPolicy(organizationId, clientId, version, new ClientPolicy());
+		service.addClientPolicy(organizationId, clientId, version, new NewPolicy());
 
 		mockServer.verify();
 	}
@@ -1092,7 +1095,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateClientPolicy(organizationId, clientId, version, policyId, new ClientPolicy());
+		service.updateClientPolicy(organizationId, clientId, version, policyId, new UpdatePolicy());
 
 		mockServer.verify();
 	}
@@ -1162,7 +1165,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createPlan(organizationId, new OrganizationPlan());
+		service.createPlan(organizationId, new NewPlan());
 
 		mockServer.verify();
 	}
@@ -1190,7 +1193,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updatePlan(organizationId, planId, new OrganizationPlan());
+		service.updatePlan(organizationId, planId, new UpdatePlan());
 
 		mockServer.verify();
 	}
@@ -1246,7 +1249,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createPlanVersion(organizationId, planId, new PlanVersion());
+		service.createPlanVersion(organizationId, planId, new NewPlanVersion());
 
 		mockServer.verify();
 	}
@@ -1288,7 +1291,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.reorderPlanPolicies(organizationId, planId, version, new ReOrderPolicies());
+		service.reorderPlanPolicies(organizationId, planId, version, new PolicyChain());
 
 		mockServer.verify();
 	}
@@ -1316,7 +1319,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.addPlanPolicy(organizationId, planId, version, new Policy());
+		service.addPlanPolicy(organizationId, planId, version, new NewPolicy());
 
 		mockServer.verify();
 	}
@@ -1344,7 +1347,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updatePlanPolicy(organizationId, planId, version, policyId, new Policy());
+		service.updatePlanPolicy(organizationId, planId, version, policyId, new UpdatePolicy());
 
 		mockServer.verify();
 	}
@@ -1372,7 +1375,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.grantMembership(organizationId, new GrantMemberships());
+		service.grantMembership(organizationId, new GrantRoles());
 
 		mockServer.verify();
 	}
@@ -1512,7 +1515,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForRoles(new SearchQuery());
+		service.searchForRoles(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1540,7 +1543,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForApis(new SearchQuery());
+		service.searchForApis(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1554,7 +1557,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForClients(new SearchQuery());
+		service.searchForClients(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1568,7 +1571,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForOrganizations(new SearchQuery());
+		service.searchForOrganizations(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1582,7 +1585,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForApisInApiCatalogue(new SearchQuery());
+		service.searchForApisInApiCatalogue(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1610,7 +1613,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.searchForUsers(new SearchQuery());
+		service.searchForUsers(new SearchCriteria());
 
 		mockServer.verify();
 	}
@@ -1638,7 +1641,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateUserById(userId, new User());
+		service.updateUserById(userId, new UpdateUser());
 
 		mockServer.verify();
 	}

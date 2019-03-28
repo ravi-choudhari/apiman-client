@@ -4,10 +4,11 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-import org.apiman.client.domain.Gateway;
-import org.apiman.client.domain.Plugin;
-import org.apiman.client.domain.PolicyDefinition;
-import org.apiman.client.domain.Role;
+import org.apiman.client.domain.gateway.NewGateway;
+import org.apiman.client.domain.gateway.UpdateGateway;
+import org.apiman.client.domain.plugin.NewPlugin;
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
+import org.apiman.client.domain.role.Role;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +54,7 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.testGateway(new Gateway());
+		service.testGateway(new NewGateway());
 
 		mockAdminServer.verify();
 	}
@@ -67,7 +68,7 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.createGateway(new Gateway());
+		service.createGateway(new NewGateway());
 
 		mockAdminServer.verify();
 	}
@@ -81,7 +82,7 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.updateGateway(gatewayId, new Gateway());
+		service.updateGateway(gatewayId, new UpdateGateway());
 
 		mockAdminServer.verify();
 	}
@@ -123,7 +124,7 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.addPlugin(new Plugin());
+		service.addPlugin(new NewPlugin());
 
 		mockAdminServer.verify();
 	}

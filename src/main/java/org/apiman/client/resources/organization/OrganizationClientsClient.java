@@ -11,13 +11,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ActivityList;
-import org.apiman.client.domain.ApiKey;
-import org.apiman.client.domain.ApiMetrics;
-import org.apiman.client.domain.ApiMetrics.METRICS_TYPE;
-import org.apiman.client.domain.Client;
-import org.apiman.client.domain.ClientVersion;
-import org.apiman.client.domain.ReOrderPolicies;
+import org.apiman.client.domain.audit.AuditEntry;
+import org.apiman.client.domain.clients.ApiKey;
+import org.apiman.client.domain.clients.Client;
+import org.apiman.client.domain.clients.ClientVersion;
+import org.apiman.client.domain.clients.NewClient;
+import org.apiman.client.domain.clients.NewClientVersion;
+import org.apiman.client.domain.clients.UpdateClient;
+import org.apiman.client.domain.policies.PolicyChain;
+import org.apiman.client.domain.search.SearchResults;
+import org.apiman.client.domain.summary.ClientSummary;
+import org.apiman.client.domain.summary.ClientVersionSummary;
+import org.apiman.client.domain.summary.METRICS_TYPE;
+import org.apiman.client.domain.summary.Usage;
 import org.apiman.client.resources.organization.clients.ClientsApiRegistryClient;
 import org.apiman.client.resources.organization.clients.ClientsContractsClient;
 import org.apiman.client.resources.organization.clients.ClientsPoliciesClient;
@@ -46,7 +52,7 @@ import lombok.ToString;
 @Setter(value = AccessLevel.PRIVATE)
 public class OrganizationClientsClient extends AbstractApimanClient {
 	
-	private static final String ORGANIZATION_CLIENTS_VERION_PATH = ORGANIZATION_CLIENTS_PATH + "/${clientId}/versions";
+	private static final String ORGANIZATION_CLIENTS_VESRION_PATH = ORGANIZATION_CLIENTS_PATH + "/${clientId}/versions";
 	private static final String API_KEY_PATH = "/apikey";
 	
 	@Autowired
@@ -59,14 +65,14 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Use this endpoint to get a list of all Clients in the Organization.
 	 * 
 	 */
-	public List<Client> listClients(String organizationId) {
+	public List<ClientSummary> listClients(String organizationId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map, true);
 		
-		Client[] organizationClients = restTemplate.getForObject(url, Client[].class);
+		ClientSummary[] organizationClients = restTemplate.getForObject(url, ClientSummary[].class);
 		return organizationClients != null ? Arrays.asList(organizationClients) : null;
 	}
 	
@@ -74,7 +80,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 * This can either be done by including the 'initialVersion' property in the request, or by immediately following up with a call 
 	 * to "Create Client Version". If the former is done, then a first Client version will be created automatically by this endpoint.
 	 */
-	public Client createClient(String organizationId, Client client) {
+	public Client createClient(String organizationId, NewClient client) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -101,7 +107,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Use this endpoint to update information about an Client.
 	 * 
 	 */
-	public void updateClient(String organizationId, String clientId, Client client) {
+	public void updateClient(String organizationId, String clientId, UpdateClient client) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/${clientId}");
 		Map<String, String> map = new HashMap<>();
@@ -109,7 +115,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("clientId", clientId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<Client>(client, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UpdateClient>(client, getHeaders()), Void.class);
 	}
 	
 	/* Delete a ClientApp
@@ -129,7 +135,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* This endpoint returns audit activity information about the Client.
 	 * 
 	 */
-	public ActivityList getClientActivity(String organizationId, String clientId, int page, int count) {
+	public SearchResults<AuditEntry> getClientActivity(String organizationId, String clientId, int page, int count) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_PATH, "/${clientId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
@@ -139,30 +145,30 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ActivityList.class);
+		return restTemplate.getForObject(url, SearchResults.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of an Client.
 	 * 
 	 */
-	public List<ClientVersion> listClientVersions(String organizationId, String clientId) {
+	public List<ClientVersionSummary> listClientVersions(String organizationId, String clientId) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		url = substitute(url, map, true);
 		
-		ClientVersion[] clientVersions = restTemplate.getForObject(url, ClientVersion[].class);
+		ClientVersionSummary[] clientVersions = restTemplate.getForObject(url, ClientVersionSummary[].class);
 		return clientVersions != null ? Arrays.asList(clientVersions) : null;
 	}
 	
 	/* Use this endpoint to create a new version of the Client.
 	 * 
 	 */
-	public ClientVersion createClientVersion(String organizationId, String clientId, ClientVersion clientVersion) {
+	public ClientVersion createClientVersion(String organizationId, String clientId, NewClientVersion clientVersion) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -176,7 +182,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 */
 	public ClientVersion getClientVersion(String organizationId, String clientId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}");
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -189,9 +195,9 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Use this endpoint to get audit activity information for a single version of the Client.
 	 * 
 	 */
-	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version, int page, int count) {
+	public SearchResults<AuditEntry> getClientVersionActivity(String organizationId, String clientId, String version, int page, int count) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -200,7 +206,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ActivityList.class);
+		return restTemplate.getForObject(url, SearchResults.class);
 	}
 	
 	/* Use this endpoint to get the client's current API Key. This call will fail if you do not have the proper permission to see the information.
@@ -208,7 +214,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 */
 	public ApiKey getApiKey(String organizationId, String clientId, String version) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", API_KEY_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}", API_KEY_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -224,7 +230,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 */
 	public ApiKey updateApiKey(String organizationId, String clientId, String version, ApiKey apiKey) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", API_KEY_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}", API_KEY_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -238,9 +244,9 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	/* Retrieves metrics/analytics information for a specific client. This will return request count data broken down by API. 
 	 * It basically answers the question "which APIs is my client really using?".
 	 */
-	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
+	public Usage getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate, Date toDate) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", "/metrics", "/${metricsType}", FROM_AND_TO_DATES);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}", "/metrics", "/${metricsType}", FROM_AND_TO_DATES);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
@@ -250,7 +256,7 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 		map.put("toDate", GenericUtils.formatDate(toDate != null ? toDate : new Date()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ApiMetrics.class);
+		return restTemplate.getForObject(url, Usage.class);
 	}
 	
 	/* Use this endpoint to change the order of Policies for an Client. When a Policy is added to the Client, it is added as the 
@@ -258,9 +264,9 @@ public class OrganizationClientsClient extends AbstractApimanClient {
 	 * the Policies by invoking this endpoint. The body of the request should include all of the Policies for the Client, in the 
 	 * new desired order. Note that only the IDs of each of the Policies is actually required in the request, at a minimum.
 	 */
-	public void reorderClientPolicies(String organizationId, String clientId, String version, ReOrderPolicies reOrderPolicies) {
+	public void reorderClientPolicies(String organizationId, String clientId, String version, PolicyChain reOrderPolicies) {
 		
-		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VERION_PATH, "/${version}", REORDER_POLICIES_PATH);
+		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_VESRION_PATH, "/${version}", REORDER_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.PolicyDefinition;
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.PermissionsList;
+import org.apiman.client.domain.permissions.UserPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,22 +25,22 @@ public class PermissionsClient extends AbstractApimanClient {
 	/* This endpoint returns all of the permissions assigned to the currently authenticated user.
 	 * 
 	 */
-	public PermissionsList getCurrentUserPermissions() {
+	public UserPermissions getCurrentUserPermissions() {
 		
 		String url = buildURL(apimanUrl, PERMISSIONS_PATH);
-		return restTemplate.getForObject(url, PermissionsList.class);
+		return restTemplate.getForObject(url, UserPermissions.class);
 	}
 	
 	/* This endpoint returns all of the permissions assigned to a specific user.
 	 * 
 	 */
-	public PermissionsList getUserPermissions(String userId) {
+	public UserPermissions getUserPermissions(String userId) {
 		
 		String url = buildURL(apimanUrl, PERMISSIONS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		url = substitute(url, map, true);
 		
-		return adminTemplate.getForObject(url, PermissionsList.class);
+		return adminTemplate.getForObject(url, UserPermissions.class);
 	}
 }

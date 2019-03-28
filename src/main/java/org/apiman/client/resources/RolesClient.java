@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.directory.SearchResult;
+
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Role;
-import org.apiman.client.domain.search.SearchQuery;
-import org.apiman.client.domain.search.SearchResult;
+import org.apiman.client.domain.role.Role;
+import org.apiman.client.domain.search.SearchCriteria;
+import org.apiman.client.domain.search.SearchResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -51,10 +53,10 @@ public class RolesClient extends AbstractApimanClient {
 	/* This endpoint provides a way to search for roles. The search criteria is provided in the body of the request, 
 	 * including filters, order-by, and paging information.
 	 */
-	public SearchResult searchForRoles(SearchQuery rolesSearchQuery) {
+	public SearchResults<Role> searchForRoles(SearchCriteria rolesSearchQuery) {
 		
 		String url = buildURL(apimanUrl, ROLES_PATH, SEARCH_PATH);
-		return restTemplate.postForObject(url, rolesSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, rolesSearchQuery, SearchResults.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Role by its ID.

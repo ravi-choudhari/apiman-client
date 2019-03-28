@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Policy;
+import org.apiman.client.domain.policies.NewPolicy;
+import org.apiman.client.domain.policies.Policy;
+import org.apiman.client.domain.policies.UpdatePolicy;
+import org.apiman.client.domain.summary.PolicySummary;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +25,7 @@ public class OrganizationPlansPoliciesClient extends AbstractApimanClient {
 	/* Use this endpoint to list all of the Policies configured for the Plan.
 	 * 
 	 */
-	public List<Policy> listAllPlanPolicies(String organizationId, String planId, String version) {
+	public List<PolicySummary> listAllPlanPolicies(String organizationId, String planId, String version) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -31,14 +34,14 @@ public class OrganizationPlansPoliciesClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		Policy[] planPolicies = restTemplate.getForObject(url, Policy[].class);
+		PolicySummary[] planPolicies = restTemplate.getForObject(url, PolicySummary[].class);
 		return planPolicies != null ? Arrays.asList(planPolicies) : null;
 	}
 	
 	/* Use this endpoint to add a new Policy to the Plan version.
 	 * 
 	 */
-	public Policy addPlanPolicy(String organizationId, String planId, String version, Policy planPolicy) {
+	public Policy addPlanPolicy(String organizationId, String planId, String version, NewPolicy planPolicy) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -69,7 +72,7 @@ public class OrganizationPlansPoliciesClient extends AbstractApimanClient {
 	/* Use this endpoint to update the meta-data or configuration of a single Plan Policy.
 	 * 
 	 */
-	public void updatePlanPolicy(String organizationId, String planId, String version, String policyId, Policy planPolicy) {
+	public void updatePlanPolicy(String organizationId, String planId, String version, String policyId, UpdatePolicy planPolicy) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
@@ -79,7 +82,7 @@ public class OrganizationPlansPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<Policy>(planPolicy, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UpdatePolicy>(planPolicy, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to remove a Policy from the Plan.

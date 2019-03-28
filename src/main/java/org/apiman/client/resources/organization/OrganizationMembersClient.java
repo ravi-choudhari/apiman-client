@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.OrganizationMember;
+import org.apiman.client.domain.members.Member;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,14 +20,14 @@ public class OrganizationMembersClient extends AbstractApimanClient {
 	/* Lists all members of the organization.
 	 * 
 	 */
-	public List<OrganizationMember> listOrganizationMembers(String organizationId) {
+	public List<Member> listOrganizationMembers(String organizationId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map, true);
 		
-		OrganizationMember[] organizationMembers = restTemplate.getForObject(url, OrganizationMember[].class);
+		Member[] organizationMembers = restTemplate.getForObject(url, Member[].class);
 		return organizationMembers != null ? Arrays.asList(organizationMembers) : null;
 	}
 	

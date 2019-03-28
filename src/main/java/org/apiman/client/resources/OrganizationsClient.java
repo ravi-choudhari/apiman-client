@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ActivityList;
-import org.apiman.client.domain.Organization;
+import org.apiman.client.domain.audit.AuditEntry;
+import org.apiman.client.domain.organization.NewOrganization;
+import org.apiman.client.domain.organization.Organization;
+import org.apiman.client.domain.organization.UpdateOrganization;
+import org.apiman.client.domain.search.SearchResults;
 import org.apiman.client.resources.organization.OrganizationApisClient;
 import org.apiman.client.resources.organization.OrganizationClientsClient;
 import org.apiman.client.resources.organization.OrganizationMembersClient;
@@ -52,7 +55,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 	/* Use this endpoint to create a new Organization.
 	 * 
 	 */
-	public Organization createOrganization(Organization organization) {
+	public Organization createOrganization(NewOrganization organization) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH);
 		return restTemplate.postForObject(url, organization, Organization.class);
@@ -74,14 +77,14 @@ public class OrganizationsClient extends AbstractApimanClient {
 	/* Updates meta-information about a single Organization.
 	 * 
 	 */
-	public void updateOrganization(String organizationId, Organization organization) {
+	public void updateOrganization(String organizationId, UpdateOrganization organization) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<Organization>(organization, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UpdateOrganization>(organization, getHeaders()), Void.class);
 	}
 	
 	/* Delete an org
@@ -100,7 +103,7 @@ public class OrganizationsClient extends AbstractApimanClient {
 	/* Returns audit activity information for a single Organization. The audit information that is returned represents 
 	 * all of the activity associated with this Organization (i.e. an audit log for everything in the Organization).
 	 */
-	public ActivityList getOrganizationActivity(String organizationId, int page, int count) {
+	public SearchResults<AuditEntry> getOrganizationActivity(String organizationId, int page, int count) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATIONS_PATH, "/${organizationId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
@@ -109,6 +112,6 @@ public class OrganizationsClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ActivityList.class);
+		return restTemplate.getForObject(url, SearchResults.class);
 	}	
 }

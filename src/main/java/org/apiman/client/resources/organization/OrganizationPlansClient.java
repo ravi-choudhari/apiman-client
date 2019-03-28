@@ -10,10 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ActivityList;
-import org.apiman.client.domain.OrganizationPlan;
-import org.apiman.client.domain.PlanVersion;
-import org.apiman.client.domain.ReOrderPolicies;
+import org.apiman.client.domain.audit.AuditEntry;
+import org.apiman.client.domain.plan.NewPlan;
+import org.apiman.client.domain.plan.NewPlanVersion;
+import org.apiman.client.domain.plan.Plan;
+import org.apiman.client.domain.plan.PlanVersion;
+import org.apiman.client.domain.plan.UpdatePlan;
+import org.apiman.client.domain.policies.PolicyChain;
+import org.apiman.client.domain.search.SearchResults;
+import org.apiman.client.domain.summary.PlanSummary;
+import org.apiman.client.domain.summary.PlanVersionSummary;
 import org.apiman.client.resources.organization.planpolicy.OrganizationPlansPoliciesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -46,14 +52,14 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	/* Use this endpoint to get a list of all Plans in the Organization.
 	 * 
 	 */
-	public List<OrganizationPlan> listPlans(String organizationId) {
+	public List<PlanSummary> listPlans(String organizationId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map, true);
 		
-		OrganizationPlan[] organizationPlans = restTemplate.getForObject(url, OrganizationPlan[].class);
+		PlanSummary[] organizationPlans = restTemplate.getForObject(url, PlanSummary[].class);
 		return organizationPlans != null ? Arrays.asList(organizationPlans) : null;
 	}
 	
@@ -61,20 +67,20 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 * This can either be done by including the 'initialVersion' property in the request, or by immediately following up with a call 
 	 * to "Create Plan Version". If the former is done, then a first Plan version will be created automatically by this endpoint.
 	 */
-	public OrganizationPlan createPlan(String organizationId, OrganizationPlan organizationPlan) {
+	public Plan createPlan(String organizationId, NewPlan organizationPlan) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.postForObject(url, organizationPlan, OrganizationPlan.class);
+		return restTemplate.postForObject(url, organizationPlan, Plan.class);
 	}
 	
 	/* Use this endpoint to retrieve information about a single Plan by ID. Note that this only returns information about the Plan, 
 	 * not about any particular *version* of the Plan.
 	 */
-	public OrganizationPlan getPlanById(String organizationId, String planId) {
+	public Plan getPlanById(String organizationId, String planId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}");
 		Map<String, String> map = new HashMap<>();
@@ -82,13 +88,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, OrganizationPlan.class);
+		return restTemplate.getForObject(url, Plan.class);
 	}
 	
 	/* Use this endpoint to update information about a Plan.
 	 * 
 	 */
-	public void updatePlan(String organizationId, String planId, OrganizationPlan organizationPlan) {
+	public void updatePlan(String organizationId, String planId, UpdatePlan organizationPlan) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}");
 		Map<String, String> map = new HashMap<>();
@@ -96,7 +102,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<OrganizationPlan>(organizationPlan, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UpdatePlan>(organizationPlan, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to delete a plan. Only an unlocked plan may be deleted.
@@ -116,7 +122,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	/* This endpoint returns audit activity information about the Plan.
 	 * 
 	 */
-	public ActivityList getPlanActivity(String organizationId, String planId, int page, int count) {
+	public SearchResults<AuditEntry> getPlanActivity(String organizationId, String planId, int page, int count) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_PATH, "/${planId}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
@@ -126,13 +132,13 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ActivityList.class);
+		return restTemplate.getForObject(url, SearchResults.class);
 	}
 	
 	/* Use this endpoint to list all of the versions of a Plan.
 	 * 
 	 */
-	public List<PlanVersion> listPlanVersions(String organizationId, String planId) {
+	public List<PlanVersionSummary> listPlanVersions(String organizationId, String planId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -140,14 +146,14 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("planId", planId);
 		url = substitute(url, map, true);
 		
-		PlanVersion[] planVersions = restTemplate.getForObject(url, PlanVersion[].class);
+		PlanVersionSummary[] planVersions = restTemplate.getForObject(url, PlanVersionSummary[].class);
 		return planVersions != null ? Arrays.asList(planVersions) : null;
 	}
 	
 	/* Use this endpoint to create a new version of the Plan.
 	 * 
 	 */
-	public PlanVersion createPlanVersion(String organizationId, String planId, PlanVersion planVersion) {
+	public PlanVersion createPlanVersion(String organizationId, String planId, NewPlanVersion planVersion) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -176,7 +182,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	/* Use this endpoint to get audit activity information for a single version of the Plan.
 	 * 
 	 */
-	public ActivityList getPlanVersionActivity(String organizationId, String planId, String version, int page, int count) {
+	public SearchResults<AuditEntry> getPlanVersionActivity(String organizationId, String planId, String version, int page, int count) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/${version}", ACTIVITY_PATH, PAGE_NUMBER_AND_COUNT);
 		Map<String, String> map = new HashMap<>();
@@ -187,7 +193,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ActivityList.class);
+		return restTemplate.getForObject(url, SearchResults.class);
 	}
 	
 	/* Use this endpoint to change the order of Policies for a Plan. When a Policy is added to the Plan, it is added as the last 
@@ -195,7 +201,7 @@ public class OrganizationPlansClient extends AbstractApimanClient {
 	 * Policies by invoking this endpoint. The body of the request should include all of the Policies for the Plan, in the new 
 	 * desired order. Note that only the IDs of each of the Policies is actually required in the request, at a minimum.
 	 */
-	public void reorderPlanPolicies(String organizationId, String planId, String version, ReOrderPolicies reOrderPolicies) {
+	public void reorderPlanPolicies(String organizationId, String planId, String version, PolicyChain reOrderPolicies) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_PLANS_VERSION_PATH, "/${version}", REORDER_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();

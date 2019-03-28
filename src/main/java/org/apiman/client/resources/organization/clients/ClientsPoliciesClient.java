@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.ClientPolicy;
+import org.apiman.client.domain.policies.NewPolicy;
+import org.apiman.client.domain.policies.Policy;
+import org.apiman.client.domain.policies.UpdatePolicy;
+import org.apiman.client.domain.summary.PolicySummary;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +25,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 	/* Use this endpoint to list all of the Policies configured for the Client.
 	 * 
 	 */
-	public List<ClientPolicy> listAllClientPolicies(String organizationId, String clientId, String version) {
+	public List<PolicySummary> listAllClientPolicies(String organizationId, String clientId, String version) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -31,14 +34,14 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		ClientPolicy[] clientPolicies = restTemplate.getForObject(url, ClientPolicy[].class);
+		PolicySummary[] clientPolicies = restTemplate.getForObject(url, PolicySummary[].class);
 		return clientPolicies != null ? Arrays.asList(clientPolicies) : null;
 	}
 	
 	/* Use this endpoint to add a new Policy to the Client version.
 	 * 
 	 */
-	public ClientPolicy addClientPolicy(String organizationId, String clientId, String version, ClientPolicy clientPolicy) {
+	public Policy addClientPolicy(String organizationId, String clientId, String version, NewPolicy clientPolicy) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH);
 		Map<String, String> map = new HashMap<>();
@@ -47,13 +50,13 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("version", version);
 		url = substitute(url, map, true);
 		
-		return restTemplate.postForObject(url, clientPolicy, ClientPolicy.class);
+		return restTemplate.postForObject(url, clientPolicy, Policy.class);
 	}
 	
 	/* Use this endpoint to get information about a single Policy in the Client version.
 	 * 
 	 */
-	public ClientPolicy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
+	public Policy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
@@ -63,13 +66,13 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map, true);
 		
-		return restTemplate.getForObject(url, ClientPolicy.class);
+		return restTemplate.getForObject(url, Policy.class);
 	}
 	
 	/* Use this endpoint to update the meta-data or configuration of a single Client Policy.
 	 * 
 	 */
-	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId, ClientPolicy clientPolicy) {
+	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId, UpdatePolicy clientPolicy) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
@@ -79,7 +82,7 @@ public class ClientsPoliciesClient extends AbstractApimanClient {
 		map.put("policyId", policyId);
 		url = substitute(url, map, true);
 		
-		restTemplate.exchange(url, PUT, new HttpEntity<ClientPolicy>(clientPolicy, getHeaders()), Void.class);
+		restTemplate.exchange(url, PUT, new HttpEntity<UpdatePolicy>(clientPolicy, getHeaders()), Void.class);
 	}
 	
 	/* Use this endpoint to remove a Policy from the Client.

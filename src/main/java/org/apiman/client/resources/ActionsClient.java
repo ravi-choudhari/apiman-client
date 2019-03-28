@@ -3,7 +3,7 @@ package org.apiman.client.resources;
 import static org.apiman.client.util.GenericUtils.buildURL;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Action;
+import org.apiman.client.domain.action.Action;
 import org.springframework.stereotype.Component;
 
 @Component

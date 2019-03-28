@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Plugin;
+import org.apiman.client.domain.plugin.NewPlugin;
+import org.apiman.client.domain.plugin.Plugin;
+import org.apiman.client.domain.plugin.PluginSummary;
 import org.apiman.client.resources.plugins.PluginsPolicyDefsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,18 +41,18 @@ public class PluginsClient extends AbstractApimanClient {
 	@Qualifier("redhatApimanAdminRestClient")
 	protected RestTemplate adminTemplate;
 	
-	private static final String AVAILABLE_PLUGINS_PATH = "/availablePlugins";
-	
 	@Autowired
 	private PluginsPolicyDefsClient pluginsPolicyDefsClient;
+	
+	private static final String AVAILABLE_PLUGINS_PATH = "/availablePlugins";
 	
 	/* This endpoint returns a list of all plugins that have been added to the system.
 	 * 
 	 */
-	public List<Plugin> listAllPlugins() {
+	public List<PluginSummary> listAllPlugins() {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH);
-		Plugin[] plugins = restTemplate.getForObject(url, Plugin[].class);
+		PluginSummary[] plugins = restTemplate.getForObject(url, PluginSummary[].class);
 		
 		return plugins != null ? Arrays.asList(plugins) : null;
 	}
@@ -58,7 +60,7 @@ public class PluginsClient extends AbstractApimanClient {
 	/* Use this endpoint to add a plugin to apiman. A plugin consists of the maven coordinates of an artifact deployed 
 	 * to a remote maven repository (e.g. maven central).
 	 */
-	public Plugin addPlugin(Plugin plugin) {
+	public Plugin addPlugin(NewPlugin plugin) {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH);
 		return adminTemplate.postForObject(url, plugin, Plugin.class);
@@ -68,10 +70,10 @@ public class PluginsClient extends AbstractApimanClient {
 	 * querying all of the plugin registries configured in apiman and returning the list of plugins found in each (sorted by name). 
 	 * Note that this endpoint includes all plugins, even those already installed.
 	 */
-	public List<Plugin> listAvailablePlugins() {
+	public List<PluginSummary> listAvailablePlugins() {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH, AVAILABLE_PLUGINS_PATH);
-		Plugin[] plugins = restTemplate.getForObject(url, Plugin[].class);
+		PluginSummary[] plugins = restTemplate.getForObject(url, PluginSummary[].class);
 		
 		return plugins != null ? Arrays.asList(plugins) : null;
 	}

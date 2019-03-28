@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.PolicyDefinition;
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
+import org.apiman.client.domain.summary.PolicyDefinitionSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -29,10 +30,10 @@ public class PolicyDefsClient extends AbstractApimanClient {
 	/* This endpoint returns a list of all policy definitions that have been added to apiman.
 	 * 
 	 */
-	public List<PolicyDefinition> listPolicyDefinitions() {
+	public List<PolicyDefinitionSummary> listPolicyDefinitions() {
 		
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH);
-		PolicyDefinition[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinition[].class);
+		PolicyDefinitionSummary[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinitionSummary[].class);
 		
 		return policyDefinitions != null ? Arrays.asList(policyDefinitions) : null;
 	}

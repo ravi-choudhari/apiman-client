@@ -10,88 +10,104 @@ import java.util.List;
 import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Gateway;
+import org.apiman.client.domain.gateway.Gateway;
+import org.apiman.client.domain.gateway.NewGateway;
+import org.apiman.client.domain.gateway.UpdateGateway;
+import org.apiman.client.domain.summary.GatewaySummary;
+import org.apiman.client.domain.summary.GatewayTestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 public class GatewaysClient extends AbstractApimanClient {
-	
+
 	@Autowired
 	@Qualifier("redhatApimanAdminRestClient")
 	protected RestTemplate adminTemplate;
-	
+
 	private static final String GATEWAYS_PATH = "/gateways";
-	
-	/* This endpoint returns a list of all the Gateways that have been configured.
+
+	/*
+	 * This endpoint returns a list of all the Gateways that have been configured.
 	 * 
 	 */
-	public List<Gateway> listAllGateways() {
-		
+	public List<GatewaySummary> listAllGateways() {
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		Gateway[] gateways = restTemplate.getForObject(url, Gateway[].class);
-		
+		GatewaySummary[] gateways = restTemplate.getForObject(url, GatewaySummary[].class);
+
 		return gateways != null ? Arrays.asList(gateways) : null;
 	}
-	
-	/* This endpoint is used to test the Gateway's settings prior to either creating or updating it. The information will 
-	 * be used to attempt to create a link between the API Manager and the Gateway, by simply trying to ping the 
+
+	/*
+	 * This endpoint is used to test the Gateway's settings prior to either creating
+	 * or updating it. The information will be used to attempt to create a link
+	 * between the API Manager and the Gateway, by simply trying to ping the
 	 * Gateway's "status" endpoint.
 	 */
-	public void testGateway(Gateway gateway) {
-		
+	public GatewayTestResult testGateway(NewGateway gateway) {
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
-		adminTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+		ResponseEntity<GatewayTestResult> response = adminTemplate.exchange(url, PUT,
+				new HttpEntity<NewGateway>(gateway, getHeaders()), GatewayTestResult.class);
+
+		return response != null ? response.getBody() : null;
 	}
-	
-	/* This endpoint is called to create a new Gateway.
+
+	/*
+	 * This endpoint is called to create a new Gateway.
 	 * 
 	 */
-	public Gateway createGateway(Gateway gateway) {
-		
+	public Gateway createGateway(NewGateway gateway) {
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH);
 		return adminTemplate.postForObject(url, gateway, Gateway.class);
 	}
-	
-	/* Call this endpoint to get the details of a single configured Gateway.
+
+	/*
+	 * Call this endpoint to get the details of a single configured Gateway.
 	 * 
 	 */
 	public Gateway getGatewayById(String gatewayId) {
-		
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map, true);
-		
+
 		return restTemplate.getForObject(url, Gateway.class);
 	}
-	
-	/* Use this endpoint to update an existing Gateway. Note that the name of the Gateway cannot be changed, as the name 
-	 * is tied closely with the Gateway's ID. If you wish to rename the Gateway you must delete it and create a new one.
+
+	/*
+	 * Use this endpoint to update an existing Gateway. Note that the name of the
+	 * Gateway cannot be changed, as the name is tied closely with the Gateway's ID.
+	 * If you wish to rename the Gateway you must delete it and create a new one.
 	 */
-	public void updateGateway(String gatewayId, Gateway gateway) {
-		
+	public void updateGateway(String gatewayId, UpdateGateway gateway) {
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map, true);
-		
-		adminTemplate.exchange(url, PUT, new HttpEntity<Gateway>(gateway, getHeaders()), Void.class);
+
+		adminTemplate.exchange(url, PUT, new HttpEntity<UpdateGateway>(gateway, getHeaders()), Void.class);
 	}
-	
-	/* This endpoint deletes a Gateway by its unique ID.
+
+	/*
+	 * This endpoint deletes a Gateway by its unique ID.
 	 * 
 	 */
 	public void deleteGateway(String gatewayId) {
-		
+
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
 		url = substitute(url, map, true);
-		
+
 		adminTemplate.delete(url);
 	}
 }

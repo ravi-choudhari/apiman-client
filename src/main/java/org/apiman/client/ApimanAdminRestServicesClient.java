@@ -1,12 +1,16 @@
 package org.apiman.client;
 
 import org.apiman.client.conditions.ApimanAdminCondition;
-import org.apiman.client.domain.Gateway;
-import org.apiman.client.domain.PermissionsList;
-import org.apiman.client.domain.Plugin;
-import org.apiman.client.domain.PolicyDefinition;
-import org.apiman.client.domain.Role;
-import org.apiman.client.domain.SystemStatus;
+import org.apiman.client.domain.gateway.Gateway;
+import org.apiman.client.domain.gateway.NewGateway;
+import org.apiman.client.domain.gateway.UpdateGateway;
+import org.apiman.client.domain.permissions.UserPermissions;
+import org.apiman.client.domain.plugin.NewPlugin;
+import org.apiman.client.domain.plugin.Plugin;
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
+import org.apiman.client.domain.role.Role;
+import org.apiman.client.domain.summary.GatewayTestResult;
+import org.apiman.client.domain.system.SystemStatus;
 import org.apiman.client.resources.GatewaysClient;
 import org.apiman.client.resources.PermissionsClient;
 import org.apiman.client.resources.PluginsClient;
@@ -52,19 +56,19 @@ public class ApimanAdminRestServicesClient {
 	@Autowired
 	private SystemClient systemClient;
 
-	public void testGateway(Gateway gateway) {
+	public GatewayTestResult testGateway(NewGateway gateway) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
-		getGatewaysClient().testGateway(gateway);
+		return getGatewaysClient().testGateway(gateway);
 	}
 
-	public Gateway createGateway(Gateway gateway) {
+	public Gateway createGateway(NewGateway gateway) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getGatewaysClient().createGateway(gateway);
 	}
 
-	public void updateGateway(String gatewayId, Gateway gateway) {
+	public void updateGateway(String gatewayId, UpdateGateway gateway) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getGatewaysClient().updateGateway(gatewayId, gateway);
@@ -76,13 +80,13 @@ public class ApimanAdminRestServicesClient {
 		getGatewaysClient().deleteGateway(gatewayId);
 	}
 
-	public PermissionsList getUserPermissions(String userId) {
+	public UserPermissions getUserPermissions(String userId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPermissionsClient().getUserPermissions(userId);
 	}
 
-	public Plugin addPlugin(Plugin plugin) {
+	public Plugin addPlugin(NewPlugin plugin) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().addPlugin(plugin);

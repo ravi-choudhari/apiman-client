@@ -4,42 +4,68 @@ import java.util.Date;
 import java.util.List;
 
 import org.apiman.client.conditions.ApimanCondition;
-import org.apiman.client.domain.Action;
-import org.apiman.client.domain.ActivityList;
-import org.apiman.client.domain.Api;
-import org.apiman.client.domain.ApiContract;
-import org.apiman.client.domain.ApiDefinitionUrl;
-import org.apiman.client.domain.ApiKey;
-import org.apiman.client.domain.ApiMetrics;
-import org.apiman.client.domain.ApiMetricsList;
-import org.apiman.client.domain.ApiPolicyList;
-import org.apiman.client.domain.ApiStatusList;
-import org.apiman.client.domain.ApiVersion;
-import org.apiman.client.domain.Client;
-import org.apiman.client.domain.ClientContract;
-import org.apiman.client.domain.ClientPolicy;
-import org.apiman.client.domain.ClientVersion;
-import org.apiman.client.domain.CreateApi;
-import org.apiman.client.domain.CreateApiVersion;
-import org.apiman.client.domain.Endpoint;
-import org.apiman.client.domain.Gateway;
-import org.apiman.client.domain.GrantMemberships;
-import org.apiman.client.domain.Namespace;
-import org.apiman.client.domain.Organization;
-import org.apiman.client.domain.OrganizationMember;
-import org.apiman.client.domain.OrganizationPlan;
-import org.apiman.client.domain.PermissionsList;
-import org.apiman.client.domain.Plan;
-import org.apiman.client.domain.PlanVersion;
-import org.apiman.client.domain.Plugin;
-import org.apiman.client.domain.Policy;
-import org.apiman.client.domain.PolicyDefinition;
-import org.apiman.client.domain.ReOrderPolicies;
-import org.apiman.client.domain.Role;
-import org.apiman.client.domain.User;
-import org.apiman.client.domain.UserInformation;
-import org.apiman.client.domain.search.SearchQuery;
-import org.apiman.client.domain.search.SearchResult;
+import org.apiman.client.domain.action.Action;
+import org.apiman.client.domain.apis.Api;
+import org.apiman.client.domain.apis.ApiVersion;
+import org.apiman.client.domain.apis.ApiVersionStatus;
+import org.apiman.client.domain.apis.NewApi;
+import org.apiman.client.domain.apis.NewApiDefinition;
+import org.apiman.client.domain.apis.NewApiVersion;
+import org.apiman.client.domain.apis.UpdateApi;
+import org.apiman.client.domain.apis.UpdateApiVersion;
+import org.apiman.client.domain.audit.AuditEntry;
+import org.apiman.client.domain.clients.ApiKey;
+import org.apiman.client.domain.clients.Client;
+import org.apiman.client.domain.clients.ClientVersion;
+import org.apiman.client.domain.clients.NewClient;
+import org.apiman.client.domain.clients.NewClientVersion;
+import org.apiman.client.domain.clients.UpdateClient;
+import org.apiman.client.domain.contracts.Contract;
+import org.apiman.client.domain.contracts.NewContract;
+import org.apiman.client.domain.currentuser.CurrentUser;
+import org.apiman.client.domain.gateway.Gateway;
+import org.apiman.client.domain.members.Member;
+import org.apiman.client.domain.organization.NewOrganization;
+import org.apiman.client.domain.organization.Organization;
+import org.apiman.client.domain.organization.UpdateOrganization;
+import org.apiman.client.domain.permissions.UserPermissions;
+import org.apiman.client.domain.plan.NewPlan;
+import org.apiman.client.domain.plan.NewPlanVersion;
+import org.apiman.client.domain.plan.Plan;
+import org.apiman.client.domain.plan.PlanVersion;
+import org.apiman.client.domain.plan.UpdatePlan;
+import org.apiman.client.domain.plugin.PluginSummary;
+import org.apiman.client.domain.policies.NewPolicy;
+import org.apiman.client.domain.policies.Policy;
+import org.apiman.client.domain.policies.PolicyChain;
+import org.apiman.client.domain.policies.UpdatePolicy;
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
+import org.apiman.client.domain.role.GrantRoles;
+import org.apiman.client.domain.role.Role;
+import org.apiman.client.domain.search.SearchCriteria;
+import org.apiman.client.domain.search.SearchResults;
+import org.apiman.client.domain.summary.ApiNamespace;
+import org.apiman.client.domain.summary.ApiPlanSummary;
+import org.apiman.client.domain.summary.ApiSummary;
+import org.apiman.client.domain.summary.ApiVersionEndpointSummary;
+import org.apiman.client.domain.summary.ApiVersionSummary;
+import org.apiman.client.domain.summary.AvailableApi;
+import org.apiman.client.domain.summary.ClientSummary;
+import org.apiman.client.domain.summary.ClientVersionSummary;
+import org.apiman.client.domain.summary.ContractSummary;
+import org.apiman.client.domain.summary.GatewaySummary;
+import org.apiman.client.domain.summary.OrganizationSummary;
+import org.apiman.client.domain.summary.PlanSummary;
+import org.apiman.client.domain.summary.PlanVersionSummary;
+import org.apiman.client.domain.summary.PolicyDefinitionSummary;
+import org.apiman.client.domain.summary.PolicySummary;
+import org.apiman.client.domain.summary.ResponseStats;
+import org.apiman.client.domain.summary.ResponseStatsHistogram;
+import org.apiman.client.domain.summary.ResponseStatsSummary;
+import org.apiman.client.domain.summary.Usage;
+import org.apiman.client.domain.summary.UsageHistogram;
+import org.apiman.client.domain.user.UpdateUser;
+import org.apiman.client.domain.user.User;
 import org.apiman.client.resources.ActionsClient;
 import org.apiman.client.resources.CurrentUserClient;
 import org.apiman.client.resources.DownloadsClient;
@@ -106,43 +132,43 @@ public class ApimanRestServicesClient {
 		getActionsClient().executeEntityAction(action);
 	}
 
-	public List<Organization> getApiOrganizations() {
+	public List<OrganizationSummary> getApiOrganizations() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getApiOrganizations();
 	}
 
-	public List<Api> getCurrentUserApis() {
+	public List<ApiSummary> getCurrentUserApis() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getCurrentUserApis();
 	}
 
-	public List<Organization> getClientOrganizations() {
+	public List<OrganizationSummary> getClientOrganizations() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getClientOrganizations();
 	}
 
-	public List<Client> getCurrentUserClients() {
+	public List<ClientSummary> getCurrentUserClients() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getCurrentUserClients();
 	}
 
-	public User getCurrentUserInformation() {
+	public CurrentUser getCurrentUserInformation() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getCurrentUserInformation();
 	}
 
-	public void updateCurrentUserInformation(UserInformation userInformation) {
+	public void updateCurrentUserInformation(UpdateUser userInformation) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getCurrentUserClient().updateCurrentUserInformation(userInformation);
 	}
 
-	public List<Organization> getPlanOrganizations() {
+	public List<OrganizationSummary> getPlanOrganizations() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getCurrentUserClient().getPlanOrganizations();
@@ -154,7 +180,7 @@ public class ApimanRestServicesClient {
 		return getDownloadsClient().downloadFile(downloadId);
 	}
 
-	public List<Gateway> listAllGateways() {
+	public List<GatewaySummary> listAllGateways() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getGatewaysClient().listAllGateways();
@@ -166,7 +192,7 @@ public class ApimanRestServicesClient {
 		return getGatewaysClient().getGatewayById(gatewayId);
 	}
 
-	public Organization createOrganization(Organization organization) {
+	public Organization createOrganization(NewOrganization organization) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().createOrganization(organization);
@@ -178,7 +204,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getOrganizationById(organizationId);
 	}
 
-	public void updateOrganization(String organizationId, Organization organization) {
+	public void updateOrganization(String organizationId, UpdateOrganization organization) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().updateOrganization(organizationId, organization);
@@ -190,19 +216,19 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().deleteOrganization(organizationId);
 	}
 
-	public ActivityList getOrganizationActivity(String organizationId, int page, int count) {
+	public SearchResults<AuditEntry> getOrganizationActivity(String organizationId, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getOrganizationActivity(organizationId, page, count);
 	}
 
-	public List<Api> listApis(String organizationId) {
+	public List<ApiSummary> listApis(String organizationId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().listApis(organizationId);
 	}
 
-	public Api createApi(String organizationId, CreateApi createApi) {
+	public Api createApi(String organizationId, NewApi createApi) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().createApi(organizationId, createApi);
@@ -214,7 +240,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getApisClient().getApiById(organizationId, apiId);
 	}
 
-	public void updateApi(String organizationId, String apiId, Api api) {
+	public void updateApi(String organizationId, String apiId, UpdateApi api) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getApisClient().updateApi(organizationId, apiId, api);
@@ -226,39 +252,39 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().getApisClient().deleteApi(organizationId, apiId);
 	}
 
-	public ActivityList getApiActivity(String organizationId, String apiId, int page, int count) {
+	public SearchResults<AuditEntry> getApiActivity(String organizationId, String apiId, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getApiActivity(organizationId, apiId, page, count);
 	}
 
-	public List<ApiVersion> listApiVersions(String organizationId, String apiId) {
+	public List<ApiVersionSummary> listApiVersions(String organizationId, String apiId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().listApiVersions(organizationId, apiId);
 	}
 
-	public CreateApiVersion createApiVersion(String organizationId, String apiId, CreateApiVersion createApiVersion) {
+	public ApiVersion createApiVersion(String organizationId, String apiId, NewApiVersion createApiVersion) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().createApiVersion(organizationId, apiId, createApiVersion);
 	}
 
-	public CreateApiVersion getApiVersion(String organizationId, String apiId, String version) {
+	public ApiVersion getApiVersion(String organizationId, String apiId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getApiVersion(organizationId, apiId, version);
 	}
 
-	public CreateApiVersion updateApiVersion(String organizationId, String apiId, String version,
-			CreateApiVersion createApiVersion) {
+	public ApiVersion updateApiVersion(String organizationId, String apiId, String version,
+			UpdateApiVersion createApiVersion) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().updateApiVersion(organizationId, apiId, version,
 				createApiVersion);
 	}
 
-	public ActivityList getApiVersionActivity(String organizationId, String apiId, String version, int page,
+	public SearchResults<AuditEntry> getApiVersionActivity(String organizationId, String apiId, String version, int page,
 			int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -266,7 +292,7 @@ public class ApimanRestServicesClient {
 				count);
 	}
 
-	public List<ApiContract> listApiContracts(String organizationId, String apiId, String version, int page,
+	public List<ContractSummary> listApiContracts(String organizationId, String apiId, String version, int page,
 			int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -286,11 +312,11 @@ public class ApimanRestServicesClient {
 	}
 
 	public void updateApiDefinitionFromUrl(String organizationId, String apiId, String version,
-			ApiDefinitionUrl apiDefinitionUrl) {
+			NewApiDefinition apiDefinition) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getApisClient().updateApiDefinitionFromUrl(organizationId, apiId, version,
-				apiDefinitionUrl);
+				apiDefinition);
 	}
 
 	public void removeApiDefinition(String organizationId, String apiId, String version) {
@@ -299,26 +325,26 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().getApisClient().removeApiDefinition(organizationId, apiId, version);
 	}
 
-	public Endpoint getApiEndpoint(String organizationId, String apiId, String version) {
+	public ApiVersionEndpointSummary getApiEndpoint(String organizationId, String apiId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getApiEndpoint(organizationId, apiId, version);
 	}
 
 	public void reOrderApiPolicies(String organizationId, String apiId, String version,
-			ReOrderPolicies reOrderPolicies) {
+			PolicyChain reOrderPolicies) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getApisClient().reOrderApiPolicies(organizationId, apiId, version, reOrderPolicies);
 	}
 
-	public ApiStatusList getApiVersionStatus(String organizationId, String apiId, String version) {
+	public ApiVersionStatus getApiVersionStatus(String organizationId, String apiId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getApiVersionStatus(organizationId, apiId, version);
 	}
 
-	public ApiMetrics getApiResponseStatisticsPerClient(String organizationId, String apiId, String version,
+	public ResponseStats getApiResponseStatisticsPerClient(String organizationId, String apiId, String version,
 			Date fromDate, Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -326,7 +352,7 @@ public class ApimanRestServicesClient {
 				.getApiResponseStatisticsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 
-	public ApiMetrics getApiUsageMetricsPerClient(String organizationId, String apiId, String version, Date fromDate,
+	public Usage getApiUsageMetricsPerClient(String organizationId, String apiId, String version, Date fromDate,
 			Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -334,7 +360,7 @@ public class ApimanRestServicesClient {
 				.getApiUsageMetricsPerClient(organizationId, apiId, version, fromDate, toDate);
 	}
 
-	public ApiMetrics getApiResponseStatisticsPerPlan(String organizationId, String apiId, String version,
+	public ResponseStats getApiResponseStatisticsPerPlan(String organizationId, String apiId, String version,
 			Date fromDate, Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -342,7 +368,7 @@ public class ApimanRestServicesClient {
 				.getApiResponseStatisticsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 
-	public ApiMetrics getApiUsageMetricsPerPlan(String organizationId, String apiId, String version, Date fromDate,
+	public Usage getApiUsageMetricsPerPlan(String organizationId, String apiId, String version, Date fromDate,
 			Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -350,7 +376,7 @@ public class ApimanRestServicesClient {
 				.getApiUsageMetricsPerPlan(organizationId, apiId, version, fromDate, toDate);
 	}
 
-	public ApiMetrics getApiResponseStatistics(String organizationId, String apiId, String version, Date fromDate,
+	public ResponseStatsHistogram getApiResponseStatistics(String organizationId, String apiId, String version, Date fromDate,
 			Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -358,7 +384,7 @@ public class ApimanRestServicesClient {
 				.getApiResponseStatistics(organizationId, apiId, version, fromDate, toDate);
 	}
 
-	public ApiMetricsList getApiResponseStatisticsSummary(String organizationId, String apiId, String version,
+	public ResponseStatsSummary getApiResponseStatisticsSummary(String organizationId, String apiId, String version,
 			Date fromDate, Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -366,7 +392,7 @@ public class ApimanRestServicesClient {
 				.getApiResponseStatisticsSummary(organizationId, apiId, version, fromDate, toDate, null);
 	}
 
-	public ApiMetricsList getApiUsageMetrics(String organizationId, String apiId, String version, Date fromDate,
+	public UsageHistogram getApiUsageMetrics(String organizationId, String apiId, String version, Date fromDate,
 			Date toDate, String interval) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -374,28 +400,28 @@ public class ApimanRestServicesClient {
 				.getApiUsageMetrics(organizationId, apiId, version, fromDate, toDate, interval);
 	}
 
-	public List<Plan> listApiPlans(String organizationId, String apiId, String version) {
+	public List<ApiPlanSummary> listApiPlans(String organizationId, String apiId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getOrganizationApiPlansClient().listApiPlans(organizationId,
 				apiId, version);
 	}
 
-	public ApiPolicyList getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
+	public PolicyChain getApiPolicyChain(String organizationId, String apiId, String version, String planId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getOrganizationApiPlansClient()
 				.getApiPolicyChain(organizationId, apiId, version, planId);
 	}
 
-	public List<Policy> listAllApiPolicies(String organizationId, String apiId, String version) {
+	public List<PolicySummary> listAllApiPolicies(String organizationId, String apiId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient()
 				.listAllApiPolicies(organizationId, apiId, version);
 	}
 
-	public Policy addApiPolicy(String organizationId, String apiId, String version, Policy apiPolicy) {
+	public Policy addApiPolicy(String organizationId, String apiId, String version, NewPolicy apiPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().addApiPolicy(organizationId,
@@ -410,7 +436,7 @@ public class ApimanRestServicesClient {
 	}
 
 	public void updateApiPolicy(String organizationId, String apiId, String version, String policyId,
-			Policy apiPolicy) {
+			UpdatePolicy apiPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().updateApiPolicy(organizationId,
@@ -424,13 +450,13 @@ public class ApimanRestServicesClient {
 				apiId, version, policyId);
 	}
 
-	public List<Client> listClients(String organizationId) {
+	public List<ClientSummary> listClients(String organizationId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().listClients(organizationId);
 	}
 
-	public Client createClient(String organizationId, Client client) {
+	public Client createClient(String organizationId, NewClient client) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().createClient(organizationId, client);
@@ -442,7 +468,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getClientsClient().getClientById(organizationId, clientId);
 	}
 
-	public void updateClient(String organizationId, String clientId, Client client) {
+	public void updateClient(String organizationId, String clientId, UpdateClient client) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getClientsClient().updateClient(organizationId, clientId, client);
@@ -454,19 +480,19 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().getClientsClient().deleteClient(organizationId, clientId);
 	}
 
-	public ActivityList getClientActivity(String organizationId, String clientId, int page, int count) {
+	public SearchResults<AuditEntry> getClientActivity(String organizationId, String clientId, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientActivity(organizationId, clientId, page, count);
 	}
 
-	public List<ClientVersion> listClientVersions(String organizationId, String clientId) {
+	public List<ClientVersionSummary> listClientVersions(String organizationId, String clientId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().listClientVersions(organizationId, clientId);
 	}
 
-	public ClientVersion createClientVersion(String organizationId, String clientId, ClientVersion clientVersion) {
+	public ClientVersion createClientVersion(String organizationId, String clientId, NewClientVersion clientVersion) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().createClientVersion(organizationId, clientId, clientVersion);
@@ -478,7 +504,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getClientsClient().getClientVersion(organizationId, clientId, version);
 	}
 
-	public ActivityList getClientVersionActivity(String organizationId, String clientId, String version, int page, int count) {
+	public SearchResults<AuditEntry> getClientVersionActivity(String organizationId, String clientId, String version, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientVersionActivity(organizationId, clientId, version, page, count);
@@ -496,7 +522,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getClientsClient().updateApiKey(organizationId, clientId, version, apiKey);
 	}
 
-	public ApiMetrics getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate,
+	public Usage getClientUsageMetricsPerApi(String organizationId, String clientId, String version, Date fromDate,
 			Date toDate) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -505,7 +531,7 @@ public class ApimanRestServicesClient {
 	}
 
 	public void reorderClientPolicies(String organizationId, String clientId, String version,
-			ReOrderPolicies reOrderPolicies) {
+			PolicyChain reOrderPolicies) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getClientsClient().reorderClientPolicies(organizationId, clientId, version,
@@ -526,15 +552,15 @@ public class ApimanRestServicesClient {
 				.getXmlApiRegistry(organizationId, clientId, version, download);
 	}
 
-	public List<ClientContract> listAllContractsForClient(String organizationId, String clientId, String version) {
+	public List<ContractSummary> listAllContractsForClient(String organizationId, String clientId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsContractsClient()
 				.listAllContractsForClient(organizationId, clientId, version);
 	}
 
-	public ClientContract createApiContract(String organizationId, String clientId, String version,
-			ClientContract apiContract) {
+	public Contract createApiContract(String organizationId, String clientId, String version,
+			NewContract apiContract) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsContractsClient().createApiContract(organizationId,
@@ -548,7 +574,7 @@ public class ApimanRestServicesClient {
 				clientId, version);
 	}
 
-	public ClientContract getApiContract(String organizationId, String clientId, String version, String contractId) {
+	public Contract getApiContract(String organizationId, String clientId, String version, String contractId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsContractsClient().getApiContract(organizationId,
@@ -562,22 +588,22 @@ public class ApimanRestServicesClient {
 				version, contractId);
 	}
 
-	public List<ClientPolicy> listAllClientPolicies(String organizationId, String clientId, String version) {
+	public List<PolicySummary> listAllClientPolicies(String organizationId, String clientId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient()
 				.listAllClientPolicies(organizationId, clientId, version);
 	}
 
-	public ClientPolicy addClientPolicy(String organizationId, String clientId, String version,
-			ClientPolicy clientPolicy) {
+	public Policy addClientPolicy(String organizationId, String clientId, String version,
+			NewPolicy clientPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().addClientPolicy(organizationId,
 				clientId, version, clientPolicy);
 	}
 
-	public ClientPolicy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
+	public Policy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().getClientPolicy(organizationId,
@@ -585,7 +611,7 @@ public class ApimanRestServicesClient {
 	}
 
 	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId,
-			ClientPolicy clientPolicy) {
+			UpdatePolicy clientPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getClientsClient().getClientsPoliciesClient().updateClientPolicy(organizationId,
@@ -599,7 +625,7 @@ public class ApimanRestServicesClient {
 				clientId, version, policyId);
 	}
 
-	public List<OrganizationMember> listOrganizationMembers(String organizationId) {
+	public List<Member> listOrganizationMembers(String organizationId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getMembersClient().listOrganizationMembers(organizationId);
@@ -611,25 +637,25 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().getMembersClient().revokeAllMemberships(organizationId, userId);
 	}
 
-	public List<OrganizationPlan> listPlans(String organizationId) {
+	public List<PlanSummary> listPlans(String organizationId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().listPlans(organizationId);
 	}
 
-	public OrganizationPlan createPlan(String organizationId, OrganizationPlan organizationPlan) {
+	public Plan createPlan(String organizationId, NewPlan organizationPlan) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().createPlan(organizationId, organizationPlan);
 	}
 
-	public OrganizationPlan getPlanById(String organizationId, String planId) {
+	public Plan getPlanById(String organizationId, String planId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().getPlanById(organizationId, planId);
 	}
 
-	public void updatePlan(String organizationId, String planId, OrganizationPlan organizationPlan) {
+	public void updatePlan(String organizationId, String planId, UpdatePlan organizationPlan) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getPlansClient().updatePlan(organizationId, planId, organizationPlan);
@@ -641,19 +667,19 @@ public class ApimanRestServicesClient {
 		getOrganizationsClient().getPlansClient().deletePlan(organizationId, planId);
 	}
 
-	public ActivityList getPlanActivity(String organizationId, String planId, int page, int count) {
+	public SearchResults<AuditEntry> getPlanActivity(String organizationId, String planId, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().getPlanActivity(organizationId, planId, page, count);
 	}
 
-	public List<PlanVersion> listPlanVersions(String organizationId, String planId) {
+	public List<PlanVersionSummary> listPlanVersions(String organizationId, String planId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().listPlanVersions(organizationId, planId);
 	}
 
-	public PlanVersion createPlanVersion(String organizationId, String planId, PlanVersion planVersion) {
+	public PlanVersion createPlanVersion(String organizationId, String planId, NewPlanVersion planVersion) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().createPlanVersion(organizationId, planId, planVersion);
@@ -665,7 +691,7 @@ public class ApimanRestServicesClient {
 		return getOrganizationsClient().getPlansClient().getPlanVersion(organizationId, planId, version);
 	}
 
-	public ActivityList getPlanVersionActivity(String organizationId, String planId, String version, int page,
+	public SearchResults<AuditEntry> getPlanVersionActivity(String organizationId, String planId, String version, int page,
 			int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -674,20 +700,20 @@ public class ApimanRestServicesClient {
 	}
 
 	public void reorderPlanPolicies(String organizationId, String planId, String version,
-			ReOrderPolicies reOrderPolicies) {
+			PolicyChain reOrderPolicies) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getPlansClient().reorderPlanPolicies(organizationId, planId, version, reOrderPolicies);
 	}
 
-	public List<Policy> listAllPlanPolicies(String organizationId, String planId, String version) {
+	public List<PolicySummary> listAllPlanPolicies(String organizationId, String planId, String version) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().listAllPlanPolicies(organizationId,
 				planId, version);
 	}
 
-	public Policy addPlanPolicy(String organizationId, String planId, String version, Policy planPolicy) {
+	public Policy addPlanPolicy(String organizationId, String planId, String version, NewPolicy planPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().addPlanPolicy(organizationId, planId,
@@ -702,7 +728,7 @@ public class ApimanRestServicesClient {
 	}
 
 	public void updatePlanPolicy(String organizationId, String planId, String version, String policyId,
-			Policy planPolicy) {
+			UpdatePolicy planPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getPlansClient().getPlansPoliciesClient().updatePlanPolicy(organizationId, planId,
@@ -716,7 +742,7 @@ public class ApimanRestServicesClient {
 				version, policyId);
 	}
 
-	public void grantMembership(String organizationId, GrantMemberships grantMemberships) {
+	public void grantMembership(String organizationId, GrantRoles grantMemberships) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getRolesClient().grantMembership(organizationId, grantMemberships);
@@ -727,20 +753,20 @@ public class ApimanRestServicesClient {
 
 		getOrganizationsClient().getRolesClient().revokeSingleMembership(organizationId, roleId, userId);
 	}
-
-	public PermissionsList getCurrentUserPermissions() {
+	
+	public UserPermissions getCurrentUserPermissions() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPermissionsClient().getCurrentUserPermissions();
 	}
 
-	public List<Plugin> listAllPlugins() {
+	public List<PluginSummary> listAllPlugins() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().listAllPlugins();
 	}
 
-	public List<Plugin> listAvailablePlugins() {
+	public List<PluginSummary> listAvailablePlugins() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().listAvailablePlugins();
@@ -758,7 +784,7 @@ public class ApimanRestServicesClient {
 		return getPluginsClient().getPluginsPolicyDefsClient().getPluginPolicyForm(pluginId, policyDefId);
 	}
 
-	public List<PolicyDefinition> listPolicyDefinitions() {
+	public List<PolicyDefinitionSummary> listPolicyDefinitions() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPolicyDefsClient().listPolicyDefinitions();
@@ -776,7 +802,7 @@ public class ApimanRestServicesClient {
 		return getRolesClient().listAllRoles();
 	}
 
-	public SearchResult searchForRoles(SearchQuery rolesSearchQuery) {
+	public SearchResults<Role> searchForRoles(SearchCriteria rolesSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getRolesClient().searchForRoles(rolesSearchQuery);
@@ -788,37 +814,37 @@ public class ApimanRestServicesClient {
 		return getRolesClient().getRoleById(roleId);
 	}
 
-	public SearchResult searchForApis(SearchQuery apisSearchQuery) {
+	public SearchResults<ApiSummary> searchForApis(SearchCriteria apisSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getSearchClient().searchForApis(apisSearchQuery);
 	}
 
-	public SearchResult searchForClients(SearchQuery clientsSearchQuery) {
+	public SearchResults<ClientSummary> searchForClients(SearchCriteria clientsSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getSearchClient().searchForClients(clientsSearchQuery);
 	}
 
-	public SearchResult searchForOrganizations(SearchQuery organizationsSearchQuery) {
+	public SearchResults<OrganizationSummary> searchForOrganizations(SearchCriteria organizationsSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getSearchClient().searchForOrganizations(organizationsSearchQuery);
 	}
 
-	public SearchResult searchForApisInApiCatalogue(SearchQuery apisSearchQuery) {
+	public SearchResults<AvailableApi> searchForApisInApiCatalogue(SearchCriteria apisSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getSearchClient().getApiCatalogueSearchClient().searchForApisInApiCatalogue(apisSearchQuery);
 	}
 
-	public List<Namespace> listAllNamespacesInApiCatalogue() {
+	public List<ApiNamespace> listAllNamespacesInApiCatalogue() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getSearchClient().getApiCatalogueSearchClient().listAllNamespacesInApiCatalogue();
 	}
 	
-	public SearchResult searchForUsers(SearchQuery userSearchQuery) {
+	public SearchResults<User> searchForUsers(SearchCriteria userSearchQuery) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getUsersClient().searchForUsers(userSearchQuery);
@@ -830,31 +856,31 @@ public class ApimanRestServicesClient {
 		return getUsersClient().getUserById(userId);
 	}
 
-	public void updateUserById(String userId, User user) {
+	public void updateUserById(String userId, UpdateUser user) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getUsersClient().updateUserById(userId, user);
 	}
 
-	public ActivityList getUserActivity(String userId, int page, int count) {
+	public SearchResults<AuditEntry> getUserActivity(String userId, int page, int count) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getUsersClient().getUserActivity(userId, page, count);
 	}
 
-	public List<Api> listUserApis(String userId) {
+	public List<ApiSummary> listUserApis(String userId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getUsersClient().listUserApis(userId);
 	}
 
-	public List<Client> listUserClients(String userId) {
+	public List<ClientSummary> listUserClients(String userId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getUsersClient().listUserClients(userId);
 	}
 
-	public List<Organization> listUserOrganizations(String userId) {
+	public List<OrganizationSummary> listUserOrganizations(String userId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getUsersClient().listUserOrganizations(userId);

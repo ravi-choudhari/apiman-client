@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apiman.client.AbstractApimanClient;
-import org.apiman.client.domain.Namespace;
-import org.apiman.client.domain.search.SearchQuery;
-import org.apiman.client.domain.search.SearchResult;
+import org.apiman.client.domain.search.SearchCriteria;
+import org.apiman.client.domain.search.SearchResults;
+import org.apiman.client.domain.summary.ApiNamespace;
+import org.apiman.client.domain.summary.AvailableApi;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,20 +22,20 @@ public class ApiCatalogueSearchClient extends AbstractApimanClient {
 	/* Use this endpoint to search for available APIs within any configured API catalogs. If no API catalogs 
 	 * are configured, this will always return zero results.
 	 */
-	public SearchResult searchForApisInApiCatalogue(SearchQuery apisSearchQuery) {
+	public SearchResults<AvailableApi> searchForApisInApiCatalogue(SearchCriteria apisSearchQuery) {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, API_CATALOGUE_PATH, ENTRIES_PATH);
-		return restTemplate.postForObject(url, apisSearchQuery, SearchResult.class);
+		return restTemplate.postForObject(url, apisSearchQuery, SearchResults.class);
 	}
 	
 	/* Use this endpoint to get a list of all namespaces available to be searched within. Not all platforms support 
 	 * this functionality. If no namespaces are found, then the UI should simply suppress the namespace filter.
 	 */
-	public List<Namespace> listAllNamespacesInApiCatalogue() {
+	public List<ApiNamespace> listAllNamespacesInApiCatalogue() {
 		
 		String url = buildURL(apimanUrl, SEARCH_PATH, API_CATALOGUE_PATH, NAMESPACES_PATH);
 		
-		Namespace[] namespaces = restTemplate.getForObject(url, Namespace[].class);
+		ApiNamespace[] namespaces = restTemplate.getForObject(url, ApiNamespace[].class);
 		return namespaces != null ? Arrays.asList(namespaces) : null;
 	}
 }

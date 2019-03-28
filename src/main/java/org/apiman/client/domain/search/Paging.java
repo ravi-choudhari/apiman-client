@@ -1,7 +1,5 @@
 package org.apiman.client.domain.search;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,8 +11,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Paging implements Serializable {
-	
-	private int pageSize;
-	private int page;
+public class Paging {
+
+    private int page;
+    private int pageSize;
 }
