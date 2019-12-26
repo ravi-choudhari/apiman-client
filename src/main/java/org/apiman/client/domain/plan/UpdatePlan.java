@@ -1,5 +1,7 @@
 package org.apiman.client.domain.plan;
 
+import java.io.Serializable;
+
 import org.apiman.client.domain.summary.PlanSummary;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class UpdatePlan {
+public class UpdatePlan implements Serializable {
 
 	private String description;
 }

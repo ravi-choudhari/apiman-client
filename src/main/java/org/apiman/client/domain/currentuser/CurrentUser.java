@@ -1,5 +1,6 @@
 package org.apiman.client.domain.currentuser;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class CurrentUser {
+public class CurrentUser implements Serializable {
 
 	private Set<Permission> permissions;
 }

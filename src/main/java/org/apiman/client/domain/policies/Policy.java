@@ -1,5 +1,6 @@
 package org.apiman.client.domain.policies;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apiman.client.domain.policydefinition.PolicyDefinition;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Policy {
+public class Policy implements Serializable {
 
     private Long id;
     private PolicyType type;

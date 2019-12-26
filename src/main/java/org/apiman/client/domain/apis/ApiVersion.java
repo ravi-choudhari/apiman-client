@@ -1,5 +1,6 @@
 package org.apiman.client.domain.apis;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiVersion {
+public class ApiVersion implements Serializable {
 
     private Long id;
     private Api api;
@@ -37,4 +38,5 @@ public class ApiVersion {
     private ApiDefinitionType definitionType;
     private ApiDefinition apiDefinition;
     private boolean parsePayload;
+    private String definitionUrl;
 }

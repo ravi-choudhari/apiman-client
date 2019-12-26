@@ -1,5 +1,8 @@
 package org.apiman.client;
 
+import java.util.List;
+
+import org.apiman.client.domain.policydefinition.PolicyDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

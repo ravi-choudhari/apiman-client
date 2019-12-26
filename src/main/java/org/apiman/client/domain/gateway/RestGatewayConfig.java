@@ -1,5 +1,7 @@
 package org.apiman.client.domain.gateway;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class RestGatewayConfig {
+public class RestGatewayConfig implements Serializable {
 
     private String endpoint;
     private String username;

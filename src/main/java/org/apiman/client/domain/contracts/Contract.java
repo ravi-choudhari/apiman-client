@@ -1,5 +1,6 @@
 package org.apiman.client.domain.contracts;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apiman.client.domain.apis.ApiVersion;
@@ -17,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Contract {
+public class Contract implements Serializable {
 
     private Long id;
     private ClientVersion client;

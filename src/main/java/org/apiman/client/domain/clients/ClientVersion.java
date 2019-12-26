@@ -1,5 +1,6 @@
 package org.apiman.client.domain.clients;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ClientVersion {
+public class ClientVersion implements Serializable {
 
     private Long id;
     private Client client;

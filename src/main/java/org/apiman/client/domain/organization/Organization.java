@@ -1,5 +1,6 @@
 package org.apiman.client.domain.organization;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Organization {
+public class Organization implements Serializable {
 
     private String id;
     private String name;

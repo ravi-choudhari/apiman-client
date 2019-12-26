@@ -1,5 +1,7 @@
 package org.apiman.client.domain.permissions;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Permission {
+public class Permission implements Serializable {
 
     private PermissionType name;
     private String organizationId;

@@ -45,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:apiman-client-applicationContext.xml")
 @Slf4j
+@Ignore
 public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 	@Autowired
@@ -1423,20 +1424,6 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 	}
 
 	@Test
-	public void listAvailablePlugins() {
-
-		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
-		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		log.debug("Test Case : " + url);
-
-		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
-				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
-		service.listAvailablePlugins();
-
-		mockServer.verify();
-	}
-
-	@Test
 	public void getPluginPolicyDefinitions() {
 
 		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -1698,6 +1685,48 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
 				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		service.listUserOrganizations(userId);
+
+		mockServer.verify();
+	}
+
+	@Test
+	public void exportData() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.exportData(download);
+
+		mockServer.verify();
+	}
+
+	@Test
+	public void importData() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.importData();
+
+		mockServer.verify();
+	}
+
+	@Test
+	public void getSystemStatus() {
+
+		String url = apimanUrl + urlsMap.get(Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("\nService : " + Thread.currentThread().getStackTrace()[1].getMethodName());
+		log.debug("Test Case : " + url);
+
+		mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
+		service.getSystemStatus();
 
 		mockServer.verify();
 	}

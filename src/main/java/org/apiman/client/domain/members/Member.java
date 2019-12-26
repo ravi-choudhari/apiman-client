@@ -1,5 +1,6 @@
 package org.apiman.client.domain.members;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Member {
+public class Member implements Serializable {
 
     private String userId;
     private String userName;

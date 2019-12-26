@@ -1,5 +1,6 @@
 package org.apiman.client.domain.apis;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class StatusItem {
+public class StatusItem implements Serializable {
 
     private String id;
     private String name;

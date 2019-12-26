@@ -1,5 +1,7 @@
 package org.apiman.client;
 
+import java.util.List;
+
 import org.apiman.client.conditions.ApimanAdminCondition;
 import org.apiman.client.domain.gateway.Gateway;
 import org.apiman.client.domain.gateway.NewGateway;
@@ -7,16 +9,18 @@ import org.apiman.client.domain.gateway.UpdateGateway;
 import org.apiman.client.domain.permissions.UserPermissions;
 import org.apiman.client.domain.plugin.NewPlugin;
 import org.apiman.client.domain.plugin.Plugin;
+import org.apiman.client.domain.plugin.PluginSummary;
 import org.apiman.client.domain.policydefinition.PolicyDefinition;
+import org.apiman.client.domain.policydefinition.UpdatePolicyDefinition;
+import org.apiman.client.domain.role.NewRole;
 import org.apiman.client.domain.role.Role;
+import org.apiman.client.domain.role.UpdateRole;
 import org.apiman.client.domain.summary.GatewayTestResult;
-import org.apiman.client.domain.system.SystemStatus;
-import org.apiman.client.resources.GatewaysClient;
-import org.apiman.client.resources.PermissionsClient;
-import org.apiman.client.resources.PluginsClient;
-import org.apiman.client.resources.PolicyDefsClient;
-import org.apiman.client.resources.RolesClient;
-import org.apiman.client.resources.SystemClient;
+import org.apiman.client.resources.IGatewaysClient;
+import org.apiman.client.resources.IPermissionsClient;
+import org.apiman.client.resources.IPluginsClient;
+import org.apiman.client.resources.IPolicyDefsClient;
+import org.apiman.client.resources.IRolesClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
@@ -44,17 +48,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ApimanAdminRestServicesClient {
 
 	@Autowired
-	private GatewaysClient gatewaysClient;
+	private IGatewaysClient gatewaysClient;
 	@Autowired
-	private PermissionsClient permissionsClient;
+	private IPermissionsClient permissionsClient;
 	@Autowired
-	private PluginsClient pluginsClient;
+	private IPluginsClient pluginsClient;
 	@Autowired
-	private PolicyDefsClient policyDefsClient;
+	private IPolicyDefsClient policyDefsClient;
 	@Autowired
-	private RolesClient rolesClient;
-	@Autowired
-	private SystemClient systemClient;
+	private IRolesClient rolesClient;
 
 	public GatewayTestResult testGateway(NewGateway gateway) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -92,6 +94,12 @@ public class ApimanAdminRestServicesClient {
 		return getPluginsClient().addPlugin(plugin);
 	}
 
+	public List<PluginSummary> listAvailablePlugins() {
+		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
+
+		return getPluginsClient().listAvailablePlugins();
+	}
+	
 	public Plugin getPluginById(String pluginId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -110,7 +118,7 @@ public class ApimanAdminRestServicesClient {
 		return getPolicyDefsClient().addPolicyDefinition(policyDefinition);
 	}
 
-	public void updatePolicyDefinition(String policyDefinitionId, PolicyDefinition policyDefinition) {
+	public void updatePolicyDefinition(String policyDefinitionId, UpdatePolicyDefinition policyDefinition) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getPolicyDefsClient().updatePolicyDefinition(policyDefinitionId, policyDefinition);
@@ -122,13 +130,13 @@ public class ApimanAdminRestServicesClient {
 		getPolicyDefsClient().deletePolicyDefinition(policyDefinitionId);
 	}
 
-	public Role createRole(Role role) {
+	public Role createRole(NewRole role) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getRolesClient().createRole(role);
 	}
 
-	public void updateRoleById(String roleId, Role role) {
+	public void updateRoleById(String roleId, UpdateRole role) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getRolesClient().updateRoleById(roleId, role);
@@ -140,21 +148,4 @@ public class ApimanAdminRestServicesClient {
 		getRolesClient().deleteRoleById(roleId);
 	}
 	
-	public void exportData(String download) {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getSystemClient().exportData(download);
-	}
-
-	public void importData() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		getSystemClient().importData();
-	}
-
-	public SystemStatus getSystemStatus() {
-		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
-
-		return getSystemClient().getSystemStatus();
-	}
 }

@@ -1,5 +1,6 @@
 package org.apiman.client.domain.apis;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiVersionStatus {
+public class ApiVersionStatus implements Serializable {
 
     private ApiStatus status;
     private List<StatusItem> items;

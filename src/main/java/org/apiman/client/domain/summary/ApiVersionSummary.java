@@ -1,5 +1,7 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
+
 import org.apiman.client.domain.apis.ApiStatus;
 import org.apiman.client.domain.apis.UpdateApi;
 
@@ -14,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiVersionSummary {
+public class ApiVersionSummary implements Serializable {
 
     private String organizationId;
     private String organizationName;

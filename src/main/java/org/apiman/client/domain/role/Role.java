@@ -1,5 +1,6 @@
 package org.apiman.client.domain.role;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Role {
+public class Role implements Serializable {
 
     private String id;
     private String name;

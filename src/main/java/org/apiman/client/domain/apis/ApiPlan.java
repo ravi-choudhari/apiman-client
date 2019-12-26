@@ -1,8 +1,6 @@
 package org.apiman.client.domain.apis;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiPlan {
+public class ApiPlan implements Serializable {
 
     private String planId;
     private String version;

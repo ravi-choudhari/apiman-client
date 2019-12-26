@@ -1,5 +1,6 @@
 package org.apiman.client.domain.permissions;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import org.apiman.client.domain.currentuser.Permission;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class UserPermissions {
+public class UserPermissions implements Serializable {
 
     private String userId;
     private Set<Permission> permissions;

@@ -1,5 +1,6 @@
 package org.apiman.client.domain.policies;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apiman.client.domain.summary.PolicySummary;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class PolicyChain {
+public class PolicyChain implements Serializable {
 
 	private List<PolicySummary> policies;
 }

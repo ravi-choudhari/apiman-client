@@ -1,5 +1,6 @@
 package org.apiman.client.domain.apis;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class UpdateApiVersion {
+public class UpdateApiVersion implements Serializable {
 
     private String endpoint;
     private EndpointType endpointType;

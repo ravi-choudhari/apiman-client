@@ -1,5 +1,7 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
+
 import org.apiman.client.domain.gateway.GatewayType;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class GatewaySummary {
+public class GatewaySummary implements Serializable {
 
     private String id;
     private String name;

@@ -1,5 +1,7 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apiman.client.domain.apis.ApiDefinitionType;
@@ -16,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class AvailableApi {
+public class AvailableApi implements Serializable {
 
     private String id;
     private String icon;
@@ -29,6 +31,6 @@ public class AvailableApi {
     private String routeDefinitionUrl;
     private ApiDefinitionType definitionType;
     private String namespace;
-    private Set<String> tags;
+    private Set<String> tags = new HashSet<String>();
     private boolean internal;
 }

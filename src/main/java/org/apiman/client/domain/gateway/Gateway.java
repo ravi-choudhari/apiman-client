@@ -1,5 +1,6 @@
 package org.apiman.client.domain.gateway;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Gateway {
+public class Gateway implements Serializable {
 
     private String id;
     private String name;
@@ -22,4 +23,6 @@ public class Gateway {
     private Date createdOn;
     private String modifiedBy;
     private Date modifiedOn;
+    private GatewayType type;
+    private String configuration;
 }

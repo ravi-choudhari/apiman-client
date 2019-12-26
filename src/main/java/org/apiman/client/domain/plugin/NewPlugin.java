@@ -1,5 +1,7 @@
 package org.apiman.client.domain.plugin;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class NewPlugin {
+public class NewPlugin implements Serializable {
 
     private String groupId;
     private String artifactId;

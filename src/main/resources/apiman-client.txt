@@ -1,0 +1,28 @@
+(2) - done
+currentuser(7) - done
+gateways(2+4) - done
+organizations(5) - done
+	apis(6) - done
+		versions(13)
+			metrics(7)
+			plans(2)
+			policies(5)
+	clients(6)
+		versions(8)
+			apiregistry(2)
+			contracts(5)
+			policies(5)
+	members(2)
+	plans(6)
+		versions(5)
+			policies(5)
+	roles(2) - done
+permissions(2) - done
+plugins(1+4) - done
+	policydefs(2) - done
+policyDefs(2+3) - done
+roles(6) - done
+search(5) - done
+	apicatalog(2) - done
+system(3) - import, export - done
+users(7) - done

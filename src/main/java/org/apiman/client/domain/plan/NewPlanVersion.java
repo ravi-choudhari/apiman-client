@@ -1,5 +1,7 @@
 package org.apiman.client.domain.plan;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class NewPlanVersion {
+public class NewPlanVersion implements Serializable {
 
     private String version;
     private boolean clone;

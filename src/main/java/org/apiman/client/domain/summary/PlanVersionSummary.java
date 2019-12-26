@@ -1,5 +1,7 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
+
 import org.apiman.client.domain.plan.PlanStatus;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class PlanVersionSummary {
+public class PlanVersionSummary implements Serializable {
 
     private String organizationId;
     private String organizationName;

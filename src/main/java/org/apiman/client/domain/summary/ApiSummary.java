@@ -1,5 +1,6 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ApiSummary {
+public class ApiSummary implements Serializable {
 
     private String organizationId;
     private String organizationName;

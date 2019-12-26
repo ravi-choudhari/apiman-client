@@ -1,5 +1,6 @@
 package org.apiman.client.domain.summary;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ResponseStats {
+public class ResponseStats implements Serializable {
 
 	private Map<String, ResponseStatsDataPoint> data;
 }

@@ -1,5 +1,7 @@
 package org.apiman.client.domain.search;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class SearchCriteriaFilter {
+public class SearchCriteriaFilter implements Serializable {
 
     private String name;
     private String value;
