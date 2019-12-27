@@ -431,14 +431,14 @@ public class ApimanRestServicesClient {
 				apiId, version, apiPolicy);
 	}
 
-	public Policy getApiPolicy(String organizationId, String apiId, String version, String policyId) {
+	public Policy getApiPolicy(String organizationId, String apiId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().getApiPolicy(organizationId,
 				apiId, version, policyId);
 	}
 
-	public void updateApiPolicy(String organizationId, String apiId, String version, String policyId,
+	public void updateApiPolicy(String organizationId, String apiId, String version, Long policyId,
 			UpdatePolicy apiPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -446,7 +446,7 @@ public class ApimanRestServicesClient {
 				apiId, version, policyId, apiPolicy);
 	}
 
-	public void removeApiPolicy(String organizationId, String apiId, String version, String policyId) {
+	public void removeApiPolicy(String organizationId, String apiId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getApisClient().getOrganizationApiPoliciesClient().removeApiPolicy(organizationId,
@@ -578,14 +578,14 @@ public class ApimanRestServicesClient {
 				clientId, version);
 	}
 
-	public Contract getApiContract(String organizationId, String clientId, String version, String contractId) {
+	public Contract getApiContract(String organizationId, String clientId, String version, Long contractId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsContractsClient().getApiContract(organizationId,
 				clientId, version, contractId);
 	}
 
-	public void breakContract(String organizationId, String clientId, String version, String contractId) {
+	public void breakContract(String organizationId, String clientId, String version, Long contractId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getClientsClient().getClientsContractsClient().breakContract(organizationId, clientId,
@@ -606,14 +606,14 @@ public class ApimanRestServicesClient {
 				clientId, version, clientPolicy);
 	}
 
-	public Policy getClientPolicy(String organizationId, String clientId, String version, String policyId) {
+	public Policy getClientPolicy(String organizationId, String clientId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getClientsClient().getClientsPoliciesClient().getClientPolicy(organizationId,
 				clientId, version, policyId);
 	}
 
-	public void updateClientPolicy(String organizationId, String clientId, String version, String policyId,
+	public void updateClientPolicy(String organizationId, String clientId, String version, Long policyId,
 			UpdatePolicy clientPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -621,7 +621,7 @@ public class ApimanRestServicesClient {
 				clientId, version, policyId, clientPolicy);
 	}
 
-	public void removeClientPolicy(String organizationId, String clientId, String version, String policyId) {
+	public void removeClientPolicy(String organizationId, String clientId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getClientsClient().getClientsPoliciesClient().removeClientPolicy(organizationId,
@@ -722,14 +722,14 @@ public class ApimanRestServicesClient {
 				version, planPolicy);
 	}
 
-	public Policy getPlanPolicy(String organizationId, String planId, String version, String policyId) {
+	public Policy getPlanPolicy(String organizationId, String planId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getOrganizationsClient().getPlansClient().getPlansPoliciesClient().getPlanPolicy(organizationId, planId,
 				version, policyId);
 	}
 
-	public void updatePlanPolicy(String organizationId, String planId, String version, String policyId,
+	public void updatePlanPolicy(String organizationId, String planId, String version, Long policyId,
 			UpdatePolicy planPolicy) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -737,7 +737,7 @@ public class ApimanRestServicesClient {
 				version, policyId, planPolicy);
 	}
 
-	public void removePlanPolicy(String organizationId, String planId, String version, String policyId) {
+	public void removePlanPolicy(String organizationId, String planId, String version, Long policyId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getOrganizationsClient().getPlansClient().getPlansPoliciesClient().removePlanPolicy(organizationId, planId,
@@ -768,13 +768,13 @@ public class ApimanRestServicesClient {
 		return getPluginsClient().listAllPlugins();
 	}
 
-	public List<PolicyDefinitionSummary> getPluginPolicyDefinitions(String pluginId) {
+	public List<PolicyDefinitionSummary> getPluginPolicyDefinitions(Long pluginId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().getPluginsPolicyDefsClient().getPluginPolicyDefinitions(pluginId);
 	}
 
-	public String getPluginPolicyForm(String pluginId, String policyDefId) {
+	public String getPluginPolicyForm(Long pluginId, String policyDefId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().getPluginsPolicyDefsClient().getPluginPolicyForm(pluginId, policyDefId);

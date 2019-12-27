@@ -14,8 +14,8 @@ public interface IClientsContractsClient {
 
 	void breakAllContracts(String organizationId, String clientId, String version);
 
-	Contract getApiContract(String organizationId, String clientId, String version, String contractId);
+	Contract getApiContract(String organizationId, String clientId, String version, Long contractId);
 
-	void breakContract(String organizationId, String clientId, String version, String contractId);
+	void breakContract(String organizationId, String clientId, String version, Long contractId);
 
 }

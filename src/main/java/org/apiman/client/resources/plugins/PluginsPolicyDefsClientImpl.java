@@ -23,11 +23,11 @@ public class PluginsPolicyDefsClientImpl extends AbstractApimanClient implements
 	 * 
 	 */
 	@Override
-	public List<PolicyDefinitionSummary> getPluginPolicyDefinitions(String pluginId) {
+	public List<PolicyDefinitionSummary> getPluginPolicyDefinitions(Long pluginId) {
 		
 		String url = buildURL(apimanUrl, PLUGIN_POLICY_DEFS_PATH);
 		Map<String, String> map = new HashMap<>();
-		map.put("pluginId", pluginId);
+		map.put("pluginId", String.valueOf(pluginId.longValue()));
 		url = substitute(url, map, true);
 		
 		PolicyDefinitionSummary[] policyDefinitions = restTemplate.getForObject(url, PolicyDefinitionSummary[].class);
@@ -39,11 +39,11 @@ public class PluginsPolicyDefsClientImpl extends AbstractApimanClient implements
 	 * an instance of the policy. This endpoint returns this form.
 	 */
 	@Override
-	public String getPluginPolicyForm(String pluginId, String policyDefId) {
+	public String getPluginPolicyForm(Long pluginId, String policyDefId) {
 		
 		String url = buildURL(apimanUrl, PLUGIN_POLICY_DEFS_FORM_PATH);
 		Map<String, String> map = new HashMap<>();
-		map.put("pluginId", pluginId);
+		map.put("pluginId", String.valueOf(pluginId.longValue()));
 		map.put("policyDefId", policyDefId);
 		url = substitute(url, map, true);
 		

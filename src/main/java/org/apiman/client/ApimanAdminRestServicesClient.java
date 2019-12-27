@@ -100,13 +100,13 @@ public class ApimanAdminRestServicesClient {
 		return getPluginsClient().listAvailablePlugins();
 	}
 	
-	public Plugin getPluginById(String pluginId) {
+	public Plugin getPluginById(Long pluginId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		return getPluginsClient().getPluginById(pluginId);
 	}
 
-	public void deletePluginById(String pluginId) {
+	public void deletePluginById(Long pluginId) {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName());
 
 		getPluginsClient().deletePluginById(pluginId);

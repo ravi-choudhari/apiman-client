@@ -1,7 +1,6 @@
 package org.apiman.client.domain.summary;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

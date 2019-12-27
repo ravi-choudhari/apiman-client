@@ -27,11 +27,11 @@ public abstract class ApimanServiceTestBase {
 	protected static String userId = "userId 1";
 	protected static String apiDefinition = "";
 	protected static String planId = "plan 1";
-	protected static String policyId = "policy 1";
-	protected static String contractId = "contract 1";
+	protected static Long policyId = 100L;
+	protected static Long contractId = 100L;
 	protected static String roleId = "role 1";
 	protected static String policyDefId = "policy Definition 1";
-	protected static String pluginId = "plugin 1";
+	protected static Long pluginId = 100L;
 
 	protected static final String download = String.valueOf(true);
 	protected static final Date FROM_DATE = new Date();
@@ -195,6 +195,12 @@ public abstract class ApimanServiceTestBase {
 	
 	@BeforeClass
 	public static void beforeClass() throws UnsupportedEncodingException {
+		
+		System.setProperty("apiman.username", "user");
+		System.setProperty("apiman.password", "password");
+		System.setProperty("apiman.admin.username", "admin");
+		System.setProperty("apiman.admin.password", "password");
+		
 		valuesMap.put("downloadId", downloadId);
 		valuesMap.put("apiId", apiId);
 		valuesMap.put("clientId", clientId);
@@ -203,11 +209,11 @@ public abstract class ApimanServiceTestBase {
 		valuesMap.put("organizationId", organizationId);
 		valuesMap.put("userId", userId);
 		valuesMap.put("planId", planId);
-		valuesMap.put("contractId", contractId);
+		valuesMap.put("contractId", String.valueOf(contractId.longValue()));
 		valuesMap.put("roleId", roleId);
-		valuesMap.put("policyId", policyId);
+		valuesMap.put("policyId", String.valueOf(policyId.longValue()));
 		valuesMap.put("policyDefId", policyDefId);
-		valuesMap.put("pluginId", pluginId);
+		valuesMap.put("pluginId", String.valueOf(pluginId.longValue()));
 		valuesMap.put("download", download);
 
 		GenericUtils.encode(valuesMap);

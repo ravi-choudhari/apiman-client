@@ -45,7 +45,6 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:apiman-client-applicationContext.xml")
 @Slf4j
-@Ignore
 public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 	@Autowired

@@ -8,17 +8,10 @@ import java.util.Map;
 
 import org.apiman.client.AbstractApimanClient;
 import org.apiman.client.domain.system.SystemStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Component
 public class SystemClientImpl extends AbstractApimanClient implements ISystemClient {
-	
-	@Autowired
-	@Qualifier("redhatApimanAdminRestClient")
-	protected RestTemplate adminTemplate;
 	
 	private static final String SYSTEM_PATH = "/system";
 	private static final String IMPORT_PATH = "/import";
@@ -37,7 +30,7 @@ public class SystemClientImpl extends AbstractApimanClient implements ISystemCli
 		map.put("download", download);
 		url = substitute(url, map, true);
 		
-		adminTemplate.getForObject(url, Void.class);
+		restTemplate.getForObject(url, Void.class);
 	}
 	
 	/*
@@ -47,7 +40,7 @@ public class SystemClientImpl extends AbstractApimanClient implements ISystemCli
 	public void importData() {
 		
 		String url = buildURL(apimanUrl, SYSTEM_PATH, IMPORT_PATH);
-		adminTemplate.postForObject(url, null, Void.class);
+		restTemplate.postForObject(url, null, Void.class);
 	}
 	
 	/* This endpoint simply returns the status of the apiman system. This is a useful endpoint to use when testing 
@@ -57,6 +50,6 @@ public class SystemClientImpl extends AbstractApimanClient implements ISystemCli
 	public SystemStatus getSystemStatus() {
 		
 		String url = buildURL(apimanUrl, SYSTEM_PATH, STATUS_PATH);
-		return adminTemplate.getForObject(url, SystemStatus.class);
+		return restTemplate.getForObject(url, SystemStatus.class);
 	}
 }

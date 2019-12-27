@@ -13,11 +13,11 @@ public interface IClientsPoliciesClient {
 
 	Policy addClientPolicy(String organizationId, String clientId, String version, NewPolicy clientPolicy);
 
-	Policy getClientPolicy(String organizationId, String clientId, String version, String policyId);
+	Policy getClientPolicy(String organizationId, String clientId, String version, Long policyId);
 
-	void updateClientPolicy(String organizationId, String clientId, String version, String policyId,
+	void updateClientPolicy(String organizationId, String clientId, String version, Long policyId,
 			UpdatePolicy clientPolicy);
 
-	void removeClientPolicy(String organizationId, String clientId, String version, String policyId);
+	void removeClientPolicy(String organizationId, String clientId, String version, Long policyId);
 
 }

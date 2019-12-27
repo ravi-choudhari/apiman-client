@@ -59,14 +59,14 @@ public class OrganizationApiPoliciesClientImpl extends AbstractApimanClient impl
 	 * 
 	 */
 	@Override
-	public Policy getApiPolicy(String organizationId, String apiId, String version, String policyId) {
+	public Policy getApiPolicy(String organizationId, String apiId, String version, Long policyId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_APIS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		map.put("policyId", policyId);
+		map.put("policyId", String.valueOf(policyId.longValue()));
 		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Policy.class);
@@ -76,14 +76,14 @@ public class OrganizationApiPoliciesClientImpl extends AbstractApimanClient impl
 	 * 
 	 */
 	@Override
-	public void updateApiPolicy(String organizationId, String apiId, String version, String policyId, UpdatePolicy apiPolicy) {
+	public void updateApiPolicy(String organizationId, String apiId, String version, Long policyId, UpdatePolicy apiPolicy) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_APIS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		map.put("policyId", policyId);
+		map.put("policyId", String.valueOf(policyId.longValue()));
 		url = substitute(url, map, true);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<UpdatePolicy>(apiPolicy, getHeaders()), Void.class);
@@ -93,14 +93,14 @@ public class OrganizationApiPoliciesClientImpl extends AbstractApimanClient impl
 	 * 
 	 */
 	@Override
-	public void removeApiPolicy(String organizationId, String apiId, String version, String policyId) {
+	public void removeApiPolicy(String organizationId, String apiId, String version, Long policyId) {
 
 		String url = buildURL(apimanUrl, ORGANIZATION_APIS_POLICIES_PATH, "/${policyId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		map.put("policyId", policyId);
+		map.put("policyId", String.valueOf(policyId.longValue()));
 		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);

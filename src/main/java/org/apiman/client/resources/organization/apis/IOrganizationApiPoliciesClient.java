@@ -13,10 +13,10 @@ public interface IOrganizationApiPoliciesClient {
 
 	Policy addApiPolicy(String organizationId, String apiId, String version, NewPolicy apiPolicy);
 
-	Policy getApiPolicy(String organizationId, String apiId, String version, String policyId);
+	Policy getApiPolicy(String organizationId, String apiId, String version, Long policyId);
 
-	void updateApiPolicy(String organizationId, String apiId, String version, String policyId, UpdatePolicy apiPolicy);
+	void updateApiPolicy(String organizationId, String apiId, String version, Long policyId, UpdatePolicy apiPolicy);
 
-	void removeApiPolicy(String organizationId, String apiId, String version, String policyId);
+	void removeApiPolicy(String organizationId, String apiId, String version, Long policyId);
 
 }

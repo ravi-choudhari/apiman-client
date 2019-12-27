@@ -76,7 +76,7 @@ public class PluginsClientImpl extends AbstractApimanClient implements IPluginsC
 	public List<PluginSummary> listAvailablePlugins() {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH, AVAILABLE_PLUGINS_PATH);
-		PluginSummary[] plugins = restTemplate.getForObject(url, PluginSummary[].class);
+		PluginSummary[] plugins = adminTemplate.getForObject(url, PluginSummary[].class);
 		
 		return plugins != null ? Arrays.asList(plugins) : null;
 	}
@@ -85,11 +85,11 @@ public class PluginsClientImpl extends AbstractApimanClient implements IPluginsC
 	 * it was given when it was added. The ID information can be retrieved by listing all plugins or remembered when a plugin is first added.
 	 */
 	@Override
-	public Plugin getPluginById(String pluginId) {
+	public Plugin getPluginById(Long pluginId) {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
-		map.put("pluginId", pluginId);
+		map.put("pluginId", String.valueOf(pluginId.longValue()));
 		url = substitute(url, map, true);
 		
 		return adminTemplate.getForObject(url, Plugin.class);
@@ -99,11 +99,11 @@ public class PluginsClientImpl extends AbstractApimanClient implements IPluginsC
 	 * 
 	 */
 	@Override
-	public void deletePluginById(String pluginId) {
+	public void deletePluginById(Long pluginId) {
 		
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
-		map.put("pluginId", pluginId);
+		map.put("pluginId", String.valueOf(pluginId.longValue()));
 		url = substitute(url, map, true);
 		
 		adminTemplate.delete(url);

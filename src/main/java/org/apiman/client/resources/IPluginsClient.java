@@ -11,9 +11,9 @@ public interface IPluginsClient {
 
 	Plugin addPlugin(NewPlugin plugin);
 
-	Plugin getPluginById(String pluginId);
+	Plugin getPluginById(Long pluginId);
 
-	void deletePluginById(String pluginId);
+	void deletePluginById(Long pluginId);
 
 	List<PluginSummary> listAllPlugins();
 

@@ -13,11 +13,11 @@ public interface IOrganizationPlansPoliciesClient {
 
 	Policy addPlanPolicy(String organizationId, String planId, String version, NewPolicy planPolicy);
 
-	Policy getPlanPolicy(String organizationId, String planId, String version, String policyId);
+	Policy getPlanPolicy(String organizationId, String planId, String version, Long policyId);
 
-	void updatePlanPolicy(String organizationId, String planId, String version, String policyId,
+	void updatePlanPolicy(String organizationId, String planId, String version, Long policyId,
 			UpdatePolicy planPolicy);
 
-	void removePlanPolicy(String organizationId, String planId, String version, String policyId);
+	void removePlanPolicy(String organizationId, String planId, String version, Long policyId);
 
 }

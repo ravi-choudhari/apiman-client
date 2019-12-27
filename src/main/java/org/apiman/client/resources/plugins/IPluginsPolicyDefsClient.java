@@ -6,8 +6,8 @@ import org.apiman.client.domain.summary.PolicyDefinitionSummary;
 
 public interface IPluginsPolicyDefsClient {
 
-	List<PolicyDefinitionSummary> getPluginPolicyDefinitions(String pluginId);
+	List<PolicyDefinitionSummary> getPluginPolicyDefinitions(Long pluginId);
 
-	String getPluginPolicyForm(String pluginId, String policyDefId);
+	String getPluginPolicyForm(Long pluginId, String policyDefId);
 
 }

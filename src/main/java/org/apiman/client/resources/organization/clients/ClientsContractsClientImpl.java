@@ -73,14 +73,14 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 	 * 
 	 */
 	@Override
-	public Contract getApiContract(String organizationId, String clientId, String version, String contractId) {
+	public Contract getApiContract(String organizationId, String clientId, String version, Long contractId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH, "/${contractId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		map.put("contractId", contractId);
+		map.put("contractId", String.valueOf(contractId.longValue()));
 		url = substitute(url, map, true);
 		
 		return restTemplate.getForObject(url, Contract.class);
@@ -90,14 +90,14 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 	 * 
 	 */
 	@Override
-	public void breakContract(String organizationId, String clientId, String version, String contractId) {
+	public void breakContract(String organizationId, String clientId, String version, Long contractId) {
 		
 		String url = buildURL(apimanUrl, ORGANIZATION_CLIENTS_CONTRACTS_PATH, "/${contractId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		map.put("contractId", contractId);
+		map.put("contractId", String.valueOf(contractId.longValue()));
 		url = substitute(url, map, true);
 		
 		restTemplate.delete(url);

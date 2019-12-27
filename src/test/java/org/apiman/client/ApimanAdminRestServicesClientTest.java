@@ -12,7 +12,6 @@ import org.apiman.client.domain.policydefinition.UpdatePolicyDefinition;
 import org.apiman.client.domain.role.NewRole;
 import org.apiman.client.domain.role.UpdateRole;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:apiman-client-applicationContext.xml")
 @Slf4j
-@Ignore
 public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 	@Autowired
