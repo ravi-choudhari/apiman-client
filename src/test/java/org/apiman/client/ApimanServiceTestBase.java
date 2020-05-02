@@ -13,7 +13,7 @@ public abstract class ApimanServiceTestBase {
 
 	@Value(value = "${apiman.url:http://localhost:8080/apiman}")
 	protected String apimanUrl;
-	
+
 	protected static final int PAGE = 10;
 	protected static final int COUNT = 20;
 	protected static final String PAGE_AND_COUNT = "?page=" + PAGE + "&count=" + COUNT;
@@ -192,15 +192,15 @@ public abstract class ApimanServiceTestBase {
 	protected static String GET_USER_ACTIVITY = "/users/${userId}/activity" + PAGE_AND_COUNT;
 	protected static String LIST_USER_APIS = "/users/${userId}/apis";
 	protected static String LIST_USER_CLIENTS = "/users/${userId}/clients";
-	
+
 	@BeforeClass
 	public static void beforeClass() throws UnsupportedEncodingException {
-		
+
 		System.setProperty("apiman.username", "user");
 		System.setProperty("apiman.password", "password");
 		System.setProperty("apiman.admin.username", "admin");
 		System.setProperty("apiman.admin.password", "password");
-		
+
 		valuesMap.put("downloadId", downloadId);
 		valuesMap.put("apiId", apiId);
 		valuesMap.put("clientId", clientId);

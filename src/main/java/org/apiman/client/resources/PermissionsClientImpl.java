@@ -41,7 +41,7 @@ public class PermissionsClientImpl extends AbstractApimanClient implements IPerm
 		String url = buildURL(apimanUrl, PERMISSIONS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return adminTemplate.getForObject(url, UserPermissions.class);
 	}

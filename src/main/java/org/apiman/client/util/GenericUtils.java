@@ -1,12 +1,10 @@
 package org.apiman.client.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.commons.codec.net.URLCodec;
+import com.google.common.net.UrlEscapers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GenericUtils {
 
 	private static final boolean FAIL_IF_VARIABLE_NOT_FOUND_IN_MAP = true;
-	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";//"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
 	public static enum INTERVAL {
 		MONTH, WEEK, DAY, HOUR, MINUTE;
@@ -53,20 +51,10 @@ public class GenericUtils {
 		return url;
 	}
 
-	private static final String encode(String url) {
-
-		try {
-			return new URLCodec().encode(url, StandardCharsets.UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public static final Map<String, String> encode(Map<String, String> valuesMap) {
 
 		for (String key : valuesMap.keySet())
-			valuesMap.put(key, encode(valuesMap.get(key)));
+			valuesMap.put(key, UrlEscapers.urlFragmentEscaper().escape((valuesMap.get(key))));
 		return valuesMap;
 	}
 

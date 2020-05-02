@@ -50,7 +50,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 	@Autowired
 	@Qualifier("redhatApimanRestClient")
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private ApimanRestServicesClient service;
 
@@ -216,7 +216,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.verify();
 	}
-	
+
 	@Test
 	public void createOrganization() {
 
@@ -1589,7 +1589,7 @@ public class ApimanRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockServer.verify();
 	}
-	
+
 	@Test
 	public void searchForUsers() {
 

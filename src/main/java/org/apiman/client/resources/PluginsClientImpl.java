@@ -90,7 +90,7 @@ public class PluginsClientImpl extends AbstractApimanClient implements IPluginsC
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", String.valueOf(pluginId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return adminTemplate.getForObject(url, Plugin.class);
 	}
@@ -104,7 +104,7 @@ public class PluginsClientImpl extends AbstractApimanClient implements IPluginsC
 		String url = buildURL(apimanUrl, PLUGINS_PATH, "/${pluginId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("pluginId", String.valueOf(pluginId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		adminTemplate.delete(url);
 	}

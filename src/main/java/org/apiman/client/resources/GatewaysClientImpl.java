@@ -81,7 +81,7 @@ public class GatewaysClientImpl extends AbstractApimanClient implements IGateway
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 
 		return restTemplate.getForObject(url, Gateway.class);
 	}
@@ -97,7 +97,7 @@ public class GatewaysClientImpl extends AbstractApimanClient implements IGateway
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 
 		adminTemplate.exchange(url, PUT, new HttpEntity<UpdateGateway>(gateway, getHeaders()), Void.class);
 	}
@@ -112,7 +112,7 @@ public class GatewaysClientImpl extends AbstractApimanClient implements IGateway
 		String url = buildURL(apimanUrl, GATEWAYS_PATH, "/${gatewayId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("gatewayId", gatewayId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 
 		adminTemplate.delete(url);
 	}

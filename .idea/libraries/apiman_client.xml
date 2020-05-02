@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="apiman-client">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/apiman-client.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

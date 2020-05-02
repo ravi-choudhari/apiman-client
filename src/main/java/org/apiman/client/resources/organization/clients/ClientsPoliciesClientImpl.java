@@ -33,7 +33,7 @@ public class ClientsPoliciesClientImpl extends AbstractApimanClient implements I
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		PolicySummary[] clientPolicies = restTemplate.getForObject(url, PolicySummary[].class);
 		return clientPolicies != null ? Arrays.asList(clientPolicies) : null;
@@ -50,7 +50,7 @@ public class ClientsPoliciesClientImpl extends AbstractApimanClient implements I
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.postForObject(url, clientPolicy, Policy.class);
 	}
@@ -67,7 +67,7 @@ public class ClientsPoliciesClientImpl extends AbstractApimanClient implements I
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("policyId", String.valueOf(policyId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, Policy.class);
 	}
@@ -84,7 +84,7 @@ public class ClientsPoliciesClientImpl extends AbstractApimanClient implements I
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("policyId", String.valueOf(policyId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<UpdatePolicy>(clientPolicy, getHeaders()), Void.class);
 	}
@@ -101,7 +101,7 @@ public class ClientsPoliciesClientImpl extends AbstractApimanClient implements I
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("policyId", String.valueOf(policyId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}

@@ -70,7 +70,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ApiSummary[] apis = restTemplate.getForObject(url, ApiSummary[].class);
 		return apis != null ? Arrays.asList(apis) : null;
@@ -86,7 +86,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		String url = buildURL(apimanUrl, ORGANIZATION_API_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.postForObject(url, createApi, Api.class);
 	}
@@ -101,7 +101,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, Api.class);
 	}
@@ -116,7 +116,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<UpdateApi>(api, getHeaders()), Void.class);
 	}
@@ -132,7 +132,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}
@@ -149,7 +149,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("apiId", apiId);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, SearchResults.class);
 	}
@@ -164,7 +164,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ApiVersionSummary[] apiVersions = restTemplate.getForObject(url, ApiVersionSummary[].class);
 		return apiVersions != null ? Arrays.asList(apiVersions) : null;
@@ -180,7 +180,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.postForObject(url, createApiVersion, ApiVersion.class);
 	}
@@ -196,7 +196,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, ApiVersion.class);
 	}
@@ -212,7 +212,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ResponseEntity<ApiVersion> response = restTemplate.exchange(url, PUT, new HttpEntity<UpdateApiVersion>(createApiVersion, getHeaders()), ApiVersion.class);
 		return response != null ? response.getBody() : null;
@@ -231,7 +231,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("version", version);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, SearchResults.class);
 	}
@@ -249,7 +249,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("version", version);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ContractSummary[] apiContracts = restTemplate.getForObject(url, ContractSummary[].class);
 		return apiContracts != null ? Arrays.asList(apiContracts) : null;
@@ -267,7 +267,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, String.class);
 	}
@@ -292,7 +292,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<String>(apiDefinition, getHeaders()), Void.class);
 	}
@@ -311,7 +311,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.postForObject(url, apiDefinition, Void.class);
 	}
@@ -327,7 +327,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}
@@ -343,7 +343,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, ApiVersionEndpointSummary.class);
 	}
@@ -361,7 +361,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.postForObject(url, reOrderPolicies, Void.class);
 	}
@@ -377,7 +377,7 @@ public class OrganizationApisClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, ApiVersionStatus.class);
 	}		

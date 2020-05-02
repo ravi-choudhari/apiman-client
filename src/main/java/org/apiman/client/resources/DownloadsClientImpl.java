@@ -24,7 +24,7 @@ public class DownloadsClientImpl extends AbstractApimanClient implements IDownlo
 		String url = buildURL(apimanUrl, DOWNLOADS_PATH, "/${downloadId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("downloadId", downloadId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, String.class);
 	}

@@ -26,7 +26,7 @@ public class OrganizationMembersClientImpl extends AbstractApimanClient implemen
 		String url = buildURL(apimanUrl, ORGANIZATION_MEMBERS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		Member[] organizationMembers = restTemplate.getForObject(url, Member[].class);
 		return organizationMembers != null ? Arrays.asList(organizationMembers) : null;
@@ -42,7 +42,7 @@ public class OrganizationMembersClientImpl extends AbstractApimanClient implemen
 		Map<String, String> map = new HashMap<>();
 		map.put("organizationId", organizationId);
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}

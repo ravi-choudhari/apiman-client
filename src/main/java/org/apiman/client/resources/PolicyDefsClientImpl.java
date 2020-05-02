@@ -59,7 +59,7 @@ public class PolicyDefsClientImpl extends AbstractApimanClient implements IPolic
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, PolicyDefinition.class);
 	}
@@ -73,7 +73,7 @@ public class PolicyDefsClientImpl extends AbstractApimanClient implements IPolic
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		adminTemplate.exchange(url, PUT, new HttpEntity<UpdatePolicyDefinition>(policyDefinition, getHeaders()), Void.class);
 	}
@@ -87,7 +87,7 @@ public class PolicyDefsClientImpl extends AbstractApimanClient implements IPolic
 		String url = buildURL(apimanUrl, POLICY_DEFS_PATH, "/${policyDefinitionId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("policyDefinitionId", policyDefinitionId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		adminTemplate.delete(url);
 	}

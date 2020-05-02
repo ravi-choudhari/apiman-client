@@ -97,7 +97,7 @@ public class OrganizationApiMetricsClientImpl extends AbstractApimanClient imple
 		map.put("metricsType", metricsType.getName());
 		map.put("fromDate", GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
 		map.put("toDate", GenericUtils.formatDate(toDate != null ? toDate : new Date()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, type);
 	}
@@ -113,7 +113,7 @@ public class OrganizationApiMetricsClientImpl extends AbstractApimanClient imple
 		map.put("interval", isNotBlank(interval) ? interval : GenericUtils.INTERVAL.getDefault());
 		map.put("fromDate", GenericUtils.formatDate(fromDate != null ? fromDate : new Date()));
 		map.put("toDate", GenericUtils.formatDate(toDate != null ? toDate : new Date()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, type);
 	}

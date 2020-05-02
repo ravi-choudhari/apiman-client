@@ -31,7 +31,7 @@ public class ClientsApiRegistryClientImpl extends AbstractApimanClient implement
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("download", download);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, String.class);
 	}
@@ -53,7 +53,7 @@ public class ClientsApiRegistryClientImpl extends AbstractApimanClient implement
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("download", download);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, String.class);
 	}

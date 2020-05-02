@@ -29,7 +29,7 @@ public class OrganizationApiPlansClientImpl extends AbstractApimanClient impleme
 		map.put("organizationId", organizationId);
 		map.put("apiId", apiId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ApiPlanSummary[] plans = restTemplate.getForObject(url, ApiPlanSummary[].class);
 		return plans != null ? Arrays.asList(plans) : null;
@@ -48,7 +48,7 @@ public class OrganizationApiPlansClientImpl extends AbstractApimanClient impleme
 		map.put("apiId", apiId);
 		map.put("version", version);
 		map.put("planId", planId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, PolicyChain.class);
 	}

@@ -44,7 +44,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, User.class);
 	}
@@ -58,7 +58,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.exchange(url, PUT, new HttpEntity<UpdateUser>(user, getHeaders()), Void.class);
 	}
@@ -75,7 +75,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		map.put("userId", userId);
 		map.put("pageNumber", String.valueOf(page != 0 ? page : DEFAULT_VALUES.PAGE_NUMBER.getValue()));
 		map.put("countPerPage", String.valueOf(count != 0 ? count : DEFAULT_VALUES.COUNT_PER_PAGE.getValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, SearchResults.class);
 	}
@@ -89,7 +89,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", APIS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ApiSummary[] apis = restTemplate.getForObject(url, ApiSummary[].class);
 		return apis != null ? Arrays.asList(apis) : null;
@@ -104,7 +104,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", CLIENTS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ClientSummary[] clients = restTemplate.getForObject(url, ClientSummary[].class);
 		return clients != null ? Arrays.asList(clients) : null;
@@ -119,7 +119,7 @@ public class UsersClientImpl extends AbstractApimanClient implements IUsersClien
 		String url = buildURL(apimanUrl, USERS_PATH, "/${userId}", ORGANIZATIONS_PATH);
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		OrganizationSummary[] organizations = restTemplate.getForObject(url, OrganizationSummary[].class);
 		return organizations != null ? Arrays.asList(organizations) : null;

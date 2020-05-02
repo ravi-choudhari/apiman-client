@@ -28,7 +28,7 @@ public class SystemClientImpl extends AbstractApimanClient implements ISystemCli
 		String url = buildURL(apimanUrl, SYSTEM_PATH, EXPORT_PATH, DOWNLOAD);
 		Map<String, String> map = new HashMap<>();
 		map.put("download", download);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.getForObject(url, Void.class);
 	}

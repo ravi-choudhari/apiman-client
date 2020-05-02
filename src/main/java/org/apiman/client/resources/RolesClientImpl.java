@@ -71,7 +71,7 @@ public class RolesClientImpl extends AbstractApimanClient implements IRolesClien
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, Role.class);
 	}
@@ -85,7 +85,7 @@ public class RolesClientImpl extends AbstractApimanClient implements IRolesClien
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		adminTemplate.exchange(url, PUT, new HttpEntity<UpdateRole>(role, getHeaders()), Void.class);
 	}
@@ -99,7 +99,7 @@ public class RolesClientImpl extends AbstractApimanClient implements IRolesClien
 		String url = buildURL(apimanUrl, ROLES_PATH, "/${roleId}");
 		Map<String, String> map = new HashMap<>();
 		map.put("roleId", roleId);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		adminTemplate.delete(url);
 	}

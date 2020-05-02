@@ -30,7 +30,7 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		ContractSummary[] clientContracts = restTemplate.getForObject(url, ContractSummary[].class);
 		return clientContracts != null ? Arrays.asList(clientContracts) : null;
@@ -48,7 +48,7 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.postForObject(url, apiContract, Contract.class);
 	}
@@ -64,7 +64,7 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 		map.put("organizationId", organizationId);
 		map.put("clientId", clientId);
 		map.put("version", version);
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}
@@ -81,7 +81,7 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("contractId", String.valueOf(contractId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		return restTemplate.getForObject(url, Contract.class);
 	}
@@ -98,7 +98,7 @@ public class ClientsContractsClientImpl extends AbstractApimanClient implements 
 		map.put("clientId", clientId);
 		map.put("version", version);
 		map.put("contractId", String.valueOf(contractId.longValue()));
-		url = substitute(url, map, true);
+		url = substitute(url, map, false);
 		
 		restTemplate.delete(url);
 	}

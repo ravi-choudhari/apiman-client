@@ -13,6 +13,7 @@ import org.apiman.client.domain.role.NewRole;
 import org.apiman.client.domain.role.UpdateRole;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -242,7 +243,7 @@ public class ApimanAdminRestServicesClientTest extends ApimanServiceTestBase {
 
 		mockAdminServer.verify();
 	}
-	
+
 	@Test
 	public void listAvailablePlugins() {
 
